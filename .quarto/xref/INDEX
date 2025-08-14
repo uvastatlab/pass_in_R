@@ -1,0 +1,20 @@
+{
+  "index.qmd": {
+    "index.html": "5b5e87cd"
+  },
+  "intro.qmd": {
+    "intro.html": "f57d0169"
+  },
+  "summary.qmd": {
+    "summary.html": "f3eb2daf"
+  },
+  "references.qmd": {
+    "references.html": "91a98aab"
+  },
+  "one_or_two_means.qmd": {
+    "one_or_two_means.html": "328a94e2"
+  },
+  "hypotheses_study_objectives.qmd": {
+    "hypotheses_study_objectives.html": "9a130cd6"
+  }
+}

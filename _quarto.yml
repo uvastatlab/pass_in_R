@@ -1,0 +1,25 @@
+project:
+  type: book
+
+book:
+  title: "Power and Sample Size in R"
+  author: "UVA StatLab"
+  date: "8/14/2025"
+  chapters:
+    - index.qmd
+    - one_or_two_means.qmd
+    - hypotheses_study_objectives.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+  pdf:
+    documentclass: scrreprt
+
+
+
