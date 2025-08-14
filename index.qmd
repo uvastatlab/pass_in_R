@@ -1,9 +1,3 @@
 # Preface {.unnumbered}
 
-This is a Quarto book.
-
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
-
-```{r}
-1 + 1
-```
+This online book contains selected examples and notes from the book [Power and Sample Size in R](https://www.taylorfrancis.com/books/mono/10.1201/9780429488788/power-sample-size-catherine-crespi) by Catherine M. Crespi. It is not affiliated with the book or the author. 
