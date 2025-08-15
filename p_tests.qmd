@@ -1,0 +1,51 @@
+---
+title: "Proportion tests"
+---
+
+## Two-sample proportion test
+
+For sample size estimation based on _power_, we need the following:
+
+- proportion in one group
+- proportion in other group
+- power of test 
+- significance level of test
+- direction of test: one or two-sided
+
+### Example
+
+We wish to plan an experiment to test if there is a difference in the  proportion of male and female college undergraduate students who floss daily. Our null hypothesis is no difference in the proportion that answer yes. We want to sample enough students to detect a difference of at least 5%. Assume the following:
+
+- proportion of one group is 0.30
+- proportion of the other group is 0.25
+- power of 0.9
+- significance level of 0.05
+- two-sided test
+
+Using base R [@R]:
+
+```{r}
+power.prop.test(p1 = 0.3, p2 = 0.25, sig.level = 0.05, power = 0.9, 
+                alternative = "two.sided")
+```
+
+We need to observe 1674 students in each group. 
+
+Notice the sample size decreases if assume proportions are closer to 0 or 1. For example, assume 0.05 in one group and 0.10 for the other.
+
+```{r}
+power.prop.test(p1 = 0.05, p2 = 0.10, sig.level = 0.05, power = 0.9, 
+                alternative = "two.sided")
+```
+
+Now we need to observe 582 in each group.
+
+Using the pwr package [@pwr], we need to express the difference in proportions as an effect size using `ES.h()`:
+
+```{r}
+library(pwr)
+pwr.2p.test(h = ES.h(p1 = 0.1, p2 = 0.05), sig.level = 0.05, power = 0.9,
+            alternative = "two.sided")
+```
+
+We need to observe 568 in each group. The result does not match the base R function because they each calculate effect size differently.

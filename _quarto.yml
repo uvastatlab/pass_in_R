@@ -8,8 +8,8 @@ book:
   date: "8/14/2025"
   chapters:
     - index.qmd
-    - one_or_two_means.qmd
-    - hypotheses_study_objectives.qmd
+    - t_tests.qmd
+    - p_tests.qmd
     - references.qmd
 
 bibliography: references.bib
