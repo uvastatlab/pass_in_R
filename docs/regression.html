@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; One or two means – Power and Sample Size in R</title>
+<title>4&nbsp; Regression – Power and Sample Size in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -64,8 +30,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./hypotheses_study_objectives.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./anova.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -103,35 +69,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -144,7 +81,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./one_or_two_means.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">One or two means</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./regression.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regression</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -177,14 +114,26 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./one_or_two_means.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">One or two means</span></span></a>
+  <a href="./t_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">T tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./hypotheses_study_objectives.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hypotheses for different study objectives</span></span></a>
+  <a href="./p_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Proportion tests</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regression.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -203,7 +152,10 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#example-3.2" id="toc-example-3.2" class="nav-link active" data-scroll-target="#example-3.2"><span class="header-section-number">1.1</span> Example 3.2</a></li>
+  <li><a href="#multiple-regression" id="toc-multiple-regression" class="nav-link active" data-scroll-target="#multiple-regression"><span class="header-section-number">4.1</span> Multiple Regression</a></li>
+  <li><a href="#partial-f-tests" id="toc-partial-f-tests" class="nav-link" data-scroll-target="#partial-f-tests"><span class="header-section-number">4.2</span> Partial F Tests</a></li>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="header-section-number">4.3</span> Logistic Regression</a></li>
+  <li><a href="#poisson-regression" id="toc-poisson-regression" class="nav-link" data-scroll-target="#poisson-regression"><span class="header-section-number">4.4</span> Poisson Regression</a></li>
   </ul>
 </nav>
     </div>
@@ -212,7 +164,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">One or two means</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regression</span></h1>
 </div>
 
 
@@ -229,37 +181,17 @@ window.Quarto = {
 </header>
 
 
-<section id="example-3.2" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="example-3.2"><span class="header-section-number">1.1</span> Example 3.2</h2>
-<p>We plan to measure hemoglobin A1c in a sample of 36 patients and conduct a lower-tailed test at <span class="math inline">\(\alpha = 0.05\)</span> of</p>
-<p><span class="math display">\[
-H_0: \mu\ge5.7 \quad \text{versus} \quad H_A: \mu&lt;5.7
-\]</span></p>
-<p>If true value of <span class="math inline">\(\sigma\)</span> is 2 and true population mean is 4.9, what is the power?</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(powertools)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ttest.1samp</span>(<span class="at">N =</span> <span class="dv">36</span>, <span class="at">delta =</span> <span class="fl">4.9</span> <span class="sc">-</span> <span class="fl">5.7</span>, <span class="at">sd =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.05</span>, </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">sides =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.7606311</code></pre>
-</div>
-</div>
-<p>The power is about 0.76</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power.t.test</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">delta =</span> <span class="fl">5.7</span> <span class="sc">-</span> <span class="fl">4.9</span>, <span class="at">sd =</span> <span class="dv">2</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">type =</span> <span class="st">"one.sample"</span>, <span class="at">alternative =</span> <span class="st">"one.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-     One-sample t test power calculation 
-
-              n = 36
-          delta = 0.8
-             sd = 2
-      sig.level = 0.05
-          power = 0.7606311
-    alternative = one.sided</code></pre>
-</div>
-</div>
+<section id="multiple-regression" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="multiple-regression"><span class="header-section-number">4.1</span> Multiple Regression</h2>
+</section>
+<section id="partial-f-tests" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="partial-f-tests"><span class="header-section-number">4.2</span> Partial F Tests</h2>
+</section>
+<section id="logistic-regression" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">4.3</span> Logistic Regression</h2>
+</section>
+<section id="poisson-regression" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="poisson-regression"><span class="header-section-number">4.4</span> Poisson Regression</h2>
 
 
 </section>
@@ -684,13 +616,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Preface">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="./anova.html" class="pagination-link" aria-label="ANOVA">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">ANOVA</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./hypotheses_study_objectives.html" class="pagination-link" aria-label="Hypotheses for different study objectives">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hypotheses for different study objectives</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -1,0 +1,13 @@
+---
+title: "Regression"
+---
+
+## Multiple Regression
+
+## Partial F Tests
+
+## Logistic Regression
+
+## Poisson Regression
+
+

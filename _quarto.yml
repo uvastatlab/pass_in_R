@@ -10,6 +10,8 @@ book:
     - index.qmd
     - t_tests.qmd
     - p_tests.qmd
+    - anova.qmd
+    - regression.qmd
     - references.qmd
 
 bibliography: references.bib
@@ -19,8 +21,7 @@ format:
     theme:
       - cosmo
       - brand
-  pdf:
-    documentclass: scrreprt
+
 
 
 
