@@ -2,6 +2,8 @@
 
 This is a project of the UVA Library StatLab to document examples of estimating power and sample size in R for various statistical tests and comparisons. It is a work in progress.
 
+View book: [https://uvastatlab.github.io/pass_in_R/](https://uvastatlab.github.io/pass_in_R/)
+
 # Contribution guide and notes
 
 - To start a new chapter, File...New...Quarto Document, click Create Empty Document. Fill in chapter title in the header and save file to root directory. Add file name to _quarto.yml.
