@@ -14,7 +14,7 @@ For sample size estimation based on _power_, we need the following:
 
 ### Example
 
-We wish to plan an experiment to test if there is a difference in the  proportion of male and female college undergraduate students who floss daily. Our null hypothesis is no difference in the proportion that answer yes. We want to sample enough students to detect a difference of at least 5%. Assume the following:
+We wish to plan an experiment to test if there is a difference in the proportion of male and female college undergraduate students who floss daily. Our null hypothesis is no difference in the proportion that answer yes. We want to sample enough students to detect a difference of at least 5%. Assume the following:
 
 - proportion of one group is 0.30
 - proportion of the other group is 0.25
