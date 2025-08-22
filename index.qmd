@@ -1,3 +1,0 @@
-# Preface {.unnumbered}
-
-This online book contains examples of power and sample size calculations in R.
