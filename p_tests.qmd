@@ -25,7 +25,7 @@ We wish to plan an experiment to test if there is a difference in the proportion
 Using base R [@R]:
 
 ```{r}
-power.prop.test(p1 = 0.3, p2 = 0.25, sig.level = 0.05, power = 0.9, 
+power.prop.test(p1 = 0.30, p2 = 0.25, sig.level = 0.05, power = 0.9, 
                 alternative = "two.sided")
 ```
 
@@ -44,8 +44,47 @@ Using the pwr package [@pwr], we need to express the difference in proportions a
 
 ```{r}
 library(pwr)
-pwr.2p.test(h = ES.h(p1 = 0.1, p2 = 0.05), sig.level = 0.05, power = 0.9,
+pwr.2p.test(h = ES.h(p1 = 0.05, p2 = 0.10), sig.level = 0.05, power = 0.9,
             alternative = "two.sided")
 ```
 
 We need to observe 568 in each group. The result does not match the base R function because they each calculate effect size differently.
+
+## Difference in proportions
+
+For sample size estimation based on _precision_, we need the following:
+
+- proportion in one group
+- proportion in other group
+- desired width of confidence interval
+
+### Example
+
+We wish to plan an experiment to test if there is a difference in the proportion of male and female college undergraduate students who floss daily. If there truly is a difference of 0.05 in the population, we would like to estimate it within 0.025. That implies estimating a confidence interval with a width of 0.05.  Assume the following:
+
+- proportion of one group is 0.30
+- proportion of the other group is 0.25
+- confidence interval width of 0.05
+
+Using the `prec_riskdiff()` function from the presize package [@presize], we can calculate this as follows. (The Newcombe method is the default method.)
+
+
+```{r}
+library(presize)
+prec_riskdiff(p1 = 0.30, p2 = 0.25, conf.width = 0.05, method = "newcombe")
+```
+
+To estimate a difference in proportions with this precision, assuming the group proportions are each 0.30 and 0.25, we need to sample 2442 subjects in each group.
+
+Once again, assumed proportions closer to 0 or 1 require smaller samples:
+
+```{r}
+prec_riskdiff(p1 = 0.05, p2 = 0.10, conf.width = 0.05, method = "newcombe")
+```
+
+Larger confidence widths also require smaller sample sizes. For example, to estimate a difference in proportions within 0.05 (i.e., confidence width of 0.1):
+
+```{r}
+prec_riskdiff(p1 = 0.05, p2 = 0.10, conf.width = 0.1, method = "newcombe")
+```
+
