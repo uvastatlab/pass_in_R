@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -89,14 +89,15 @@ div.csl-indent {
 <link href="./t_tests.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e8de9bd59ba156b9e4cb33cd6f01d621.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-d58359eb3ecc31d3bec1ed479c2cbb3a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -150,7 +151,9 @@ div.csl-indent {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Power and Sample Size in R</a> 
     </div>
@@ -210,11 +213,12 @@ div.csl-indent {
   <ul>
   <li><a href="#two-sample-proportion-test" id="toc-two-sample-proportion-test" class="nav-link active" data-scroll-target="#two-sample-proportion-test"><span class="header-section-number">2.1</span> Two-sample proportion test</a>
   <ul class="collapse">
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">2.1.1</span> Example</a></li>
+  <li><a href="#example-sample-size" id="toc-example-sample-size" class="nav-link" data-scroll-target="#example-sample-size"><span class="header-section-number">2.1.1</span> Example: sample size</a></li>
+  <li><a href="#example-power" id="toc-example-power" class="nav-link" data-scroll-target="#example-power"><span class="header-section-number">2.1.2</span> Example: power</a></li>
   </ul></li>
   <li><a href="#difference-in-proportions" id="toc-difference-in-proportions" class="nav-link" data-scroll-target="#difference-in-proportions"><span class="header-section-number">2.2</span> Difference in proportions</a>
   <ul class="collapse">
-  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">2.2.1</span> Example</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">2.2.1</span> Example</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -251,8 +255,16 @@ div.csl-indent {
 <li>significance level of test</li>
 <li>direction of test: one or two-sided</li>
 </ul>
-<section id="example" class="level3" data-number="2.1.1">
-<h3 data-number="2.1.1" class="anchored" data-anchor-id="example"><span class="header-section-number">2.1.1</span> Example</h3>
+<p>For power estimation based on <em>sample size</em>, we need the following:</p>
+<ul>
+<li>proportion in one group</li>
+<li>proportion in other group</li>
+<li>sample size in each group</li>
+<li>significance level of test</li>
+<li>direction of test: one or two-sided</li>
+</ul>
+<section id="example-sample-size" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="example-sample-size"><span class="header-section-number">2.1.1</span> Example: sample size</h3>
 <p>We wish to plan an experiment to test if there is a difference in the proportion of male and female college undergraduate students who floss daily. Our null hypothesis is no difference in the proportion that answer yes. We want to sample enough students to detect a difference of at least 5%. Assume the following:</p>
 <ul>
 <li>proportion of one group is 0.30</li>
@@ -263,8 +275,8 @@ div.csl-indent {
 </ul>
 <p>Using base R <span class="citation" data-cites="R">(<a href="references.html#ref-R" role="doc-biblioref">R Core Team 2025</a>)</span>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power.prop.test</span>(<span class="at">p1 =</span> <span class="fl">0.30</span>, <span class="at">p2 =</span> <span class="fl">0.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="fl">0.9</span>, </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power.prop.test</span>(<span class="at">p1 =</span> <span class="fl">0.30</span>, <span class="at">p2 =</span> <span class="fl">0.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="fl">0.9</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Two-sample comparison of proportions power calculation 
@@ -282,8 +294,8 @@ NOTE: n is number in *each* group</code></pre>
 <p>We need to observe 1674 students in each group.</p>
 <p>Notice the sample size decreases if assume proportions are closer to 0 or 1. For example, assume 0.05 in one group and 0.10 for the other.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power.prop.test</span>(<span class="at">p1 =</span> <span class="fl">0.05</span>, <span class="at">p2 =</span> <span class="fl">0.10</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="fl">0.9</span>, </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power.prop.test</span>(<span class="at">p1 =</span> <span class="fl">0.05</span>, <span class="at">p2 =</span> <span class="fl">0.10</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="fl">0.9</span>, </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Two-sample comparison of proportions power calculation 
@@ -301,9 +313,9 @@ NOTE: n is number in *each* group</code></pre>
 <p>Now we need to observe 582 in each group.</p>
 <p>Using the pwr package <span class="citation" data-cites="pwr">(<a href="references.html#ref-pwr" role="doc-biblioref">Champely 2020</a>)</span>, we need to express the difference in proportions as an effect size using <code>ES.h()</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.2p.test</span>(<span class="at">h =</span> <span class="fu">ES.h</span>(<span class="at">p1 =</span> <span class="fl">0.05</span>, <span class="at">p2 =</span> <span class="fl">0.10</span>), <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="fl">0.9</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Difference of proportion power calculation for binomial distribution (arcsine transformation) 
@@ -319,6 +331,53 @@ NOTE: same sample sizes</code></pre>
 </div>
 <p>We need to observe 568 in each group. The result does not match the base R function because they each calculate effect size differently.</p>
 </section>
+<section id="example-power" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="example-power"><span class="header-section-number">2.1.2</span> Example: power</h3>
+<p>We wish to plan an experiment to test if there is a difference in the proportion of male and female college undergraduate students who floss daily. Our null hypothesis is no difference in the proportion that answer yes. We want to detect a difference of at least 5%. What is the power of our experiment if we know in advance we will be able to sample 300 males and females each? Assume the following:</p>
+<ul>
+<li>proportion of one group is 0.30</li>
+<li>proportion of the other group is 0.25</li>
+<li>sample size per group of 300</li>
+<li>significance level of 0.05</li>
+<li>two-sided test</li>
+</ul>
+<p>Using base R <span class="citation" data-cites="R">(<a href="references.html#ref-R" role="doc-biblioref">R Core Team 2025</a>)</span>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power.prop.test</span>(<span class="at">p1 =</span> <span class="fl">0.30</span>, <span class="at">p2 =</span> <span class="fl">0.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">n =</span> <span class="dv">300</span>, </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Two-sample comparison of proportions power calculation 
+
+              n = 300
+             p1 = 0.3
+             p2 = 0.25
+      sig.level = 0.05
+          power = 0.2777839
+    alternative = two.sided
+
+NOTE: n is number in *each* group</code></pre>
+</div>
+</div>
+<p>The power of this test will only be about 0.28 if our assumptions are true.</p>
+<p>The <code>pwr.2p.test()</code> function from the pwr package returns the same answer.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.2p.test</span>(<span class="at">h =</span> <span class="fu">ES.h</span>(<span class="at">p1 =</span> <span class="fl">0.25</span>, <span class="at">p2 =</span> <span class="fl">0.30</span>), <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">n =</span> <span class="dv">300</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Difference of proportion power calculation for binomial distribution (arcsine transformation) 
+
+              h = 0.1120819
+              n = 300
+      sig.level = 0.05
+          power = 0.2789492
+    alternative = two.sided
+
+NOTE: same sample sizes</code></pre>
+</div>
+</div>
+</section>
 </section>
 <section id="difference-in-proportions" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="difference-in-proportions"><span class="header-section-number">2.2</span> Difference in proportions</h2>
@@ -328,8 +387,8 @@ NOTE: same sample sizes</code></pre>
 <li>proportion in other group</li>
 <li>desired width of confidence interval</li>
 </ul>
-<section id="example-1" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="example-1"><span class="header-section-number">2.2.1</span> Example</h3>
+<section id="example" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="example"><span class="header-section-number">2.2.1</span> Example</h3>
 <p>We wish to plan an experiment to test if there is a difference in the proportion of male and female college undergraduate students who floss daily. If there truly is a difference of 0.05 in the population, we would like to estimate it within 0.025. That implies estimating a confidence interval with a width of 0.05. Assume the following:</p>
 <ul>
 <li>proportion of one group is 0.30</li>
@@ -338,8 +397,8 @@ NOTE: same sample sizes</code></pre>
 </ul>
 <p>Using the <code>prec_riskdiff()</code> function from the presize package <span class="citation" data-cites="presize">(<a href="references.html#ref-presize" role="doc-biblioref">Haynes et al. 2021</a>)</span>, we can calculate this as follows. (The Newcombe method is the default method.)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(presize)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">prec_riskdiff</span>(<span class="at">p1 =</span> <span class="fl">0.30</span>, <span class="at">p2 =</span> <span class="fl">0.25</span>, <span class="at">conf.width =</span> <span class="fl">0.05</span>, <span class="at">method =</span> <span class="st">"newcombe"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(presize)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">prec_riskdiff</span>(<span class="at">p1 =</span> <span class="fl">0.30</span>, <span class="at">p2 =</span> <span class="fl">0.25</span>, <span class="at">conf.width =</span> <span class="fl">0.05</span>, <span class="at">method =</span> <span class="st">"newcombe"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      sample size for a risk difference with newcombe confidence interval 
@@ -353,7 +412,7 @@ NOTE: same sample sizes</code></pre>
 <p>To estimate a difference in proportions with this precision, assuming the group proportions are each 0.30 and 0.25, we need to sample 2442 subjects in each group.</p>
 <p>Once again, assumed proportions closer to 0 or 1 require smaller samples:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prec_riskdiff</span>(<span class="at">p1 =</span> <span class="fl">0.05</span>, <span class="at">p2 =</span> <span class="fl">0.10</span>, <span class="at">conf.width =</span> <span class="fl">0.05</span>, <span class="at">method =</span> <span class="st">"newcombe"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prec_riskdiff</span>(<span class="at">p1 =</span> <span class="fl">0.05</span>, <span class="at">p2 =</span> <span class="fl">0.10</span>, <span class="at">conf.width =</span> <span class="fl">0.05</span>, <span class="at">method =</span> <span class="st">"newcombe"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      sample size for a risk difference with newcombe confidence interval 
@@ -366,7 +425,7 @@ NOTE: same sample sizes</code></pre>
 </div>
 <p>Larger confidence widths also require smaller sample sizes. For example, to estimate a difference in proportions within 0.05 (i.e., confidence width of 0.1):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prec_riskdiff</span>(<span class="at">p1 =</span> <span class="fl">0.05</span>, <span class="at">p2 =</span> <span class="fl">0.10</span>, <span class="at">conf.width =</span> <span class="fl">0.1</span>, <span class="at">method =</span> <span class="st">"newcombe"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prec_riskdiff</span>(<span class="at">p1 =</span> <span class="fl">0.05</span>, <span class="at">p2 =</span> <span class="fl">0.10</span>, <span class="at">conf.width =</span> <span class="fl">0.1</span>, <span class="at">method =</span> <span class="st">"newcombe"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      sample size for a risk difference with newcombe confidence interval 
@@ -445,13 +504,14 @@ R Core Team. 2025. <em>R: A Language and Environment for Statistical Computing</
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
