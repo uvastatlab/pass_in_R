@@ -12,6 +12,7 @@ book:
     - p_tests.qmd
     - anova.qmd
     - regression.qmd
+    - tips.qmd
     - references.qmd
 
 bibliography: references.bib

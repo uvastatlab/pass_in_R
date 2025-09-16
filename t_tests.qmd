@@ -12,7 +12,16 @@ For sample size estimation based on _power_, we need the following:
 - significance level of test
 - direction of test: one or two-sided
 
-### Example
+For power estimation based on _sample size_, we need the following:
+
+- hypothesized difference in means (effect size)
+- population standard deviation
+- sample size for each group
+- significance level of test
+- direction of test: one or two-sided
+
+
+### Example: sample size
 
 We wish to run an experiment to test if the mean price of what male and female students pay at a library coffee shop is different. Our null hypothesis is no difference. We want to sample enough students to detect a difference of at least 75 cents. We're not sure which group pays more, so we'll do a two-sided test. Assume the following: 
 
@@ -39,9 +48,36 @@ pwr.t.test(d = 0.75/2.25, sig.level = 0.05, power = 0.9,
            alternative = "two.sided")
 ```
 
+### Example: power
+
+We wish to run an experiment to test if the mean price of what male and female students pay at a library coffee shop is different. Our null hypothesis is no difference. We want to detect a difference of at least 75 cents and we know our sample size will be 60 students per group. We're not sure which group pays more, so we'll do a two-sided test. What is the power of our test? Assume the following: 
+
+- true difference is 0.75 cents
+- population standard deviation is $2.25.
+- 60 students per group
+- our significance level will be 0.05
+- this will be two-sided test
+
+Using base R [@R]:
+
+```{r}
+power.t.test(delta = 0.75, sd = 2.25, sig.level = 0.05, n = 60,
+             alternative = "two.sided")
+```
+
+The power of this test will only be about 0.44 if our assumptions are true.
+
+Using the pwr package we get the same result:
+
+```{r}
+pwr.t.test(d = 0.75/2.25, sig.level = 0.05, n = 60, 
+           alternative = "two.sided")
+```
+
+
 ## Paired t-test
 
-For sample size estimation based on _power_, we need the following:
+For sample size estimation based on power, we need the following:
 
 - hypothesized difference between pairs (effect size)
 - standard deviation of differences
@@ -49,7 +85,16 @@ For sample size estimation based on _power_, we need the following:
 - significance level of test
 - direction of test: one or two-sided
 
-### Example
+For power estimation based on sample size, we need the following:
+
+- hypothesized difference between pairs (effect size)
+- standard deviation of differences
+- sample size
+- significance level of test
+- direction of test: one or two-sided
+
+
+### Example: sample size
 
 We wish to run an experiment to see if an ultra-heavy rope-jumping program reduces 40-yard dash times. We will recruit young men ages 18 - 25 and measure their 40-yard dash time in seconds before the program and after. We'll use a paired t-test to see if the difference in times is greater than 0 (before - after). We want to sample enough subjects to detect a difference of 0.08 seconds. Assume the following:
 
@@ -76,7 +121,29 @@ pwr.t.test(power = 0.9, d = 0.08 / 0.25,
            type = "paired", alternative = "greater")
 ```
 
+### Example: power
 
+We wish to run an experiment to see if an ultra-heavy rope-jumping program reduces 40-yard dash times. We will recruit young men ages 18 - 25 and measure their 40-yard dash time in seconds before the program and after. We'll use a paired t-test to see if the difference in times is greater than 0 (before - after). We want to be able to detect a difference of 0.08 seconds. We will have access to 50 subjects. What is the power of our experiment. Assume the following:
 
+- hypothesized difference of 0.08
+- standard deviation of differences is 0.25
+- 50 subjects
+- significance level of 0.05
+- one-sided test since we assume dash times will only get faster
 
+Using base R:
+
+```{r}
+power.t.test(delta = 0.08, sd = 0.25, sig.level = 0.05, n = 50, 
+             type = "paired", alternative = "one.sided")
+```
+
+The power of this test is about 0.72 if our assumptions are true.
+
+Using the pwr package we get the same result:
+
+```{r}
+pwr.t.test(n = 50, d = 0.08 / 0.25,
+           type = "paired", alternative = "greater")
+```
 

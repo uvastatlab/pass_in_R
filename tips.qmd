@@ -1,0 +1,27 @@
+---
+title: "Tips"
+---
+
+## Adjusting for Dropout
+
+If you anticipate dropouts or non-response, expressed as a proportion $p$, inflate the sample size as follows [@crespi]:
+
+$$ \frac{N}{1 - p}$$
+
+For example, if you estimate a sample size of 300 but anticipate a dropout rate of 0.1, plan on inflating your sample size by 34 subjects to 334.
+
+```{r}
+300/(1 - 0.1)
+```
+
+
+## Post-Hoc Power
+
+[Post-Hoc Power is not really a thing](https://discourse.datamethods.org/t/reference-collection-to-push-back-against-common-statistical-myths/1787#p-4596-post-hoc-power-is-not-really-a-thing-9).
+
+> In studies that fail to yield “statistically significant” results, it is common for reviewers, or even editors, to ask the authors to include a post hoc power calculation. In such situations, editors would like to distinguish between true negatives and false negatives (concluding there is no effect, when there actually is an effect, and the study was just too small to pick it up). However, reporting post-hoc power is nothing more than reporting the p-value a different way, and will therefore not answer the question editors want to know.
+
+
+## Sensitivity Analyses
+
+

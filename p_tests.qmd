@@ -4,7 +4,7 @@ title: "Proportion tests"
 
 ## Two-sample proportion test
 
-For sample size estimation based on _power_, we need the following:
+For sample size estimation based on power, we need the following:
 
 - proportion in one group
 - proportion in other group
@@ -12,7 +12,7 @@ For sample size estimation based on _power_, we need the following:
 - significance level of test
 - direction of test: one or two-sided
 
-For power estimation based on _sample size_, we need the following:
+For power estimation based on sample size, we need the following:
 
 - proportion in one group
 - proportion in other group
