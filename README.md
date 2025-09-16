@@ -7,6 +7,7 @@ View book: [https://uvastatlab.github.io/pass_in_R/](https://uvastatlab.github.i
 # Contribution guide and notes
 
 - To start a new chapter, File...New...Quarto Document, click Create Empty Document. Fill in chapter title in the header and save file to root directory. Add file name to _quarto.yml.
+- Examples should get a level 3 header. For example: `### Example: sample size`
 - To view additions/changes locally, click Render.
 - Any R packages required should be listed in the DESCRIPTION file under Imports.
 - References should be added to references.bib in BibTeX format. To use a reference in a qmd file, use `[@name]`, where "name" is the citekey that follows immediately after the opening bracket of the BibTeX entry.
