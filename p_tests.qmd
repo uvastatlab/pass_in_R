@@ -12,7 +12,16 @@ For sample size estimation based on _power_, we need the following:
 - significance level of test
 - direction of test: one or two-sided
 
-### Example
+For power estimation based on _sample size_, we need the following:
+
+- proportion in one group
+- proportion in other group
+- sample size in each group
+- significance level of test
+- direction of test: one or two-sided
+
+
+### Example: sample size
 
 We wish to plan an experiment to test if there is a difference in the proportion of male and female college undergraduate students who floss daily. Our null hypothesis is no difference in the proportion that answer yes. We want to sample enough students to detect a difference of at least 5%. Assume the following:
 
@@ -49,6 +58,33 @@ pwr.2p.test(h = ES.h(p1 = 0.05, p2 = 0.10), sig.level = 0.05, power = 0.9,
 ```
 
 We need to observe 568 in each group. The result does not match the base R function because they each calculate effect size differently.
+
+### Example: power
+
+We wish to plan an experiment to test if there is a difference in the proportion of male and female college undergraduate students who floss daily. Our null hypothesis is no difference in the proportion that answer yes. We want to detect a difference of at least 5%. What is the power of our experiment if we know in advance we will be able to sample 300 males and females each? Assume the following:
+
+- proportion of one group is 0.30
+- proportion of the other group is 0.25
+- sample size per group of 300
+- significance level of 0.05
+- two-sided test
+
+Using base R [@R]:
+
+```{r}
+power.prop.test(p1 = 0.30, p2 = 0.25, sig.level = 0.05, n = 300, 
+                alternative = "two.sided")
+```
+
+The power of this test will only be about 0.28 if our assumptions are true.
+
+The `pwr.2p.test()` function from the pwr package returns the same answer.
+
+```{r}
+pwr.2p.test(h = ES.h(p1 = 0.25, p2 = 0.30), sig.level = 0.05, n = 300,
+            alternative = "two.sided")
+```
+
 
 ## Difference in proportions
 
