@@ -12,4 +12,5 @@ View book: [https://uvastatlab.github.io/pass_in_R/](https://uvastatlab.github.i
 - Any R packages required should be listed in the DESCRIPTION file under Imports.
 - References should be added to references.bib in BibTeX format. To use a reference in a qmd file, use `[@name]`, where "name" is the citekey that follows immediately after the opening bracket of the BibTeX entry.
 - The book is published using a GitHub Action that automatically renders the files and publishes the content whenever you push a change to the repository.
-- The GitHub Action is defined in the publish.yml file in `.github/workflows` folder. It was created using information from [this video](https://www.youtube.com/watch?v=arzBRW5XIkg) and the [build_book.yaml](https://github.com/hadley/r4ds/blob/main/.github/workflows/build_book.yaml) file from the R4DS repo. 
+- The GitHub Action is defined in the publish.yml file in `.github/workflows` folder. It was created using information from [this video](https://www.youtube.com/watch?v=arzBRW5XIkg) and the [build_book.yaml](https://github.com/hadley/r4ds/blob/main/.github/workflows/build_book.yaml) file from the R4DS repo.
+- GitHub commands TBD
