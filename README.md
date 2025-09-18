@@ -17,5 +17,5 @@ View book: [https://uvastatlab.github.io/pass_in_R/](https://uvastatlab.github.i
     * Clone the repo: `git clone git@github.com:uvastatlab/pass_in_R.git`
     * Pull latest updates from GitHub: `git pull origin main`
     * Add all files to next commit: `git add .`
-    * Commit changes: `git commit m "message describing changes"`
+    * Commit changes: `git commit -m "message describing changes"`
     * Push updates to GitHub: `git push origin main`
