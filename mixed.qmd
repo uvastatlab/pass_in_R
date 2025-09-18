@@ -1,0 +1,8 @@
+---
+title: "mixed-effect models"
+---
+
+## Random intercept model
+
+## Random intercept and random slope model
+
