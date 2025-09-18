@@ -140,33 +140,53 @@
     ]
   },
   {
+    "objectID": "mixed.html",
+    "href": "mixed.html",
+    "title": "5  mixed-effect models",
+    "section": "",
+    "text": "5.1 Random intercept model",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>mixed-effect models</span>"
+    ]
+  },
+  {
+    "objectID": "mixed.html#random-intercept-and-random-slope-model",
+    "href": "mixed.html#random-intercept-and-random-slope-model",
+    "title": "5  mixed-effect models",
+    "section": "5.2 Random intercept and random slope model",
+    "text": "5.2 Random intercept and random slope model",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>mixed-effect models</span>"
+    ]
+  },
+  {
     "objectID": "tips.html",
     "href": "tips.html",
-    "title": "5  Tips",
+    "title": "6  Tips",
     "section": "",
-    "text": "5.1 Adjusting for Dropout\nIf you anticipate dropouts or non-response, expressed as a proportion \\(p\\), inflate the sample size as follows (Crespi 2025):\n\\[ \\frac{N}{1 - p}\\]\nFor example, if you estimate a sample size of 300 but anticipate a dropout rate of 0.1, plan on inflating your sample size by 34 subjects to 334.\n300/(1 - 0.1)\n\n[1] 333.3333",
+    "text": "6.1 Adjusting for Dropout\nIf you anticipate dropouts or non-response, expressed as a proportion \\(p\\), inflate the sample size as follows (Crespi 2025):\n\\[ \\frac{N}{1 - p}\\]\nFor example, if you estimate a sample size of 300 but anticipate a dropout rate of 0.1, plan on inflating your sample size by 34 subjects to 334.\n300/(1 - 0.1)\n\n[1] 333.3333",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Tips</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Tips</span>"
     ]
   },
   {
     "objectID": "tips.html#post-hoc-power",
     "href": "tips.html#post-hoc-power",
-    "title": "5  Tips",
-    "section": "5.2 Post-Hoc Power",
-    "text": "5.2 Post-Hoc Power\nPost-Hoc Power is not really a thing.\n\nIn studies that fail to yield “statistically significant” results, it is common for reviewers, or even editors, to ask the authors to include a post hoc power calculation. In such situations, editors would like to distinguish between true negatives and false negatives (concluding there is no effect, when there actually is an effect, and the study was just too small to pick it up). However, reporting post-hoc power is nothing more than reporting the p-value a different way, and will therefore not answer the question editors want to know.",
+    "title": "6  Tips",
+    "section": "6.2 Post-Hoc Power",
+    "text": "6.2 Post-Hoc Power\nPost-Hoc Power is not really a thing.\n\nIn studies that fail to yield “statistically significant” results, it is common for reviewers, or even editors, to ask the authors to include a post hoc power calculation. In such situations, editors would like to distinguish between true negatives and false negatives (concluding there is no effect, when there actually is an effect, and the study was just too small to pick it up). However, reporting post-hoc power is nothing more than reporting the p-value a different way, and will therefore not answer the question editors want to know.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Tips</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Tips</span>"
     ]
   },
   {
     "objectID": "tips.html#sensitivity-analyses",
     "href": "tips.html#sensitivity-analyses",
-    "title": "5  Tips",
-    "section": "5.3 Sensitivity Analyses",
-    "text": "5.3 Sensitivity Analyses\n\n\n\n\nCrespi, Catherine M. 2025. Power and Sample Size in r. 1st ed. Chapman; Hall/CRC. https://doi.org/10.1201/9780429488788.",
+    "title": "6  Tips",
+    "section": "6.3 Sensitivity Analyses",
+    "text": "6.3 Sensitivity Analyses\n\n\n\n\nCrespi, Catherine M. 2025. Power and Sample Size in r. 1st ed. Chapman; Hall/CRC. https://doi.org/10.1201/9780429488788.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Tips</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Tips</span>"
     ]
   },
   {

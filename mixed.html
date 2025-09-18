@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; T tests – Power and Sample Size in R</title>
+<title>5&nbsp; mixed-effect models – Power and Sample Size in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,62 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -85,8 +30,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./p_tests.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./tips.html" rel="next">
+<link href="./regression.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -138,7 +83,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./t_tests.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">T tests</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./mixed.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">mixed-effect models</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -173,7 +118,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./t_tests.html" class="sidebar-item-text sidebar-link active">
+  <a href="./t_tests.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">T tests</span></span></a>
   </div>
 </li>
@@ -197,7 +142,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./mixed.html" class="sidebar-item-text sidebar-link">
+  <a href="./mixed.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">mixed-effect models</span></span></a>
   </div>
 </li>
@@ -223,16 +168,8 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#two-sample-t-test" id="toc-two-sample-t-test" class="nav-link active" data-scroll-target="#two-sample-t-test"><span class="header-section-number">1.1</span> Two sample t-test</a>
-  <ul class="collapse">
-  <li><a href="#example-sample-size" id="toc-example-sample-size" class="nav-link" data-scroll-target="#example-sample-size"><span class="header-section-number">1.1.1</span> Example: sample size</a></li>
-  <li><a href="#example-power" id="toc-example-power" class="nav-link" data-scroll-target="#example-power"><span class="header-section-number">1.1.2</span> Example: power</a></li>
-  </ul></li>
-  <li><a href="#paired-t-test" id="toc-paired-t-test" class="nav-link" data-scroll-target="#paired-t-test"><span class="header-section-number">1.2</span> Paired t-test</a>
-  <ul class="collapse">
-  <li><a href="#example-sample-size-1" id="toc-example-sample-size-1" class="nav-link" data-scroll-target="#example-sample-size-1"><span class="header-section-number">1.2.1</span> Example: sample size</a></li>
-  <li><a href="#example-power-1" id="toc-example-power-1" class="nav-link" data-scroll-target="#example-power-1"><span class="header-section-number">1.2.2</span> Example: power</a></li>
-  </ul></li>
+  <li><a href="#random-intercept-model" id="toc-random-intercept-model" class="nav-link active" data-scroll-target="#random-intercept-model"><span class="header-section-number">5.1</span> Random intercept model</a></li>
+  <li><a href="#random-intercept-and-random-slope-model" id="toc-random-intercept-and-random-slope-model" class="nav-link" data-scroll-target="#random-intercept-and-random-slope-model"><span class="header-section-number">5.2</span> Random intercept and random slope model</a></li>
   </ul>
 </nav>
     </div>
@@ -241,7 +178,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">T tests</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">mixed-effect models</span></h1>
 </div>
 
 
@@ -258,243 +195,13 @@ div.csl-indent {
 </header>
 
 
-<section id="two-sample-t-test" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="two-sample-t-test"><span class="header-section-number">1.1</span> Two sample t-test</h2>
-<p>For sample size estimation based on <em>power</em>, we need the following:</p>
-<ul>
-<li>hypothesized difference in means (effect size)</li>
-<li>population standard deviation</li>
-<li>power of test</li>
-<li>significance level of test</li>
-<li>direction of test: one or two-sided</li>
-</ul>
-<p>For power estimation based on <em>sample size</em>, we need the following:</p>
-<ul>
-<li>hypothesized difference in means (effect size)</li>
-<li>population standard deviation</li>
-<li>sample size for each group</li>
-<li>significance level of test</li>
-<li>direction of test: one or two-sided</li>
-</ul>
-<section id="example-sample-size" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="example-sample-size"><span class="header-section-number">1.1.1</span> Example: sample size</h3>
-<p>We wish to run an experiment to test if the mean price of what male and female students pay at a library coffee shop is different. Our null hypothesis is no difference. We want to sample enough students to detect a difference of at least 75 cents. We’re not sure which group pays more, so we’ll do a two-sided test. Assume the following:</p>
-<ul>
-<li>true difference is 0.75 cents</li>
-<li>population standard deviation is $2.25.</li>
-<li>we desire 0.9 power</li>
-<li>our significance level will be 0.05</li>
-<li>this will be two-sided test</li>
-</ul>
-<p>Using base R <span class="citation" data-cites="R">(<a href="references.html#ref-R" role="doc-biblioref">R Core Team 2025</a>)</span>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power.t.test</span>(<span class="at">delta =</span> <span class="fl">0.75</span>, <span class="at">sd =</span> <span class="fl">2.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="fl">0.9</span>,</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-     Two-sample t test power calculation 
-
-              n = 190.0991
-          delta = 0.75
-             sd = 2.25
-      sig.level = 0.05
-          power = 0.9
-    alternative = two.sided
-
-NOTE: n is number in *each* group</code></pre>
-</div>
-</div>
-<p>We should plan to observe 191 in each group.</p>
-<p>Using the pwr package <span class="citation" data-cites="pwr">(<a href="references.html#ref-pwr" role="doc-biblioref">Champely 2020</a>)</span>, we must express effect size as Cohen’s d: difference between the means divided by the population (or pooled) standard deviation.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">d =</span> <span class="fl">0.75</span><span class="sc">/</span><span class="fl">2.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="fl">0.9</span>, </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-     Two-sample t test power calculation 
-
-              n = 190.0991
-              d = 0.3333333
-      sig.level = 0.05
-          power = 0.9
-    alternative = two.sided
-
-NOTE: n is number in *each* group</code></pre>
-</div>
-</div>
+<section id="random-intercept-model" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="random-intercept-model"><span class="header-section-number">5.1</span> Random intercept model</h2>
 </section>
-<section id="example-power" class="level3" data-number="1.1.2">
-<h3 data-number="1.1.2" class="anchored" data-anchor-id="example-power"><span class="header-section-number">1.1.2</span> Example: power</h3>
-<p>We wish to run an experiment to test if the mean price of what male and female students pay at a library coffee shop is different. Our null hypothesis is no difference. We want to detect a difference of at least 75 cents and we know our sample size will be 60 students per group. We’re not sure which group pays more, so we’ll do a two-sided test. What is the power of our test? Assume the following:</p>
-<ul>
-<li>true difference is 0.75 cents</li>
-<li>population standard deviation is $2.25.</li>
-<li>60 students per group</li>
-<li>our significance level will be 0.05</li>
-<li>this will be two-sided test</li>
-</ul>
-<p>Using base R <span class="citation" data-cites="R">(<a href="references.html#ref-R" role="doc-biblioref">R Core Team 2025</a>)</span>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power.t.test</span>(<span class="at">delta =</span> <span class="fl">0.75</span>, <span class="at">sd =</span> <span class="fl">2.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">n =</span> <span class="dv">60</span>,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-     Two-sample t test power calculation 
-
-              n = 60
-          delta = 0.75
-             sd = 2.25
-      sig.level = 0.05
-          power = 0.4407429
-    alternative = two.sided
-
-NOTE: n is number in *each* group</code></pre>
-</div>
-</div>
-<p>The power of this test will only be about 0.44 if our assumptions are true.</p>
-<p>Using the pwr package we get the same result:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">d =</span> <span class="fl">0.75</span><span class="sc">/</span><span class="fl">2.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">n =</span> <span class="dv">60</span>, </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-     Two-sample t test power calculation 
-
-              n = 60
-              d = 0.3333333
-      sig.level = 0.05
-          power = 0.4408242
-    alternative = two.sided
-
-NOTE: n is number in *each* group</code></pre>
-</div>
-</div>
-</section>
-</section>
-<section id="paired-t-test" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="paired-t-test"><span class="header-section-number">1.2</span> Paired t-test</h2>
-<p>For sample size estimation based on power, we need the following:</p>
-<ul>
-<li>hypothesized difference between pairs (effect size)</li>
-<li>standard deviation of differences</li>
-<li>power of test</li>
-<li>significance level of test</li>
-<li>direction of test: one or two-sided</li>
-</ul>
-<p>For power estimation based on sample size, we need the following:</p>
-<ul>
-<li>hypothesized difference between pairs (effect size)</li>
-<li>standard deviation of differences</li>
-<li>sample size</li>
-<li>significance level of test</li>
-<li>direction of test: one or two-sided</li>
-</ul>
-<section id="example-sample-size-1" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="example-sample-size-1"><span class="header-section-number">1.2.1</span> Example: sample size</h3>
-<p>We wish to run an experiment to see if an ultra-heavy rope-jumping program reduces 40-yard dash times. We will recruit young men ages 18 - 25 and measure their 40-yard dash time in seconds before the program and after. We’ll use a paired t-test to see if the difference in times is greater than 0 (before - after). We want to sample enough subjects to detect a difference of 0.08 seconds. Assume the following:</p>
-<ul>
-<li>hypothesized difference of 0.08</li>
-<li>standard deviation of differences is 0.25</li>
-<li>we desire 0.9 power</li>
-<li>significance level of 0.05</li>
-<li>one-sided test since we assume dash times will only get faster</li>
-</ul>
-<p>Using base R:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power.t.test</span>(<span class="at">delta =</span> <span class="fl">0.08</span>, <span class="at">sd =</span> <span class="fl">0.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="fl">0.9</span>, </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">type =</span> <span class="st">"paired"</span>, <span class="at">alternative =</span> <span class="st">"one.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-     Paired t test power calculation 
-
-              n = 85.00257
-          delta = 0.08
-             sd = 0.25
-      sig.level = 0.05
-          power = 0.9
-    alternative = one.sided
-
-NOTE: n is number of *pairs*, sd is std.dev. of *differences* within pairs</code></pre>
-</div>
-</div>
-<p>We should plan to sample at least 86 subjects.</p>
-<p>Using the pwr package, we need to express the effect size as Cohen’s d: difference in pairs divided by the standard deviation of the differences.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">power =</span> <span class="fl">0.9</span>, <span class="at">d =</span> <span class="fl">0.08</span> <span class="sc">/</span> <span class="fl">0.25</span>,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="st">"paired"</span>, <span class="at">alternative =</span> <span class="st">"greater"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-     Paired t test power calculation 
-
-              n = 85.00256
-              d = 0.32
-      sig.level = 0.05
-          power = 0.9
-    alternative = greater
-
-NOTE: n is number of *pairs*</code></pre>
-</div>
-</div>
-</section>
-<section id="example-power-1" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="example-power-1"><span class="header-section-number">1.2.2</span> Example: power</h3>
-<p>We wish to run an experiment to see if an ultra-heavy rope-jumping program reduces 40-yard dash times. We will recruit young men ages 18 - 25 and measure their 40-yard dash time in seconds before the program and after. We’ll use a paired t-test to see if the difference in times is greater than 0 (before - after). We want to be able to detect a difference of 0.08 seconds. We will have access to 50 subjects. What is the power of our experiment. Assume the following:</p>
-<ul>
-<li>hypothesized difference of 0.08</li>
-<li>standard deviation of differences is 0.25</li>
-<li>50 subjects</li>
-<li>significance level of 0.05</li>
-<li>one-sided test since we assume dash times will only get faster</li>
-</ul>
-<p>Using base R:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power.t.test</span>(<span class="at">delta =</span> <span class="fl">0.08</span>, <span class="at">sd =</span> <span class="fl">0.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">n =</span> <span class="dv">50</span>, </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">type =</span> <span class="st">"paired"</span>, <span class="at">alternative =</span> <span class="st">"one.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-     Paired t test power calculation 
-
-              n = 50
-          delta = 0.08
-             sd = 0.25
-      sig.level = 0.05
-          power = 0.7212189
-    alternative = one.sided
-
-NOTE: n is number of *pairs*, sd is std.dev. of *differences* within pairs</code></pre>
-</div>
-</div>
-<p>The power of this test is about 0.72 if our assumptions are true.</p>
-<p>Using the pwr package we get the same result:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="at">d =</span> <span class="fl">0.08</span> <span class="sc">/</span> <span class="fl">0.25</span>,</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="st">"paired"</span>, <span class="at">alternative =</span> <span class="st">"greater"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-     Paired t test power calculation 
-
-              n = 50
-              d = 0.32
-      sig.level = 0.05
-          power = 0.7212189
-    alternative = greater
-
-NOTE: n is number of *pairs*</code></pre>
-</div>
-</div>
+<section id="random-intercept-and-random-slope-model" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="random-intercept-and-random-slope-model"><span class="header-section-number">5.2</span> Random intercept and random slope model</h2>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-pwr" class="csl-entry" role="listitem">
-Champely, Stephane. 2020. <em>Pwr: Basic Functions for Power Analysis</em>. <a href="https://doi.org/10.32614/CRAN.package.pwr">https://doi.org/10.32614/CRAN.package.pwr</a>.
-</div>
-<div id="ref-R" class="csl-entry" role="listitem">
-R Core Team. 2025. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
-</div>
-</div>
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -900,13 +607,13 @@ R Core Team. 2025. <em>R: A Language and Environment for Statistical Computing</
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Preface">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="./regression.html" class="pagination-link" aria-label="Regression">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regression</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./p_tests.html" class="pagination-link" aria-label="Proportion tests">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Proportion tests</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./tips.html" class="pagination-link" aria-label="Tips">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tips</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

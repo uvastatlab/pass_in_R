@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Tips – Power and Sample Size in R</title>
+<title>6&nbsp; Tips – Power and Sample Size in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -86,7 +86,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./references.html" rel="next">
-<link href="./regression.html" rel="prev">
+<link href="./mixed.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -167,7 +167,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tips.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Tips</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tips.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tips</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -226,8 +226,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./mixed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">mixed-effect models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./tips.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Tips</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tips</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -246,9 +252,9 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#adjusting-for-dropout" id="toc-adjusting-for-dropout" class="nav-link active" data-scroll-target="#adjusting-for-dropout"><span class="header-section-number">5.1</span> Adjusting for Dropout</a></li>
-  <li><a href="#post-hoc-power" id="toc-post-hoc-power" class="nav-link" data-scroll-target="#post-hoc-power"><span class="header-section-number">5.2</span> Post-Hoc Power</a></li>
-  <li><a href="#sensitivity-analyses" id="toc-sensitivity-analyses" class="nav-link" data-scroll-target="#sensitivity-analyses"><span class="header-section-number">5.3</span> Sensitivity Analyses</a></li>
+  <li><a href="#adjusting-for-dropout" id="toc-adjusting-for-dropout" class="nav-link active" data-scroll-target="#adjusting-for-dropout"><span class="header-section-number">6.1</span> Adjusting for Dropout</a></li>
+  <li><a href="#post-hoc-power" id="toc-post-hoc-power" class="nav-link" data-scroll-target="#post-hoc-power"><span class="header-section-number">6.2</span> Post-Hoc Power</a></li>
+  <li><a href="#sensitivity-analyses" id="toc-sensitivity-analyses" class="nav-link" data-scroll-target="#sensitivity-analyses"><span class="header-section-number">6.3</span> Sensitivity Analyses</a></li>
   </ul>
 </nav>
     </div>
@@ -257,7 +263,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Tips</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tips</span></h1>
 </div>
 
 
@@ -274,8 +280,8 @@ window.Quarto = {
 </header>
 
 
-<section id="adjusting-for-dropout" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="adjusting-for-dropout"><span class="header-section-number">5.1</span> Adjusting for Dropout</h2>
+<section id="adjusting-for-dropout" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="adjusting-for-dropout"><span class="header-section-number">6.1</span> Adjusting for Dropout</h2>
 <p>If you anticipate dropouts or non-response, expressed as a proportion <span class="math inline">\(p\)</span>, inflate the sample size as follows <span class="citation" data-cites="crespi">(<a href="references.html#ref-crespi" role="doc-biblioref">Crespi 2025</a>)</span>:</p>
 <p><span class="math display">\[ \frac{N}{1 - p}\]</span></p>
 <p>For example, if you estimate a sample size of 300 but anticipate a dropout rate of 0.1, plan on inflating your sample size by 34 subjects to 334.</p>
@@ -286,15 +292,15 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="post-hoc-power" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="post-hoc-power"><span class="header-section-number">5.2</span> Post-Hoc Power</h2>
+<section id="post-hoc-power" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="post-hoc-power"><span class="header-section-number">6.2</span> Post-Hoc Power</h2>
 <p><a href="https://discourse.datamethods.org/t/reference-collection-to-push-back-against-common-statistical-myths/1787#p-4596-post-hoc-power-is-not-really-a-thing-9">Post-Hoc Power is not really a thing</a>.</p>
 <blockquote class="blockquote">
 <p>In studies that fail to yield “statistically significant” results, it is common for reviewers, or even editors, to ask the authors to include a post hoc power calculation. In such situations, editors would like to distinguish between true negatives and false negatives (concluding there is no effect, when there actually is an effect, and the study was just too small to pick it up). However, reporting post-hoc power is nothing more than reporting the p-value a different way, and will therefore not answer the question editors want to know.</p>
 </blockquote>
 </section>
-<section id="sensitivity-analyses" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="sensitivity-analyses"><span class="header-section-number">5.3</span> Sensitivity Analyses</h2>
+<section id="sensitivity-analyses" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="sensitivity-analyses"><span class="header-section-number">6.3</span> Sensitivity Analyses</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -707,8 +713,8 @@ Crespi, Catherine M. 2025. <em>Power and Sample Size in r</em>. 1st ed. Chapman;
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./regression.html" class="pagination-link" aria-label="Regression">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regression</span></span>
+      <a href="./mixed.html" class="pagination-link" aria-label="mixed-effect models">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">mixed-effect models</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
