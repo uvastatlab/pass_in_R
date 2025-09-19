@@ -5,7 +5,7 @@ project:
 book:
   title: "Power and Sample Size in R"
   author: "UVA StatLab"
-  date: "8/14/2025"
+  date: last-modified
   chapters:
     - index.qmd
     - t_tests.qmd
