@@ -267,7 +267,7 @@ div.csl-indent {
 </ul>
 <section id="example-power" class="level3" data-number="5.1.1">
 <h3 data-number="5.1.1" class="anchored" data-anchor-id="example-power"><span class="header-section-number">5.1.1</span> Example: power</h3>
-<p>We are planning an experiment where we track the BMI of college students over their four years at school. We’ll measure their BMI at the beginning of each school year in August. We would like sufficient power to detect an absolute trend of at least 0.25 if we recruit 15 students to the study. Assume the following:</p>
+<p>We are planning an experiment where we track the BMI of college students over their four years at school. We’ll measure their BMI at the beginning of each school year in August. We would like sufficient power to detect a year trend of at least 0.25 if we recruit 15 students to the study. The null hypothesis we’ll test is that the year (slope) coefficient is 0. Rejecting this hypothesis provides evidence of a change in BMI over time. Assume the following:</p>
 <ul>
 <li>Between group standard deviation of 3</li>
 <li>Within group standard deviation 1</li>
@@ -318,7 +318,7 @@ div.csl-indent {
 <pre><code>Linear mixed model fit by REML ['lmerMod']
 Formula: bmi ~ year + (1 | student)
    Data: d
-REML criterion at convergence: 246.0542
+REML criterion at convergence: 210.8396
 Random effects:
  Groups   Name        Std.Dev.
  student  (Intercept) 3       
