@@ -94,17 +94,18 @@ powerSim(m2,
 
 Power is higher but still too low at 0.64. 
 
-We can generate a power curve with varying sample sizes using the `powerCurve()` function. First extend the data set by the maximum number of students we're willing to entertain and then call call the `powerCurve()` function. Below we specify a maximum of 40 students. Note this can take a while to run for large data sets and complex models. We have lowered the default number of simulations from 1000 to 100. The breaks argument says we want to try sample sizes ranging from 30 to 40 in steps of 2.
+We can generate a power curve with varying sample sizes using the `powerCurve()` function. First extend the data set by the maximum number of students we're willing to entertain and then call the `powerCurve()` function. Below we specify a maximum of 40 students. Note this can take a while to run for large data sets and complex models. We have lowered the default number of simulations from 1000 to 100. The breaks argument says we want to try sample sizes ranging from 30 to 40 in steps of 2.
 
 ```{r message=FALSE}
 m3 <- extend(m, along = "student", n = 40)
 pc <- powerCurve(m3, 
                  test = fixed("year", "t"), 
                  seed = 5,
-                 along = "student", 
+                 along = "student",
+                 breaks = seq(30,40,2),
                  nsim = 100, 
                  alpha = 0.01,
-                 breaks = seq(30,40,2))
+                 progress = FALSE)
 plot(pc)
 ```
 
