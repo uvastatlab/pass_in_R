@@ -1,5 +1,5 @@
 ---
-title: "mixed-effect models"
+title: "Mixed-effect models"
 ---
 
 ## Random intercept model (testing slope)
