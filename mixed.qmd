@@ -16,7 +16,7 @@ For power estimation based on sample size, we need the following:
 
 ### Example: power
 
-We are planning an experiment where we track the BMI of college students over their four years at school. We'll measure their BMI at the beginning of each school year in August. We would like sufficient power to detect an absolute trend of at least 0.5 if we recruit 15 students to the study. Assume the following:
+We are planning an experiment where we track the BMI of college students over their four years at school. We'll measure their BMI at the beginning of each school year in August. We would like sufficient power to detect an absolute trend of at least 0.25 if we recruit 15 students to the study. Assume the following:
 
 - Between group standard deviation of 3
 - Within group standard deviation 1
@@ -38,7 +38,7 @@ d <- expand.grid(year = year, student = student)
 head(d, n = 8)
 ```
 
-Now define our between and within group variance. Note that the simr package requires the between group variance be expressed as variance and the within group variance expressed as standard deviation
+Now define our between and within group variance. Note that the simr package requires the between group variance be expressed as variance and the within group variance be expressed as standard deviation.
 
 ```{r}
 between <- 3^2 # random intercept variance
@@ -62,7 +62,7 @@ m <- makeLmer(bmi ~ year + (1|student),
 print(m)
 ```
 
-Finally use the `powerSim()` function to estimate the power of the test on the slope using 100 simulations. Setting `progress = FALSE` suppresses a progress bar which we don't want to output in this online book. The seed argument makes the following result reproducible. The `fixed()` dictates what coefficient we want to test. In this case we want to test the "year" coefficient using a "t" test. 
+Finally use the `powerSim()` function to estimate the power of the test on the slope using 100 simulations. Setting `progress = FALSE` suppresses a progress bar which we don't want to output in this online book. The seed argument makes the following result reproducible. The `fixed()` function dictates what coefficient we want to test. In this case we want to test the "year" coefficient using a "t" test. 
 
 ```{r message=FALSE}
 # power of test on slope
@@ -94,12 +94,13 @@ powerSim(m2,
 
 Power is higher but still too low at 0.64. 
 
-We can generate a power curve with varying sample sizes using the `powerCurve()` function. First extend the data set by the maximum number of students we're willing to entertain, and then call call the `powerCurve()` function. Note this can take a while for large data sets and complex models. We have lowered the default number of simulations from 1000 to 100. The breaks argument says we want to try sample sizes ranging from 30 to 40 in steps of 2.
+We can generate a power curve with varying sample sizes using the `powerCurve()` function. First extend the data set by the maximum number of students we're willing to entertain and then call call the `powerCurve()` function. Below we specify a maximum of 40 students. Note this can take a while to run for large data sets and complex models. We have lowered the default number of simulations from 1000 to 100. The breaks argument says we want to try sample sizes ranging from 30 to 40 in steps of 2.
 
 ```{r message=FALSE}
 m3 <- extend(m, along = "student", n = 40)
 pc <- powerCurve(m3, 
                  test = fixed("year", "t"), 
+                 seed = 5,
                  along = "student", 
                  nsim = 100, 
                  alpha = 0.01,
