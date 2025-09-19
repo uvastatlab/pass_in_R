@@ -16,7 +16,7 @@ For power estimation based on sample size, we need the following:
 
 ### Example: power
 
-We are planning an experiment where we track the BMI of college students over their four years at school. We'll measure their BMI at the beginning of each school year in August. We would like sufficient power to detect an absolute trend of at least 0.25 if we recruit 15 students to the study. Assume the following:
+We are planning an experiment where we track the BMI of college students over their four years at school. We'll measure their BMI at the beginning of each school year in August. We would like sufficient power to detect a year trend of at least 0.25 if we recruit 15 students to the study. The null hypothesis we'll test is that the year (slope) coefficient is 0. Rejecting this hypothesis provides evidence of a change in BMI over time. Assume the following:
 
 - Between group standard deviation of 3
 - Within group standard deviation 1
