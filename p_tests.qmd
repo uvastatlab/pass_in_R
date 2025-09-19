@@ -88,7 +88,7 @@ pwr.2p.test(h = ES.h(p1 = 0.25, p2 = 0.30), sig.level = 0.05, n = 300,
 
 ## Difference in proportions
 
-For sample size estimation based on _precision_, we need the following:
+For sample size estimation based on precision, we need the following:
 
 - proportion in one group
 - proportion in other group

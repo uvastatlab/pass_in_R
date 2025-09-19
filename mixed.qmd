@@ -2,7 +2,112 @@
 title: "mixed-effect models"
 ---
 
-## Random intercept model
+## Random intercept model (testing slope)
+
+For power estimation based on sample size, we need the following:
+
+- Between group standard deviation (Intercept random effect)
+- Within group standard deviation (residual standard deviation)
+- Sample size (n) in each group (N)
+- Effect size (slope coefficient)
+- Intercept coefficient
+- Significance level of test
+- Direction of test: one or two-sided
+
+### Example: power
+
+We are planning an experiment where we track the BMI of college students over their four years at school. We'll measure their BMI at the beginning of each school year in August. We would like sufficient power to detect an absolute trend of at least 0.5 if we recruit 15 students to the study. Assume the following:
+
+- Between group standard deviation of 3
+- Within group standard deviation 1
+- Sample size in each group: 4 obs each of 15 students
+- Effect size of 0.25 (slope coefficient)
+- Intercept coefficient: 20
+- Significance level of test: 0.01
+- Direction of test: two-sided
+
+We can use simulation to estimate the power of a hypothesis test on a specific coefficient in a model. This example uses the simr package [@simr].
+
+First we create a data frame of 4 observations each of 15 students.
+
+```{r message=FALSE}
+library(simr)
+year <- 1:4
+student <- 1:15
+d <- expand.grid(year = year, student = student)
+head(d, n = 8)
+```
+
+Now define our between and within group variance. Note that the simr package requires the between group variance be expressed as variance and the within group variance expressed as standard deviation
+
+```{r}
+between <- 3^2 # random intercept variance
+within <- 1 # residual standard deviation
+```
+
+Next define our effects. We need to provide intercept and slope coefficients. The slope coefficient is the effect we will test. The intercept can be interpreted at the average BMI for the students' first year of college.
+
+```{r}
+b <- c(20, 0.25) # fixed intercept and slope
+```
+
+Now define our model using the `makeLmer()` function. This function will simulate BMI values based on our hypothesized coefficients and variances.
+
+```{r message=FALSE}
+m <- makeLmer(bmi ~ year + (1|student), 
+              fixef = b, 
+              VarCorr = between, 
+              sigma = within, 
+              data= d)
+print(m)
+```
+
+Finally use the `powerSim()` function to estimate the power of the test on the slope using 100 simulations. Setting `progress = FALSE` suppresses a progress bar which we don't want to output in this online book. The seed argument makes the following result reproducible. The `fixed()` dictates what coefficient we want to test. In this case we want to test the "year" coefficient using a "t" test. 
+
+```{r message=FALSE}
+# power of test on slope
+powerSim(m, 
+         test = fixed("year", "t"),
+         seed = 1,
+         nsim = 100, 
+         alpha = 0.01, 
+         progress = FALSE)
+```
+
+Our power is estimated to be about 0.37. The confidence interval is based on a simple binomial test.
+
+```{r}
+round(binom.test(x = 37, n = 100)$conf.int * 100, 2)
+```
+
+This power is low. Let's try increasing the sample size. We can do that with the `extend()` function. Below we increase the sample size to 30 and re-run the simulation.
+
+```{r message=FALSE}
+m2 <- extend(m, along = "student", n = 30)
+powerSim(m2, 
+         test = fixed("year", "t"),
+         seed = 2,
+         nsim = 100, 
+         alpha = 0.01, 
+         progress = FALSE)
+```
+
+Power is higher but still too low at 0.64. 
+
+We can generate a power curve with varying sample sizes using the `powerCurve()` function. First extend the data set by the maximum number of students we're willing to entertain, and then call call the `powerCurve()` function. Note this can take a while for large data sets and complex models. We have lowered the default number of simulations from 1000 to 100. The breaks argument says we want to try sample sizes ranging from 30 to 40 in steps of 2.
+
+```{r message=FALSE}
+m3 <- extend(m, along = "student", n = 40)
+pc <- powerCurve(m3, 
+                 test = fixed("year", "t"), 
+                 along = "student", 
+                 nsim = 100, 
+                 alpha = 0.01,
+                 breaks = seq(30,40,2))
+plot(pc)
+```
+
+It appears we need about 38 students to achieve power of at least 0.80. 
 
 ## Random intercept and random slope model
 
