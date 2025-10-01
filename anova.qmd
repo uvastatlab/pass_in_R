@@ -2,9 +2,194 @@
 title: "ANOVA"
 ---
 
+We will calculate power and sample size for a one-way ANOVA, a two-way ANOVA, and an ANCOVA. We will use base R, {pwr}, and {powertools}. 
+
+```{r, warning=FALSE}
+library(pwr)
+library(pwr2)
+library(powertools)
+```
+
 ## One-way ANOVA
+
+We use a one-way ANOVA to calculate power and sample size when we want to get the difference in means across groups that are from a single factor. 
+
+For power estimation based on sample size we will use: 
+
+* Number of groups and their means (or the group effects)
+* Group sample sizes 
+* Population standard deviation 
+
+Imagine we have a book club with three groups that each use a different medium to interact with the book. Group A reads the book, group b listens to the audiobook, and group c watches the movie. We want to know how well each group understood the story line. Each group has 20 people, the expected population group means are 8, 5, and 12 and the populated standard deviation is expected to be 7. 
+
+We will calculate the power  with $\alpha$ = 0.05:  
+
+Using base R
+
+```{r}
+power.anova.test(groups = 3,      # 3 groups
+                 between.var = 13,# between group variance
+                 within.var = 49, # within group variance
+                 sig.level=0.05,  # sig level 
+                 n = 20)          # no. people in each group 
+```
+
+Using {powertools}
+
+We use `anova1way.F.bal` to calculate the overall sample size for balanced groups (each group has 20 people) 
+
+```{r}
+anova1way.F.bal(n = 20, mvec = c(8, 5, 12), sd = 7, power = NULL) |> 
+  round(2)
+```
+
+Using {pwr}. 
+
+Here, we will need to provide the effect size. We will first calculate it by hand: 
+
+```{r}
+# Calculate Cohen's f 
+book.means <- c(8, 5, 12)
+sd   <- 7
+
+k <- length(book.means)
+mu <- mean(book.means)
+
+# Calculate between group var 
+btwn.var.pop <- sum((book.means - mu)^2) / k 
+within.var <- sd^2 # within group var 
+
+f <- sqrt(between.var.pop / within.var)
+
+f
+```
+
+Now, we use the function `es.anova.f` from {powertools} to calculate f. We get the same result as above 
+
+```{r}
+# Use {powertools} to get the effect size 
+f.pt <- es.anova.f(means = book.means, sd = sd, v = F)
+
+f.pt
+```
+
+```{r}
+# Power analysis using f from manual calculation 
+pwr.anova.test(k = 3, f = f, n = 20, sig.level = 0.05)
+
+# Power analysis using f calculated by {powertools}
+pwr.anova.test(k = 3, f = f.pt, n = 20, sig.level = 0.05)
+```
+For base R, {powertools}, and {pwr}, we see that our power estimate is 0.8. 
+
+Now, we will calculate sample size for a one-way ANOVA when we know the power we want to achieve, but and we need to determine the sample size
+
+What you need: 
+
+* Number of groups 
+* Group means or effect size 
+* Significance level 
+* Power
+
+Using base R
+
+We now leave n (sample size) empty and input the power we would like to achieve. We will include a power of 0.8, indicating that if a difference actually exists between the mean and target, we have a 80% chance of detecting it.
+
+```{r}
+power.anova.test(groups = 3, 
+                 between.var = 13,
+                 within.var = 49,
+                 sig.level = 0.05,
+                 power = 0.8) # We input the power as 0.8
+```
+Using {pwr}
+
+```{r}
+anova1way.F.bal(n = NULL, mvec = c(8, 5, 12), sd = 7, power = 0.8)
+```
+
+Our estimated sample size is 20 per group.  
+
+Using {pwr} and inputting an effect size of 0.2 instead of estimated mean values.  
+
+```{r}
+# Get f using {powertools}
+f.2way <- es.anova.f(means = c(8, 5, 12), sd = 7, v = F)
+
+pwr.anova.test(k = 3, # groups
+               f = f.2way, # effect size 
+               sig.level = 0.05, power = 0.8)
+```
+
+Our estimated sample size is ~20. 
 
 ## Two-way ANOVA
 
+Example of power and sample size for a two-way ANOVA, which is used when you want to compare the difference in means across two factors 
+
+What you need
+
+* Number of factor levels
+* Group means and standard deviation 
+* Significance level 
+* Target power 
+
+In our example, we want to evaluate how fertilizer and soil type influence plant growth. We have two types of fertilizer and 2 types of soil. Our dependent variable is plant growth. 
+
+Before setting up the full study, we wanted to make sure it is sufficiently powered so we ran a pilot study and found the mean values. We want to calculate statistical power of 0.9 at a 95% confidence level.  
+
+```{r}
+# Generate matrix of mean values 
+plant.mat <- matrix(c(15.2, 19.1, 11.9, 13.3), nrow = 2, byrow = TRUE)
+
+# Print matrix to view 
+plant.mat
+```
+
+Using {powertools}
+
+```{r}
+anova2way.F.bal(n = NULL, mmatrix = plant.mat, sd = 3, alpha = 0.05,
+power = 0.9, v = F)
+```
+
+Using {pwr2} for a balaned two-way ANOVA 
+
+```{r}
+# Get Cohen's f effect sizes using {powertools}
+cd.anova2way <- es.anova.f(means = plant.mat, sd = 3, v = FALSE)
+
+print(cd.anova2way)
+
+```
+The effect sizes for factors A, B, and their interaction(fAB) are returned. We will input fA and fB into our sample size calculation 
+
+```{r}
+pwr.2way(a = 2, b = 2, # n factors 
+         alpha = 0.05, # significance level 
+         size.A = 10, size.B = 10, # sample size 
+         f.A = cd.anova2way["fA"], f.B = cd.anova2way["fB"]) # effect size
+```
+
+
 ## ANCOVA
 
+With an ANCOVA, we extend our one-way ANOVA by including a variable that we want to account for in the model. 
+
+What we need: 
+
+* Group means and standard deviation 
+* Estimated $R^2$ 
+* Significance level 
+* Power 
+
+When looking at story comprehension based on the medium (book, audiobook, movie), we want to account for age. We will use the function `anova1way.F.bal` from {powertools} and input our mean values, standard deviation, $R^2$, the number of covariates, and the power.  
+
+```{r}
+anova1way.F.bal(n = NULL, 
+                mvec = c(8, 5, 12),
+                sd = 7, 
+                Rsq = 0.6^2, #estimated r^2 
+                ncov = 1, #n covariates 
+                power = 0.8)
+```
