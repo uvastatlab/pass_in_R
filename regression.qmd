@@ -4,10 +4,82 @@ title: "Regression"
 
 ## Multiple Regression
 
+## Overall F test
+
+For sample size estimation based on power, we need the following:
+
+-   hypothesized effect size (f^2^ = R^2^ / (1 − R^2^))
+-   numerator degrees of freedom (u = number of predictors being tested, occasionally represented as 'p')
+-   significance level of test
+-   power of test
+
+For power estimation based on sample size, we need the following:
+
+-   hypothesized effect size (f^2^ = R^2^ / (1 − R^2^))
+-   numerator degrees of freedom (u = number of predictors being tested, occasionally represented as 'p')
+-   denominator degrees of freedom (v = n − u − 1, where n is sample size). Hence, n = v + u +1
+-   significance level of test
+
+### Example: sample size
+
+Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual's time to complete the race using two variables: total hours spent training the past three months and average pace per mile during training runs. We can perform a multiple regression to model race completion time as a function of training time and pace. We want to sample enough subjects to detect an effect when our two independent (explanatory) variables explains 45% of variation of the dependent (response) variable, race completion time. Assume the following:
+
+-   hypothesized effect size of (f^2^ = .45 / (1-.45)), f^2^ = 0.82; R^2^ = .45
+
+-   numerator degrees of freedom u = 2 (two predictors)
+
+-   significance level = 0.01
+
+-   desired power = 0.75
+
+Using the pwr package \[\@pwr\]:
+
+```{r}
+library(pwr)
+pwr.f2.test(f2 = 0.82, u = 2, sig.level = 0.01, power = 0.9)
+
+```
+
+From above, we know that n = v + u +1, so we need 24 + 2 + 1 = **27 subjects.**
+
+### Example: power
+
+Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual's time to complete the race using two variables: total hours spent training the past three months and average pace per mile during training runs. We can perform a multiple regression to model race completion time as a function of training time and pace. We want to sample enough subjects to detect an effect when our two independent (explanatory) variables explains 45% of variation of the dependent (response) variable, race completion time. We will have 30 participating subjects. Assume the following:
+
+-   hypothesized effect size of (f^2^ = .45 / (1-.45)), f^2^ = 0.82; R^2^ = .45
+
+-   numerator degrees of freedom u = 2 (two predictors)
+
+-   denominator degrees of freedom v = n − u − 1 = 30 - 2 - 1 = 27
+
+-   significance level = 0.01
+
+Using the pwr package \[\@pwr\]:
+
+```{r}
+library(pwr)
+pwr.f2.test(f2 = 0.82, u = 2, v = 27, sig.level = 0.01)
+
+```
+
+The power is about 0.94.
+
+```{r}
+library(powertools) 
+mlrF.overall(N = 30, p = 2, Rsq = 0.45, power = NULL, random = TRUE, v = TRUE)
+```
+
+This can be done using the powertools package (CITE package), we use the 'random' argument to specify that our variables are random (as opposed to fixed), and the 'v' argument for a verbose output:
+
+```{r}
+library(powertools) 
+mlrF.overall(N = 30, p = 2, Rsq = 0.45, power = NULL, random = TRUE, v = TRUE)
+```
+
+### 
+
 ## Partial F Tests
 
 ## Logistic Regression
 
 ## Poisson Regression
-
-
