@@ -326,7 +326,7 @@ NOTE: n is number in each group</code></pre>
 <pre><code>[1] 0.4096345</code></pre>
 </div>
 </div>
-<p>Now, we use the function <code>es.anova.f</code> from powertools to calculate f.&nbsp;We get the same result as above</p>
+<p>Now, we use the function <code>es.anova.f()</code> from powertools to calculate f.&nbsp;We get the same result as above</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use powertools to get the effect size </span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>f.pt <span class="ot">&lt;-</span> <span class="fu">es.anova.f</span>(<span class="at">means =</span> book.means, <span class="at">sd =</span> sd, <span class="at">v =</span> F)</span>
@@ -507,7 +507,7 @@ NOTE: power is the minimum power among two factors</code></pre>
 <li>Significance level</li>
 <li>Power</li>
 </ul>
-<p>When looking at story comprehension based on the medium (book, audiobook, movie), we want to account for age. We will use the function <code>anova1way.F.bal</code> from powertools and input our mean values, standard deviation, <span class="math inline">\(R^2\)</span>, the number of covariates, and the power.</p>
+<p>When looking at story comprehension based on the medium (book, audiobook, movie), we want to account for age. We will use the function <code>anova1way.F.bal()</code> from powertools and input our mean values, standard deviation, <span class="math inline">\(R^2\)</span>, the number of covariates, and the power.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova1way.F.bal</span>(<span class="at">n =</span> <span class="cn">NULL</span>, </span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">mvec =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">12</span>),</span>
