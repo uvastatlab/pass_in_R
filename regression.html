@@ -55,7 +55,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -266,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>significance level = 0.01</p></li>
 <li><p>desired power = 0.75</p></li>
 </ul>
-<p>Using the pwr package [@pwr]:</p>
+<p>Using the pwr package <span class="citation" data-cites="pwr">(<a href="references.html#ref-pwr" role="doc-biblioref">Champely 2020</a>)</span>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.f2.test</span>(<span class="at">f2 =</span> <span class="fl">0.82</span>, <span class="at">u =</span> <span class="dv">2</span>, <span class="at">sig.level =</span> <span class="fl">0.01</span>, <span class="at">power =</span> <span class="fl">0.9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -324,7 +344,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           power = 0.983175</code></pre>
 </div>
 </div>
-<p>This can be done using the powertools package (CITE package), we use the ‘random’ argument to specify that our variables are random (as opposed to fixed), and the ‘v’ argument for a verbose output:</p>
+<p>This can be done using the powertools package <span class="citation" data-cites="powertools">(<a href="references.html#ref-powertools" role="doc-biblioref">Crespi and Liu 2025</a>)</span>, we use the ‘random’ argument to specify that our variables are random (as opposed to fixed), and the ‘v’ argument for a verbose output:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(powertools) </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mlrF.overall</span>(<span class="at">N =</span> <span class="dv">30</span>, <span class="at">p =</span> <span class="dv">2</span>, <span class="at">Rsq =</span> <span class="fl">0.45</span>, <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">random =</span> <span class="cn">TRUE</span>, <span class="at">v =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -356,6 +376,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="4.5" class="anchored" data-anchor-id="poisson-regression"><span class="header-section-number">4.5</span> Poisson Regression</h2>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-pwr" class="csl-entry" role="listitem">
+Champely, Stephane. 2020. <em>Pwr: Basic Functions for Power Analysis</em>. <a href="https://doi.org/10.32614/CRAN.package.pwr">https://doi.org/10.32614/CRAN.package.pwr</a>.
+</div>
+<div id="ref-powertools" class="csl-entry" role="listitem">
+Crespi, Catherine M., and Zichen Liu. 2025. <em>Powertools: Power and Sample Size Tools</em>. <a href="https://doi.org/10.32614/CRAN.package.powertools">https://doi.org/10.32614/CRAN.package.powertools</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
