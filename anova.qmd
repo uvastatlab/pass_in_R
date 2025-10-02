@@ -60,7 +60,7 @@ f <- sqrt(between.var.pop / within.var)
 f
 ```
 
-Now, we use the function `es.anova.f` from powertools to calculate f. We get the same result as above 
+Now, we use the function `es.anova.f()` from powertools to calculate f. We get the same result as above 
 
 ```{r}
 # Use powertools to get the effect size 
@@ -180,7 +180,7 @@ What we need:
 * Significance level 
 * Power 
 
-When looking at story comprehension based on the medium (book, audiobook, movie), we want to account for age. We will use the function `anova1way.F.bal` from powertools and input our mean values, standard deviation, $R^2$, the number of covariates, and the power.  
+When looking at story comprehension based on the medium (book, audiobook, movie), we want to account for age. We will use the function `anova1way.F.bal()` from powertools and input our mean values, standard deviation, $R^2$, the number of covariates, and the power.  
 
 ```{r}
 anova1way.F.bal(n = NULL, 
