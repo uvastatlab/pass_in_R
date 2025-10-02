@@ -32,7 +32,7 @@ Suppose there is an annual 5k running race in a city. We are interested if we ca
 
 -   desired power = 0.75
 
-Using the pwr package \[\@pwr\]:
+Using the pwr package [@pwr]:
 
 ```{r}
 library(pwr)
@@ -69,7 +69,7 @@ library(powertools)
 mlrF.overall(N = 30, p = 2, Rsq = 0.45, power = NULL, random = TRUE, v = TRUE)
 ```
 
-This can be done using the powertools package (CITE package), we use the 'random' argument to specify that our variables are random (as opposed to fixed), and the 'v' argument for a verbose output:
+This can be done using the powertools package [@powertools], we use the 'random' argument to specify that our variables are random (as opposed to fixed), and the 'v' argument for a verbose output:
 
 ```{r}
 library(powertools) 
