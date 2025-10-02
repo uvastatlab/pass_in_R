@@ -19,3 +19,6 @@ View book: [https://uvastatlab.github.io/pass_in_R/](https://uvastatlab.github.i
     * Add all files to next commit: `git add .`
     * Commit changes: `git commit -m "message describing changes"`
     * Push updates to GitHub: `git push origin main`
+- Style notes:
+    * When referring to a function, include parentheses. For example: `power.prop.test()`
+    * When referring to a package, just type the package name. For example, "When using the pwr package,..."
