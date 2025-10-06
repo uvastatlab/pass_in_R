@@ -225,9 +225,10 @@ div.csl-indent {
   <ul>
   <li><a href="#random-intercept-model-testing-slope" id="toc-random-intercept-model-testing-slope" class="nav-link active" data-scroll-target="#random-intercept-model-testing-slope"><span class="header-section-number">5.1</span> Random intercept model (testing slope)</a>
   <ul class="collapse">
-  <li><a href="#example-power" id="toc-example-power" class="nav-link" data-scroll-target="#example-power"><span class="header-section-number">5.1.1</span> Example: power</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">5.1.1</span> Example</a></li>
   </ul></li>
-  <li><a href="#random-intercept-and-random-slope-model" id="toc-random-intercept-and-random-slope-model" class="nav-link" data-scroll-target="#random-intercept-and-random-slope-model"><span class="header-section-number">5.2</span> Random intercept and random slope model</a></li>
+  <li><a href="#random-intercept-and-random-slope-model-testing-slope" id="toc-random-intercept-and-random-slope-model-testing-slope" class="nav-link" data-scroll-target="#random-intercept-and-random-slope-model-testing-slope"><span class="header-section-number">5.2</span> Random intercept and random slope model (testing slope)</a></li>
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">5.3</span> Example</a></li>
   </ul>
 </nav>
     </div>
@@ -265,8 +266,8 @@ div.csl-indent {
 <li>Significance level of test</li>
 <li>Direction of test: one or two-sided</li>
 </ul>
-<section id="example-power" class="level3" data-number="5.1.1">
-<h3 data-number="5.1.1" class="anchored" data-anchor-id="example-power"><span class="header-section-number">5.1.1</span> Example: power</h3>
+<section id="example" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="example"><span class="header-section-number">5.1.1</span> Example</h3>
 <p>We are planning an experiment where we track the BMI of college students over their four years at school. We’ll measure their BMI at the beginning of each school year in August. We would like sufficient power to detect a year trend of at least 0.25 if we recruit 15 students to the study. The null hypothesis we’ll test is that the year (slope) coefficient is 0. Rejecting this hypothesis provides evidence of a change in BMI over time. Assume the following:</p>
 <ul>
 <li>Between group standard deviation of 3</li>
@@ -302,7 +303,7 @@ div.csl-indent {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>between <span class="ot">&lt;-</span> <span class="dv">3</span><span class="sc">^</span><span class="dv">2</span> <span class="co"># random intercept variance</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>within <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># residual standard deviation</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Next define our effects. We need to provide intercept and slope coefficients. The slope coefficient is the effect we will test. The intercept can be interpreted at the average BMI for the students’ first year of college.</p>
+<p>Next define our effects. We need to provide intercept and slope coefficients. The slope coefficient is the effect we will test. The intercept can be interpreted as the average BMI for the students’ first year of college.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="fl">0.25</span>) <span class="co"># fixed intercept and slope</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -318,7 +319,7 @@ div.csl-indent {
 <pre><code>Linear mixed model fit by REML ['lmerMod']
 Formula: bmi ~ year + (1 | student)
    Data: d
-REML criterion at convergence: 221.2028
+REML criterion at convergence: 222.4143
 Random effects:
  Groups   Name        Std.Dev.
  student  (Intercept) 3       
@@ -379,7 +380,7 @@ Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
 Based on 100 simulations, (0 warnings, 0 errors)
 alpha = 0.01, nrow = 120
 
-Time elapsed: 0 h 0 m 6 s</code></pre>
+Time elapsed: 0 h 0 m 5 s</code></pre>
 </div>
 </div>
 <p>Power is higher but still too low at 0.64.</p>
@@ -406,8 +407,171 @@ Time elapsed: 0 h 0 m 6 s</code></pre>
 <p>It appears we need about 38 students to achieve power of at least 0.80.</p>
 </section>
 </section>
-<section id="random-intercept-and-random-slope-model" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="random-intercept-and-random-slope-model"><span class="header-section-number">5.2</span> Random intercept and random slope model</h2>
+<section id="random-intercept-and-random-slope-model-testing-slope" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="random-intercept-and-random-slope-model-testing-slope"><span class="header-section-number">5.2</span> Random intercept and random slope model (testing slope)</h2>
+<ul>
+<li>Intercept random effect</li>
+<li>Slope random effect</li>
+<li>Intercept and slope random effects covariance</li>
+<li>Within group standard deviation (residual standard deviation)</li>
+<li>Sample size (n) in each group (N)</li>
+<li>Effect size (slope coefficient)</li>
+<li>Intercept coefficient</li>
+<li>Significance level of test</li>
+<li>Direction of test: one or two-sided</li>
+</ul>
+</section>
+<section id="example-1" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="example-1"><span class="header-section-number">5.3</span> Example</h2>
+<p>We are planning an experiment where we track the BMI of college students over their four years at school. We’ll measure their BMI at the beginning of each school year in August. We would like sufficient power to detect a year trend of at least 0.25 if we recruit 15 students to the study. The null hypothesis we’ll test is that the year (slope) coefficient is 0. Rejecting this hypothesis provides evidence of a change in BMI over time. Assume the following:</p>
+<ul>
+<li>Intercept random effect of 3</li>
+<li>Slope random effect of 0.2</li>
+<li>Intercept and slope random effects covariance of 0.5</li>
+<li>Within group standard deviation 1</li>
+<li>Sample size in each group: 4 obs each of 15 students</li>
+<li>Effect size of 0.25 (slope coefficient)</li>
+<li>Intercept coefficient: 20</li>
+<li>Significance level of test: 0.01</li>
+<li>Direction of test: two-sided</li>
+</ul>
+<p>We can use simulation to estimate the power of a hypothesis test on a specific coefficient in a model. This example uses the simr package <span class="citation" data-cites="simr">(<a href="references.html#ref-simr" role="doc-biblioref">Green and MacLeod 2016</a>)</span>.</p>
+<p>First we create a data frame of 4 observations each of 15 students.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>student <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">year =</span> year, <span class="at">student =</span> student)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d, <span class="at">n =</span> <span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  year student
+1    1       1
+2    2       1
+3    3       1
+4    4       1
+5    1       2
+6    2       2
+7    3       2
+8    4       2</code></pre>
+</div>
+</div>
+<p>Now define our intercept and slope random effects. Note that the simr package requires this be entered as a matrix. We also need to enter the random effects as variances, so we square each entry.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>re <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">3</span><span class="sc">^</span><span class="dv">2</span>, <span class="fl">0.5</span><span class="sc">^</span><span class="dv">2</span>, <span class="fl">0.5</span><span class="sc">^</span><span class="dv">2</span>, <span class="fl">0.2</span><span class="sc">^</span><span class="dv">2</span>), <span class="dv">2</span>) </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(re) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(re) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"intercept"</span>, <span class="st">"slope"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>re</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          intercept slope
+intercept      9.00  0.25
+slope          0.25  0.04</code></pre>
+</div>
+</div>
+<p>Then we define the residual standard deviation.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>resid_sd <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># residual standard deviation</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Next define our effects. We need to provide intercept and slope coefficients. The slope coefficient is the effect we will test. The intercept can be interpreted as the average BMI for the students’ first year of college.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="fl">0.25</span>) <span class="co"># fixed intercept and slope</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now define our model using the <code>makeLmer()</code> function. This function will simulate BMI values based on our hypothesized coefficients and variances.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">makeLmer</span>(bmi <span class="sc">~</span> year <span class="sc">+</span> (year<span class="sc">|</span>student), </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">fixef =</span> b, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">VarCorr =</span> re, </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">sigma =</span> resid_sd, </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span> d)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(m)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: bmi ~ year + (year | student)
+   Data: d
+REML criterion at convergence: 232.0793
+Random effects:
+ Groups   Name        Std.Dev. Corr
+ student  (Intercept) 3.0          
+          year        0.2      0.42
+ Residual             1.0          
+Number of obs: 60, groups:  student, 15
+Fixed Effects:
+(Intercept)         year  
+      20.00         0.25  </code></pre>
+</div>
+</div>
+<p>Finally use the <code>powerSim()</code> function to estimate the power of the test on the slope using 100 simulations. Setting <code>progress = FALSE</code> suppresses a progress bar which we don’t want to output in this online book. The seed argument makes the following result reproducible. The <code>fixed()</code> function dictates what coefficient we want to test. In this case we want to test the “year” coefficient using a “t” test.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># power of test on slope</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">powerSim</span>(m, </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">test =</span> <span class="fu">fixed</span>(<span class="st">"year"</span>, <span class="st">"t"</span>),</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">nsim =</span> <span class="dv">100</span>, </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">alpha =</span> <span class="fl">0.01</span>, </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">progress =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Power for predictor 'year', (95% confidence interval):
+      19.00% (11.84, 28.07)
+
+Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
+      Effect size for year is 0.25
+
+Based on 100 simulations, (1 warning, 0 errors)
+alpha = 0.01, nrow = 60
+
+Time elapsed: 0 h 0 m 6 s</code></pre>
+</div>
+</div>
+<p>Our power is estimated to be about 0.19. The confidence interval is based on a simple binomial test.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">binom.test</span>(<span class="at">x =</span> <span class="dv">19</span>, <span class="at">n =</span> <span class="dv">100</span>)<span class="sc">$</span>conf.int <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11.84 28.07
+attr(,"conf.level")
+[1] 0.95</code></pre>
+</div>
+</div>
+<p>This power is low. Let’s try increasing the sample size. We can do that with the <code>extend()</code> function. Below we increase the sample size to 30 and re-run the simulation.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">extend</span>(m, <span class="at">along =</span> <span class="st">"student"</span>, <span class="at">n =</span> <span class="dv">30</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">powerSim</span>(m2, </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">test =</span> <span class="fu">fixed</span>(<span class="st">"year"</span>, <span class="st">"t"</span>),</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">seed =</span> <span class="dv">2</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">nsim =</span> <span class="dv">100</span>, </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">alpha =</span> <span class="fl">0.01</span>, </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">progress =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Power for predictor 'year', (95% confidence interval):
+      55.00% (44.73, 64.97)
+
+Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
+      Effect size for year is 0.25
+
+Based on 100 simulations, (1 warning, 0 errors)
+alpha = 0.01, nrow = 120
+
+Time elapsed: 0 h 0 m 7 s</code></pre>
+</div>
+</div>
+<p>Power is higher but still too low at 0.55.</p>
+<p>We can generate a power curve with varying sample sizes using the <code>powerCurve()</code> function. First extend the data set by the maximum number of students we’re willing to entertain and then call the <code>powerCurve()</code> function. Below we specify a maximum of 50 students. Note this can take a while to run for large data sets and complex models. We have lowered the default number of simulations from 1000 to 100. The breaks argument says we want to try sample sizes ranging from 40 to 50 in steps of 2.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">extend</span>(m, <span class="at">along =</span> <span class="st">"student"</span>, <span class="at">n =</span> <span class="dv">50</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>pc <span class="ot">&lt;-</span> <span class="fu">powerCurve</span>(m3, </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">test =</span> <span class="fu">fixed</span>(<span class="st">"year"</span>, <span class="st">"t"</span>), </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">seed =</span> <span class="dv">5</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">along =</span> <span class="st">"student"</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">2</span>),</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">nsim =</span> <span class="dv">100</span>, </span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> <span class="fl">0.01</span>,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">progress =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mixed_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>It appears we need about 44 students to achieve power of at least 0.80.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
