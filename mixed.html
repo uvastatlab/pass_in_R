@@ -223,12 +223,14 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#random-intercept-model-testing-slope" id="toc-random-intercept-model-testing-slope" class="nav-link active" data-scroll-target="#random-intercept-model-testing-slope"><span class="header-section-number">5.1</span> Random intercept model (testing slope)</a>
+  <li><a href="#random-intercept-model-testing-continuous-slope" id="toc-random-intercept-model-testing-continuous-slope" class="nav-link active" data-scroll-target="#random-intercept-model-testing-continuous-slope"><span class="header-section-number">5.1</span> Random intercept model (testing continuous slope)</a>
   <ul class="collapse">
   <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">5.1.1</span> Example</a></li>
   </ul></li>
-  <li><a href="#random-intercept-and-random-slope-model-testing-slope" id="toc-random-intercept-and-random-slope-model-testing-slope" class="nav-link" data-scroll-target="#random-intercept-and-random-slope-model-testing-slope"><span class="header-section-number">5.2</span> Random intercept and random slope model (testing slope)</a></li>
-  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">5.3</span> Example</a></li>
+  <li><a href="#random-intercept-and-random-slope-model-testing-continuous-slope" id="toc-random-intercept-and-random-slope-model-testing-continuous-slope" class="nav-link" data-scroll-target="#random-intercept-and-random-slope-model-testing-continuous-slope"><span class="header-section-number">5.2</span> Random intercept and random slope model (testing continuous slope)</a>
+  <ul class="collapse">
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">5.2.1</span> Example</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -254,8 +256,8 @@ div.csl-indent {
 </header>
 
 
-<section id="random-intercept-model-testing-slope" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="random-intercept-model-testing-slope"><span class="header-section-number">5.1</span> Random intercept model (testing slope)</h2>
+<section id="random-intercept-model-testing-continuous-slope" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="random-intercept-model-testing-continuous-slope"><span class="header-section-number">5.1</span> Random intercept model (testing continuous slope)</h2>
 <p>For power estimation based on sample size, we need the following:</p>
 <ul>
 <li>Between group standard deviation (Intercept random effect)</li>
@@ -319,7 +321,7 @@ div.csl-indent {
 <pre><code>Linear mixed model fit by REML ['lmerMod']
 Formula: bmi ~ year + (1 | student)
    Data: d
-REML criterion at convergence: 222.4143
+REML criterion at convergence: 227.7609
 Random effects:
  Groups   Name        Std.Dev.
  student  (Intercept) 3       
@@ -407,8 +409,8 @@ Time elapsed: 0 h 0 m 5 s</code></pre>
 <p>It appears we need about 38 students to achieve power of at least 0.80.</p>
 </section>
 </section>
-<section id="random-intercept-and-random-slope-model-testing-slope" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="random-intercept-and-random-slope-model-testing-slope"><span class="header-section-number">5.2</span> Random intercept and random slope model (testing slope)</h2>
+<section id="random-intercept-and-random-slope-model-testing-continuous-slope" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="random-intercept-and-random-slope-model-testing-continuous-slope"><span class="header-section-number">5.2</span> Random intercept and random slope model (testing continuous slope)</h2>
 <ul>
 <li>Intercept random effect</li>
 <li>Slope random effect</li>
@@ -420,9 +422,8 @@ Time elapsed: 0 h 0 m 5 s</code></pre>
 <li>Significance level of test</li>
 <li>Direction of test: one or two-sided</li>
 </ul>
-</section>
-<section id="example-1" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="example-1"><span class="header-section-number">5.3</span> Example</h2>
+<section id="example-1" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="example-1"><span class="header-section-number">5.2.1</span> Example</h3>
 <p>We are planning an experiment where we track the BMI of college students over their four years at school. We’ll measure their BMI at the beginning of each school year in August. We would like sufficient power to detect a year trend of at least 0.25 if we recruit 15 students to the study. The null hypothesis we’ll test is that the year (slope) coefficient is 0. Rejecting this hypothesis provides evidence of a change in BMI over time. Assume the following:</p>
 <ul>
 <li>Intercept random effect of 3</li>
@@ -579,6 +580,7 @@ Time elapsed: 0 h 0 m 7 s</code></pre>
 Green, Peter, and Catriona J. MacLeod. 2016. <span>“Simr: An r Package for Power Analysis of Generalised Linear Mixed Models by Simulation.”</span> <em>Methods in Ecology and Evolution</em> 7 (4): 493–98. <a href="https://doi.org/10.1111/2041-210X.12504">https://doi.org/10.1111/2041-210X.12504</a>.
 </div>
 </div>
+</section>
 </section>
 
 </main> <!-- /main -->
