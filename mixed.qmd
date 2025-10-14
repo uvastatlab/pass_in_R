@@ -367,6 +367,6 @@ pc <- powerCurve(m2,
 plot(pc)
 ```
 
-According to simulation, we need about 14 sites to achieve power of at least 0.80. 
+According to simulation, we need to sample 16 sites to reliably achieve power of at least 0.80. 
 
 ## Random intercept and random slope model: binary slope
