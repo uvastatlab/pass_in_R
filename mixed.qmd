@@ -2,7 +2,9 @@
 title: "Mixed-effect models"
 ---
 
-## Random intercept model (testing continuous slope)
+## Random intercept model: continuous slope
+
+In this model the slope coefficient represents a trend.
 
 For power estimation based on sample size, we need the following:
 
@@ -111,8 +113,11 @@ plot(pc)
 
 It appears we need about 38 students to achieve power of at least 0.80. 
 
+## Random intercept and random slope model: continuous slope
 
-## Random intercept and random slope model  (testing continuous slope)
+For power estimation based on sample size, we need the following:
+
+In this model the slope coefficient represents a trend.
 
 - Intercept random effect
 - Slope random effect
@@ -229,4 +234,139 @@ plot(pc)
 
 It appears we need about 44 students to achieve power of at least 0.80. 
 
+## Random intercept model: binary slope
 
+In this model the slope coefficient represents a population treatment effect. In other words, we're comparing means between two groups.
+
+For power estimation based on sample size, we need the following:
+
+- Between group standard deviation (Intercept random effect)
+- Within group standard deviation (residual standard deviation)
+- Sample size (n) in each group (N)
+- Effect size (slope coefficient)
+- Intercept coefficient
+- Significance level of test
+- Direction of test: one or two-sided
+
+### Example: closed-form expression
+
+We are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to count the number of invasive bugs captured. We think it would be meaningful if our new trap captured 3 additional bugs on average. We assume there is a between site standard deviation of 2 and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.
+
+Crespi [-@crespi] describes how to estimate power for a design such as this using a noncentral t distribution. The `multisite.cont()` function in the powertools package (@powertools) implements this formula.
+
+Note the `multisite.cont()` function requires the total standard deviation of the outcome variable and the intraclass correlation coefficient (ICC) of the random intercept. We can derive both of these from the information given above.
+
+The total standard deviation of the outcome is the square root of the sum of the between and within variances:
+
+  $$\sqrt{2^2 + 6^2}  = \sqrt{40}$$
+
+The ICC of the random intercept is the between group variance divided by total variance:
+
+  $$\text{ICC} = 4/40 = 0.1 $$
+
+The ICC for random intercepts is provided to the function using the `icc0` argument. The total standard deviation of the outcome is provided using the `sd` argument.
+
+```{r}
+library(powertools)
+multisite.cont(m = 10,          # number of traps (5 in each condition)
+               J = 10,          # number of sites
+               delta = 3,       # treatment effect
+               sd = sqrt(40),   # total sd of outcome
+               icc0 = 0.1,     # icc of random effect
+               icc1 = 0,        # icc of random slope (0 in this example)
+               alpha = 0.05,    # significance level of test
+               power = NULL,    # set to NULL since we want power
+               v = TRUE)        # verbose, return more detail
+```
+
+The estimated power is about 0.61.
+
+We can try multiple sample sizes using the `sapply()` function. We apply the `multisite.cont()` function to sample sizes ranging from 10 - 20. Notice that sample size in this case is the number of sites.
+
+```{r}
+power <- sapply(10:20, function(x)multisite.cont(m = 10,          
+                                 J = x,
+                                 delta = 3,
+                                 sd = sqrt(40),
+                                 icc0 = 0.1,
+                                 icc1 = 0,
+                                 alpha = 0.05,
+                                 power = NULL))
+data.frame(sample_size = 10:20, power)
+```
+
+A sample size of 15 gets us to power over 0.80, and sample size of about 19 gets us to 0.90.
+
+### Example: simulation
+
+We can also estimate power using simulation via the simr package (@simr).
+
+Let's restate the setup: we are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to count the number of invasive bugs captured. We think it would be meaningful if our new trap captured 5 additional bugs on average. We assume there is a between site standard deviation of 5 and a within site standard deviation of 4. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.
+
+First we create a data frame of 10 observations each at 5 sites. Then we add a sequence of five zeroes and five ones to indicate treatment. A zero means control and one means treated.
+
+```{r}
+library(simr)
+site <- 1:10
+location <- 1:10
+d <- expand.grid(location = location, site = site)
+d$trap <- rep(c(rep(0, 5), rep(1, 5)), 10)
+head(d, n = 12)
+```
+
+Now define our between and within group variance. Note that the simr package requires the between group variance be expressed as variance and the within group variance be expressed as standard deviation.
+
+```{r}
+between <- 2^2 # random intercept variance
+within <- 6 # residual standard deviation
+```
+
+Next define our effects. We need to provide intercept and slope coefficients. The slope coefficient is the effect we will test. The intercept can be interpreted as the average number of bugs captured in the control trap. 
+
+```{r}
+b <- c(0, 3) # fixed intercept and slope
+```
+
+Now define our model using the `makeLmer()` function. This function will simulate BMI values based on our hypothesized coefficients and variances.
+
+```{r message=FALSE}
+m <- makeLmer(count ~ trap + (1|site), 
+              fixef = b, 
+              VarCorr = between, 
+              sigma = within, 
+              data = d)
+print(m)
+```
+
+Finally use the `powerSim()` function to estimate the power of the test on the slope using 100 simulations. Setting `progress = FALSE` suppresses a progress bar which we don't want to output in this online book. The seed argument makes the following result reproducible. The `fixed()` function dictates what coefficient we want to test. In this case we want to test the "trap" coefficient using a "t" test. 
+
+```{r message=FALSE}
+# power of test on slope
+powerSim(m, 
+         test = fixed("trap", "t"),
+         seed = 10,
+         nsim = 100, 
+         alpha = 0.05, 
+         progress = FALSE)
+```
+
+Power based on simulation is estimated to be about 0.65.
+
+We can generate a power curve with varying sample sizes using the `powerCurve()` function. First extend the data set by the maximum number of sites we're willing to entertain and then call the `powerCurve()` function. Below we specify a maximum of 20 sites. Note this can take a while to run for large data sets and complex models. We have lowered the default number of simulations from 1000 to 100. The breaks argument says we want to try sample sizes ranging from 10 to 20 in steps of 1.
+
+```{r message=FALSE}
+m2 <- extend(m, along = "site", n = 20)
+pc <- powerCurve(m2, 
+                 test = fixed("trap", "t"), 
+                 seed = 5,
+                 along = "site",
+                 breaks = 10:20,
+                 nsim = 100, 
+                 alpha = 0.05,
+                 progress = FALSE)
+plot(pc)
+```
+
+According to simulation, we need about 14 sites to achieve power of at least 0.80. 
+
+## Random intercept and random slope model: binary slope
