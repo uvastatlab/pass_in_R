@@ -357,7 +357,7 @@ window.Quarto = {
 <pre><code>Linear mixed model fit by REML ['lmerMod']
 Formula: bmi ~ year + (1 | student)
    Data: d
-REML criterion at convergence: 185.2989
+REML criterion at convergence: 226.4097
 Random effects:
  Groups   Name        Std.Dev.
  student  (Intercept) 3       
@@ -418,7 +418,7 @@ Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
 Based on 100 simulations, (0 warnings, 0 errors)
 alpha = 0.01, nrow = 120
 
-Time elapsed: 0 h 0 m 6 s</code></pre>
+Time elapsed: 0 h 0 m 5 s</code></pre>
 </div>
 </div>
 <p>Power is higher but still too low at 0.64.</p>
@@ -555,7 +555,7 @@ Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
 Based on 100 simulations, (1 warning, 0 errors)
 alpha = 0.01, nrow = 60
 
-Time elapsed: 0 h 0 m 7 s</code></pre>
+Time elapsed: 0 h 0 m 6 s</code></pre>
 </div>
 </div>
 <p>Our power is estimated to be about 0.19. The confidence interval is based on a simple binomial test.</p>
@@ -586,7 +586,7 @@ Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
 Based on 100 simulations, (1 warning, 0 errors)
 alpha = 0.01, nrow = 120
 
-Time elapsed: 0 h 0 m 7 s</code></pre>
+Time elapsed: 0 h 0 m 6 s</code></pre>
 </div>
 </div>
 <p>Power is higher but still too low at 0.55.</p>
@@ -628,7 +628,7 @@ Time elapsed: 0 h 0 m 7 s</code></pre>
 </ul>
 <section id="example-closed-form-expression" class="level3" data-number="5.3.1">
 <h3 data-number="5.3.1" class="anchored" data-anchor-id="example-closed-form-expression"><span class="header-section-number">5.3.1</span> Example: closed-form expression</h3>
-<p>We are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to count the number of invasive bugs captured. We think it would be meaningful if our new trap captured 3 additional bugs on average. We assume there is a between site standard deviation of 2 and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.</p>
+<p>We are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is a between site standard deviation of 2 and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.</p>
 <p>Crespi <span class="citation" data-cites="crespi">(<a href="references.html#ref-crespi" role="doc-biblioref">2025</a>)</span> describes how to estimate power for a design such as this using a noncentral t distribution. The <code>multisite.cont()</code> function in the powertools package (<span class="citation" data-cites="powertools">Crespi and Liu (<a href="references.html#ref-powertools" role="doc-biblioref">2025</a>)</span>) implements this formula.</p>
 <p>Note the <code>multisite.cont()</code> function requires the total standard deviation of the outcome variable and the intraclass correlation coefficient (ICC) of the random intercept. We can derive both of these from the information given above.</p>
 <p>The total standard deviation of the outcome is the square root of the sum of the between and within variances:</p>
@@ -691,13 +691,13 @@ NOTE: m1, m2 are the number of subjects within site in condition 1, condition 2
 11          20 0.9180288</code></pre>
 </div>
 </div>
-<p>A sample size of 15 gets us to power over 0.80, and sample size of about 19 gets us to 0.90.</p>
+<p>A sample size of 15 gets us to power over 0.80, and sample size of about 19 gets us up to 0.90.</p>
 </section>
 <section id="example-simulation" class="level3" data-number="5.3.2">
 <h3 data-number="5.3.2" class="anchored" data-anchor-id="example-simulation"><span class="header-section-number">5.3.2</span> Example: simulation</h3>
 <p>We can also estimate power using simulation via the simr package (<span class="citation" data-cites="simr">Green and MacLeod (<a href="references.html#ref-simr" role="doc-biblioref">2016</a>)</span>).</p>
-<p>Let’s restate the setup: we are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to count the number of invasive bugs captured. We think it would be meaningful if our new trap captured 5 additional bugs on average. We assume there is a between site standard deviation of 5 and a within site standard deviation of 4. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.</p>
-<p>First we create a data frame of 10 observations each at 5 sites. Then we add a sequence of five zeroes and five ones to indicate treatment. A zero means control and one means treated.</p>
+<p>Let’s restate the setup: we are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is a between site standard deviation of 2 and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.</p>
+<p>First we create a data frame of 10 observations each at 10 sites. Then we add a sequence of five zeroes and five ones to indicate treatment. A zero means control and one means treated.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(simr)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
@@ -728,7 +728,7 @@ NOTE: m1, m2 are the number of subjects within site in condition 1, condition 2
 </div>
 <p>Next define our effects. We need to provide intercept and slope coefficients. The slope coefficient is the effect we will test. The intercept can be interpreted as the average number of bugs captured in the control trap.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>) <span class="co"># fixed intercept and slope</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">3</span>) <span class="co"># fixed intercept and slope</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now define our model using the <code>makeLmer()</code> function. This function will simulate BMI values based on our hypothesized coefficients and variances.</p>
 <div class="cell">
@@ -750,7 +750,7 @@ Random effects:
 Number of obs: 100, groups:  site, 10
 Fixed Effects:
 (Intercept)         trap  
-          0            3  </code></pre>
+         10            3  </code></pre>
 </div>
 </div>
 <p>Finally use the <code>powerSim()</code> function to estimate the power of the test on the slope using 100 simulations. Setting <code>progress = FALSE</code> suppresses a progress bar which we don’t want to output in this online book. The seed argument makes the following result reproducible. The <code>fixed()</code> function dictates what coefficient we want to test. In this case we want to test the “trap” coefficient using a “t” test.</p>
