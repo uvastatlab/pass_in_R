@@ -250,7 +250,7 @@ For power estimation based on sample size, we need the following:
 
 ### Example: closed-form expression
 
-We are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to count the number of invasive bugs captured. We think it would be meaningful if our new trap captured 3 additional bugs on average. We assume there is a between site standard deviation of 2 and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.
+We are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is a between site standard deviation of 2 and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.
 
 Crespi [-@crespi] describes how to estimate power for a design such as this using a noncentral t distribution. The `multisite.cont()` function in the powertools package (@powertools) implements this formula.
 
@@ -295,15 +295,15 @@ power <- sapply(10:20, function(x)multisite.cont(m = 10,
 data.frame(sample_size = 10:20, power)
 ```
 
-A sample size of 15 gets us to power over 0.80, and sample size of about 19 gets us to 0.90.
+A sample size of 15 gets us to power over 0.80, and sample size of about 19 gets us up to 0.90.
 
 ### Example: simulation
 
 We can also estimate power using simulation via the simr package (@simr).
 
-Let's restate the setup: we are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to count the number of invasive bugs captured. We think it would be meaningful if our new trap captured 5 additional bugs on average. We assume there is a between site standard deviation of 5 and a within site standard deviation of 4. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.
+Let's restate the setup: we are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is a between site standard deviation of 2 and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.
 
-First we create a data frame of 10 observations each at 5 sites. Then we add a sequence of five zeroes and five ones to indicate treatment. A zero means control and one means treated.
+First we create a data frame of 10 observations each at 10 sites. Then we add a sequence of five zeroes and five ones to indicate treatment. A zero means control and one means treated.
 
 ```{r}
 library(simr)
@@ -321,10 +321,10 @@ between <- 2^2 # random intercept variance
 within <- 6 # residual standard deviation
 ```
 
-Next define our effects. We need to provide intercept and slope coefficients. The slope coefficient is the effect we will test. The intercept can be interpreted as the average number of bugs captured in the control trap. 
+Next define our effects. We need to provide intercept and slope coefficients. The slope coefficient is the effect we will test. The intercept can be interpreted as the average number of bugs captured in the control trap.
 
 ```{r}
-b <- c(0, 3) # fixed intercept and slope
+b <- c(10, 3) # fixed intercept and slope
 ```
 
 Now define our model using the `makeLmer()` function. This function will simulate BMI values based on our hypothesized coefficients and variances.
