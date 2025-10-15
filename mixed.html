@@ -265,7 +265,11 @@ window.Quarto = {
   <li><a href="#example-closed-form-expression" id="toc-example-closed-form-expression" class="nav-link" data-scroll-target="#example-closed-form-expression"><span class="header-section-number">5.3.1</span> Example: closed-form expression</a></li>
   <li><a href="#example-simulation" id="toc-example-simulation" class="nav-link" data-scroll-target="#example-simulation"><span class="header-section-number">5.3.2</span> Example: simulation</a></li>
   </ul></li>
-  <li><a href="#random-intercept-and-random-slope-model-binary-slope" id="toc-random-intercept-and-random-slope-model-binary-slope" class="nav-link" data-scroll-target="#random-intercept-and-random-slope-model-binary-slope"><span class="header-section-number">5.4</span> Random intercept and random slope model: binary slope</a></li>
+  <li><a href="#random-intercept-and-random-slope-model-binary-slope" id="toc-random-intercept-and-random-slope-model-binary-slope" class="nav-link" data-scroll-target="#random-intercept-and-random-slope-model-binary-slope"><span class="header-section-number">5.4</span> Random intercept and random slope model: binary slope</a>
+  <ul class="collapse">
+  <li><a href="#example-closed-form-expression-1" id="toc-example-closed-form-expression-1" class="nav-link" data-scroll-target="#example-closed-form-expression-1"><span class="header-section-number">5.4.1</span> Example: closed-form expression</a></li>
+  <li><a href="#example-simulation-1" id="toc-example-simulation-1" class="nav-link" data-scroll-target="#example-simulation-1"><span class="header-section-number">5.4.2</span> Example: simulation</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -357,7 +361,7 @@ window.Quarto = {
 <pre><code>Linear mixed model fit by REML ['lmerMod']
 Formula: bmi ~ year + (1 | student)
    Data: d
-REML criterion at convergence: 214.3943
+REML criterion at convergence: 235.9964
 Random effects:
  Groups   Name        Std.Dev.
  student  (Intercept) 3       
@@ -387,7 +391,7 @@ Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
 Based on 100 simulations, (0 warnings, 0 errors)
 alpha = 0.01, nrow = 60
 
-Time elapsed: 0 h 0 m 6 s</code></pre>
+Time elapsed: 0 h 0 m 7 s</code></pre>
 </div>
 </div>
 <p>Our power is estimated to be about 0.37. The confidence interval is based on a simple binomial test.</p>
@@ -418,7 +422,7 @@ Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
 Based on 100 simulations, (0 warnings, 0 errors)
 alpha = 0.01, nrow = 120
 
-Time elapsed: 0 h 0 m 5 s</code></pre>
+Time elapsed: 0 h 0 m 6 s</code></pre>
 </div>
 </div>
 <p>Power is higher but still too low at 0.64.</p>
@@ -447,8 +451,8 @@ Time elapsed: 0 h 0 m 5 s</code></pre>
 </section>
 <section id="random-intercept-and-random-slope-model-continuous-slope" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="random-intercept-and-random-slope-model-continuous-slope"><span class="header-section-number">5.2</span> Random intercept and random slope model: continuous slope</h2>
-<p>For power estimation based on sample size, we need the following:</p>
 <p>In this model the slope coefficient represents a trend.</p>
+<p>For power estimation based on sample size, we need the following:</p>
 <ul>
 <li>Intercept random effect</li>
 <li>Slope random effect</li>
@@ -555,7 +559,7 @@ Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
 Based on 100 simulations, (1 warning, 0 errors)
 alpha = 0.01, nrow = 60
 
-Time elapsed: 0 h 0 m 6 s</code></pre>
+Time elapsed: 0 h 0 m 7 s</code></pre>
 </div>
 </div>
 <p>Our power is estimated to be about 0.19. The confidence interval is based on a simple binomial test.</p>
@@ -586,7 +590,7 @@ Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
 Based on 100 simulations, (1 warning, 0 errors)
 alpha = 0.01, nrow = 120
 
-Time elapsed: 0 h 0 m 6 s</code></pre>
+Time elapsed: 0 h 0 m 8 s</code></pre>
 </div>
 </div>
 <p>Power is higher but still too low at 0.55.</p>
@@ -635,7 +639,7 @@ Time elapsed: 0 h 0 m 6 s</code></pre>
 <p><span class="math display">\[\sqrt{2^2 + 6^2}  = \sqrt{40}\]</span></p>
 <p>The ICC of the random intercept is the between group variance divided by total variance:</p>
 <p><span class="math display">\[\text{ICC} = 4/40 = 0.1 \]</span></p>
-<p>The ICC for random intercepts is provided to the function using the <code>icc0</code> argument. The total standard deviation of the outcome is provided using the <code>sd</code> argument.</p>
+<p>The ICC for the random intercept is provided to the function using the <code>icc0</code> argument. The total standard deviation of the outcome is provided using the <code>sd</code> argument.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(powertools)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">multisite.cont</span>(<span class="at">m =</span> <span class="dv">10</span>,          <span class="co"># number of traps (5 in each condition)</span></span>
@@ -700,25 +704,25 @@ NOTE: m1, m2 are the number of subjects within site in condition 1, condition 2
 <p>First we create a data frame of 10 observations each at 10 sites. Then we add a sequence of five zeroes and five ones to indicate treatment. A zero means control and one means treated.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(simr)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>location <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">location =</span> location, <span class="at">site =</span> site)</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>trap <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">5</span>)), <span class="dv">10</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>trap <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">trap =</span> trap, <span class="at">site =</span> site)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>trt <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">5</span>)), <span class="dv">10</span>)</span>
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d, <span class="at">n =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   location site trap
-1         1    1    0
-2         2    1    0
-3         3    1    0
-4         4    1    0
-5         5    1    0
-6         6    1    1
-7         7    1    1
-8         8    1    1
-9         9    1    1
-10       10    1    1
-11        1    2    0
-12        2    2    0</code></pre>
+<pre><code>   trap site trt
+1     1    1   0
+2     2    1   0
+3     3    1   0
+4     4    1   0
+5     5    1   0
+6     6    1   1
+7     7    1   1
+8     8    1   1
+9     9    1   1
+10   10    1   1
+11    1    2   0
+12    2    2   0</code></pre>
 </div>
 </div>
 <p>Now define our between and within group variance. Note that the simr package requires the between group variance be expressed as variance and the within group variance be expressed as standard deviation.</p>
@@ -726,13 +730,13 @@ NOTE: m1, m2 are the number of subjects within site in condition 1, condition 2
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>between <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span><span class="dv">2</span> <span class="co"># random intercept variance</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>within <span class="ot">&lt;-</span> <span class="dv">6</span> <span class="co"># residual standard deviation</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Next define our effects. We need to provide intercept and slope coefficients. The slope coefficient is the effect we will test. The intercept can be interpreted as the average number of bugs captured in the control trap.</p>
+<p>Next define our effects. We need to provide intercept and slope coefficients. The slope coefficient is the effect we will test. The intercept can be interpreted as the average mass of bugs captured in the control trap.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">3</span>) <span class="co"># fixed intercept and slope</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Now define our model using the <code>makeLmer()</code> function. This function will simulate BMI values based on our hypothesized coefficients and variances.</p>
+<p>Now define our model using the <code>makeLmer()</code> function. This function will simulate mass values based on our hypothesized coefficients and variances.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">makeLmer</span>(count <span class="sc">~</span> trap <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>site), </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">makeLmer</span>(mass <span class="sc">~</span> trt <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>site), </span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">fixef =</span> b, </span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">VarCorr =</span> between, </span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">sigma =</span> within, </span>
@@ -740,7 +744,7 @@ NOTE: m1, m2 are the number of subjects within site in condition 1, condition 2
 <span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(m)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML ['lmerMod']
-Formula: count ~ trap + (1 | site)
+Formula: mass ~ trt + (1 | site)
    Data: d
 REML criterion at convergence: 714.4632
 Random effects:
@@ -749,30 +753,30 @@ Random effects:
  Residual             6       
 Number of obs: 100, groups:  site, 10
 Fixed Effects:
-(Intercept)         trap  
+(Intercept)          trt  
          10            3  </code></pre>
 </div>
 </div>
-<p>Finally use the <code>powerSim()</code> function to estimate the power of the test on the slope using 100 simulations. Setting <code>progress = FALSE</code> suppresses a progress bar which we don’t want to output in this online book. The seed argument makes the following result reproducible. The <code>fixed()</code> function dictates what coefficient we want to test. In this case we want to test the “trap” coefficient using a “t” test.</p>
+<p>Finally use the <code>powerSim()</code> function to estimate the power of the test on the slope using 100 simulations. Setting <code>progress = FALSE</code> suppresses a progress bar which we don’t want to output in this online book. The seed argument makes the following result reproducible. The <code>fixed()</code> function dictates what coefficient we want to test. In this case we want to test the “trt” coefficient using a “t” test.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># power of test on slope</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">powerSim</span>(m, </span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">test =</span> <span class="fu">fixed</span>(<span class="st">"trap"</span>, <span class="st">"t"</span>),</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">seed =</span> <span class="dv">10</span>,</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">test =</span> <span class="fu">fixed</span>(<span class="st">"trt"</span>, <span class="st">"t"</span>),</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">seed =</span> <span class="dv">1</span>,</span>
 <span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">nsim =</span> <span class="dv">100</span>, </span>
 <span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">alpha =</span> <span class="fl">0.05</span>, </span>
 <span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">progress =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Power for predictor 'trap', (95% confidence interval):
+<pre><code>Power for predictor 'trt', (95% confidence interval):
       65.00% (54.82, 74.27)
 
 Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
-      Effect size for trap is 3.0
+      Effect size for trt is 3.0
 
 Based on 100 simulations, (0 warnings, 0 errors)
 alpha = 0.05, nrow = 100
 
-Time elapsed: 0 h 0 m 5 s</code></pre>
+Time elapsed: 0 h 0 m 6 s</code></pre>
 </div>
 </div>
 <p>Power based on simulation is estimated to be about 0.65.</p>
@@ -780,7 +784,7 @@ Time elapsed: 0 h 0 m 5 s</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">extend</span>(m, <span class="at">along =</span> <span class="st">"site"</span>, <span class="at">n =</span> <span class="dv">20</span>)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>pc <span class="ot">&lt;-</span> <span class="fu">powerCurve</span>(m2, </span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">test =</span> <span class="fu">fixed</span>(<span class="st">"trap"</span>, <span class="st">"t"</span>), </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">test =</span> <span class="fu">fixed</span>(<span class="st">"trt"</span>, <span class="st">"t"</span>), </span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">seed =</span> <span class="dv">5</span>,</span>
 <span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">along =</span> <span class="st">"site"</span>,</span>
 <span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">breaks =</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">20</span>,</span>
@@ -801,6 +805,179 @@ Time elapsed: 0 h 0 m 5 s</code></pre>
 </section>
 <section id="random-intercept-and-random-slope-model-binary-slope" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="random-intercept-and-random-slope-model-binary-slope"><span class="header-section-number">5.4</span> Random intercept and random slope model: binary slope</h2>
+<p>In this model the slope coefficient represents a population treatment effect. In other words, we’re comparing means between two groups. The random slope allows the effect of the treatment to depend on the random group.</p>
+<p>For power estimation based on sample size, we need the following:</p>
+<ul>
+<li>Intercept random effect</li>
+<li>Slope random effect</li>
+<li>Intercept and slope random effects covariance (optional)</li>
+<li>Within group standard deviation (residual standard deviation)</li>
+<li>Sample size (n) in each group (N)</li>
+<li>Effect size (slope coefficient)</li>
+<li>Intercept coefficient</li>
+<li>Significance level of test</li>
+<li>Direction of test: one or two-sided</li>
+</ul>
+<section id="example-closed-form-expression-1" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="example-closed-form-expression-1"><span class="header-section-number">5.4.1</span> Example: closed-form expression</h3>
+<p>We are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is an Intercept random effect of 2 (between site standard deviation), a slope random effect of <span class="math inline">\(\sqrt{8}\)</span>, and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.</p>
+<p>Crespi <span class="citation" data-cites="crespi">(<a href="references.html#ref-crespi" role="doc-biblioref">2025</a>)</span> describes how to estimate power for a design such as this using a noncentral t distribution. The <code>multisite.cont()</code> function in the powertools package (<span class="citation" data-cites="powertools">Crespi and Liu (<a href="references.html#ref-powertools" role="doc-biblioref">2025</a>)</span>) implements this formula.</p>
+<p>Note the <code>multisite.cont()</code> function requires the total standard deviation of the outcome variable and two intraclass correlation coefficients (ICC):</p>
+<ul>
+<li>icc0: proportion of variance due to random groups</li>
+<li>icc1: proportion of variance due to random slope</li>
+</ul>
+<p>The total standard deviation of the outcome is calculate as follows (Crespi, page 221):</p>
+<p><span class="math display">\[\sqrt{Var(Y_{ij})} = \sqrt{2^2 + \frac{1}{4}8 + 6^2}  = \sqrt{42}\]</span></p>
+<p>The ICC of the random intercept is the between group variance divided by total variance:</p>
+<p><span class="math display">\[\text{ICC}_0 = 4/42 \approx 0.095\]</span></p>
+<p>The ICC of the random slope is one-fourth the random slope variance divided by the total variance.</p>
+<p><span class="math display">\[\text{ICC}_1 = \frac{1/4 * 8}{42} \approx 0.048\]</span></p>
+<p>The ICC for the random intercept is provided to the function using the <code>icc0</code> argument. The ICC for the random slope is provided using the <code>icc1</code> argument. The total standard deviation of the outcome is provided using the <code>sd</code> argument.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">multisite.cont</span>(<span class="at">m =</span> <span class="dv">10</span>, <span class="at">J =</span> <span class="dv">10</span>, <span class="at">delta =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="fu">sqrt</span>(<span class="dv">42</span>), </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">icc0 =</span> <span class="fl">0.095</span>,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">icc1 =</span> <span class="fl">0.048</span>, </span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">v =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Power for test of average treatment effect in multisite trials 
+
+         m1, m2 = 5, 5
+              J = 10
+          delta = 3
+             sd = 6.480741
+     icc0, icc1 = 0.095, 0.048
+          alpha = 0.05
+          power = 0.4319213
+          sides = 2
+
+NOTE: m1, m2 are the number of subjects within site in condition 1, condition 2
+      (total of m1 + m2 per site). m1, m2 OR m2, m1 produce equivalent results.</code></pre>
+</div>
+</div>
+<p>The estimated power is about 0.43.</p>
+<p>We can try multiple sample sizes using the <code>sapply()</code> function. We apply the <code>multisite.cont()</code> function to sample sizes ranging from 12 - 30 in increments of 3. Notice that sample size in this case is the number of sites.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="dv">12</span>,<span class="dv">30</span>,<span class="dv">3</span>), <span class="cf">function</span>(x)<span class="fu">multisite.cont</span>(<span class="at">m =</span> <span class="dv">10</span>,          </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">J =</span> x,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">delta =</span> <span class="dv">3</span>,</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">sd =</span> <span class="fu">sqrt</span>(<span class="dv">42</span>),</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">icc0 =</span> <span class="fl">0.095</span>,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">icc1 =</span> <span class="fl">0.048</span>, </span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">alpha =</span> <span class="fl">0.05</span>,</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">power =</span> <span class="cn">NULL</span>))</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">sample_size =</span> <span class="fu">seq</span>(<span class="dv">12</span>,<span class="dv">30</span>,<span class="dv">3</span>), power)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  sample_size     power
+1          12 0.5160467
+2          15 0.6260654
+3          18 0.7162145
+4          21 0.7879091
+5          24 0.8435886
+6          27 0.8859939
+7          30 0.9177628</code></pre>
+</div>
+</div>
+<p>A sample size of 24 gets us to power over 0.80, and sample size of 30 gets us up to 0.90.</p>
+</section>
+<section id="example-simulation-1" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="example-simulation-1"><span class="header-section-number">5.4.2</span> Example: simulation</h3>
+<p>We can also estimate power using simulation via the simr package.</p>
+<p>Let’s restate the setup: We are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is an Intercept random effect of 2 (between site standard deviation), a slope random effect of <span class="math inline">\(\sqrt{8}\)</span>, and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.</p>
+<p>First we create a data frame of 10 observations each at 10 sites. Then we add a sequence of five zeroes and five ones to indicate treatment. A zero means control and one means treated.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>trap <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">trap =</span> trap, <span class="at">site =</span> site)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>trt <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">5</span>)), <span class="dv">10</span>)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  trap site trt
+1    1    1   0
+2    2    1   0
+3    3    1   0
+4    4    1   0
+5    5    1   0
+6    6    1   1</code></pre>
+</div>
+</div>
+<p>Now define our intercept and slope random effects. Note that the simr package requires these be expressed as variances in a matrix. The within group variance needs to be expressed as standard deviation. To replicate the example above using a closed-form expression, we set the covariance of the random effects to 0.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>between <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">8</span>), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>within <span class="ot">&lt;-</span> <span class="dv">6</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Next define our effects. We need to provide intercept and slope coefficients. The slope coefficient is the effect we will test. The intercept can be interpreted as the average mass of bugs captured in the control trap.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">3</span>) <span class="co"># fixed intercept and slope</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now define our model using the <code>makeLmer()</code> function. This function will simulate mass values based on our hypothesized coefficients and variances.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">makeLmer</span>(mass <span class="sc">~</span> trt <span class="sc">+</span> (trt<span class="sc">|</span>site), </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">fixef =</span> b, </span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">VarCorr =</span> between, </span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">sigma =</span> within, </span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span> d)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(m)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: mass ~ trt + (trt | site)
+   Data: d
+REML criterion at convergence: 755.1639
+Random effects:
+ Groups   Name        Std.Dev. Corr
+ site     (Intercept) 2.000        
+          trt         2.828    0.00
+ Residual             6.000        
+Number of obs: 100, groups:  site, 10
+Fixed Effects:
+(Intercept)          trt  
+         10            3  </code></pre>
+</div>
+</div>
+<p>Finally use the <code>powerSim()</code> function to estimate the power of the test on the slope using 100 simulations. Setting <code>progress = FALSE</code> suppresses a progress bar which we don’t want to output in this online book. The seed argument makes the following result reproducible. The <code>fixed()</code> function dictates what coefficient we want to test. In this case we want to test the “trt” coefficient using a “t” test.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">powerSim</span>(m, </span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">test =</span> <span class="fu">fixed</span>(<span class="st">"trt"</span>, <span class="st">"t"</span>),</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">seed =</span> <span class="dv">2000</span>,</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">nsim =</span> <span class="dv">100</span>, </span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">alpha =</span> <span class="fl">0.05</span>, </span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">progress =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Power for predictor 'trt', (95% confidence interval):
+      41.00% (31.26, 51.29)
+
+Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
+      Effect size for trt is 3.0
+
+Based on 100 simulations, (32 warnings, 0 errors)
+alpha = 0.05, nrow = 100
+
+Time elapsed: 0 h 0 m 7 s</code></pre>
+</div>
+</div>
+<p>Power based on simulation is estimated to be about 0.41.</p>
+<p>We can generate a power curve with varying sample sizes using the <code>powerCurve()</code> function. First extend the data set by the maximum number of sites we’re willing to entertain and then call the <code>powerCurve()</code> function. Below we specify a maximum of 30 sites. Note this can take a while to run for large data sets and complex models. We have lowered the default number of simulations from 1000 to 100. The breaks argument says we want to try sample sizes ranging from 12 to 30 in steps of 3.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">extend</span>(m, <span class="at">along =</span> <span class="st">"site"</span>, <span class="at">n =</span> <span class="dv">30</span>)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>pc <span class="ot">&lt;-</span> <span class="fu">powerCurve</span>(m2, </span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">test =</span> <span class="fu">fixed</span>(<span class="st">"trt"</span>, <span class="st">"t"</span>), </span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">seed =</span> <span class="dv">5</span>,</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">along =</span> <span class="st">"site"</span>,</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">12</span>, <span class="dv">30</span>, <span class="dv">3</span>),</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">nsim =</span> <span class="dv">100</span>, </span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> <span class="fl">0.05</span>,</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">progress =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mixed_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>According to simulation, we need to sample 30 sites to reliably achieve power of at least 0.80. We see that the assumption of random slopes requires larger sample sizes to achieve sufficient levels of power.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -814,6 +991,7 @@ Crespi, Catherine M., and Zichen Liu. 2025. <em>Powertools: Power and Sample Siz
 Green, Peter, and Catriona J. MacLeod. 2016. <span>“Simr: An r Package for Power Analysis of Generalised Linear Mixed Models by Simulation.”</span> <em>Methods in Ecology and Evolution</em> 7 (4): 493–98. <a href="https://doi.org/10.1111/2041-210X.12504">https://doi.org/10.1111/2041-210X.12504</a>.
 </div>
 </div>
+</section>
 </section>
 
 </main> <!-- /main -->
