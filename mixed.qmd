@@ -252,7 +252,7 @@ For power estimation based on sample size, we need the following:
 
 We are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is a between site standard deviation of 2 and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.
 
-Crespi [-@crespi] describes how to estimate power for a design such as this using a noncentral t distribution. The `multisite.cont()` function in the powertools package (@powertools) implements this formula.
+Crespi [-@crespi] describes how to estimate power for a design such as this using a noncentral t distribution. The `multisite.cont()` function in the powertools package [@powertools] implements this formula.
 
 Note the `multisite.cont()` function requires the total standard deviation of the outcome variable and the intraclass correlation coefficient (ICC) of the random intercept. We can derive both of these from the information given above.
 
@@ -299,7 +299,7 @@ A sample size of 15 gets us to power over 0.80, and sample size of about 19 gets
 
 ### Example: simulation
 
-We can also estimate power using simulation via the simr package (@simr).
+We can also estimate power using simulation via the simr package [@simr].
 
 Let's restate the setup: we are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is a between site standard deviation of 2 and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.
 
@@ -389,14 +389,14 @@ For power estimation based on sample size, we need the following:
 
 We are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is an Intercept random effect of 2 (between site standard deviation), a slope random effect of $\sqrt{8}$, and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.
 
-Crespi [-@crespi] describes how to estimate power for a design such as this using a noncentral t distribution. The `multisite.cont()` function in the powertools package (@powertools) implements this formula.
+Crespi [-@crespi] describes how to estimate power for a design such as this using a noncentral t distribution. The `multisite.cont()` function in the powertools package [@powertools] implements this formula.
 
 Note the `multisite.cont()` function requires the total standard deviation of the outcome variable and two intraclass correlation coefficients (ICC):
 
 - icc0: proportion of variance due to random groups
 - icc1: proportion of variance due to random slope
 
-The total standard deviation of the outcome is calculate as follows (Crespi, page 221):
+The total standard deviation of the outcome is calculated as follows (Crespi, page 221):
 
 $$\sqrt{Var(Y_{ij})} = \sqrt{2^2 + \frac{1}{4}8 + 6^2}  = \sqrt{42}$$
 
