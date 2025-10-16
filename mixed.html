@@ -361,7 +361,7 @@ window.Quarto = {
 <pre><code>Linear mixed model fit by REML ['lmerMod']
 Formula: bmi ~ year + (1 | student)
    Data: d
-REML criterion at convergence: 235.9964
+REML criterion at convergence: 243.8129
 Random effects:
  Groups   Name        Std.Dev.
  student  (Intercept) 3       
@@ -590,7 +590,7 @@ Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
 Based on 100 simulations, (1 warning, 0 errors)
 alpha = 0.01, nrow = 120
 
-Time elapsed: 0 h 0 m 8 s</code></pre>
+Time elapsed: 0 h 0 m 7 s</code></pre>
 </div>
 </div>
 <p>Power is higher but still too low at 0.55.</p>
@@ -633,7 +633,7 @@ Time elapsed: 0 h 0 m 8 s</code></pre>
 <section id="example-closed-form-expression" class="level3" data-number="5.3.1">
 <h3 data-number="5.3.1" class="anchored" data-anchor-id="example-closed-form-expression"><span class="header-section-number">5.3.1</span> Example: closed-form expression</h3>
 <p>We are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is a between site standard deviation of 2 and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.</p>
-<p>Crespi <span class="citation" data-cites="crespi">(<a href="references.html#ref-crespi" role="doc-biblioref">2025</a>)</span> describes how to estimate power for a design such as this using a noncentral t distribution. The <code>multisite.cont()</code> function in the powertools package (<span class="citation" data-cites="powertools">Crespi and Liu (<a href="references.html#ref-powertools" role="doc-biblioref">2025</a>)</span>) implements this formula.</p>
+<p>Crespi <span class="citation" data-cites="crespi">(<a href="references.html#ref-crespi" role="doc-biblioref">2025</a>)</span> describes how to estimate power for a design such as this using a noncentral t distribution. The <code>multisite.cont()</code> function in the powertools package <span class="citation" data-cites="powertools">(<a href="references.html#ref-powertools" role="doc-biblioref">Crespi and Liu 2025</a>)</span> implements this formula.</p>
 <p>Note the <code>multisite.cont()</code> function requires the total standard deviation of the outcome variable and the intraclass correlation coefficient (ICC) of the random intercept. We can derive both of these from the information given above.</p>
 <p>The total standard deviation of the outcome is the square root of the sum of the between and within variances:</p>
 <p><span class="math display">\[\sqrt{2^2 + 6^2}  = \sqrt{40}\]</span></p>
@@ -699,7 +699,7 @@ NOTE: m1, m2 are the number of subjects within site in condition 1, condition 2
 </section>
 <section id="example-simulation" class="level3" data-number="5.3.2">
 <h3 data-number="5.3.2" class="anchored" data-anchor-id="example-simulation"><span class="header-section-number">5.3.2</span> Example: simulation</h3>
-<p>We can also estimate power using simulation via the simr package (<span class="citation" data-cites="simr">Green and MacLeod (<a href="references.html#ref-simr" role="doc-biblioref">2016</a>)</span>).</p>
+<p>We can also estimate power using simulation via the simr package <span class="citation" data-cites="simr">(<a href="references.html#ref-simr" role="doc-biblioref">Green and MacLeod 2016</a>)</span>.</p>
 <p>Let’s restate the setup: we are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is a between site standard deviation of 2 and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.</p>
 <p>First we create a data frame of 10 observations each at 10 sites. Then we add a sequence of five zeroes and five ones to indicate treatment. A zero means control and one means treated.</p>
 <div class="cell">
@@ -821,13 +821,13 @@ Time elapsed: 0 h 0 m 6 s</code></pre>
 <section id="example-closed-form-expression-1" class="level3" data-number="5.4.1">
 <h3 data-number="5.4.1" class="anchored" data-anchor-id="example-closed-form-expression-1"><span class="header-section-number">5.4.1</span> Example: closed-form expression</h3>
 <p>We are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is an Intercept random effect of 2 (between site standard deviation), a slope random effect of <span class="math inline">\(\sqrt{8}\)</span>, and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.</p>
-<p>Crespi <span class="citation" data-cites="crespi">(<a href="references.html#ref-crespi" role="doc-biblioref">2025</a>)</span> describes how to estimate power for a design such as this using a noncentral t distribution. The <code>multisite.cont()</code> function in the powertools package (<span class="citation" data-cites="powertools">Crespi and Liu (<a href="references.html#ref-powertools" role="doc-biblioref">2025</a>)</span>) implements this formula.</p>
+<p>Crespi <span class="citation" data-cites="crespi">(<a href="references.html#ref-crespi" role="doc-biblioref">2025</a>)</span> describes how to estimate power for a design such as this using a noncentral t distribution. The <code>multisite.cont()</code> function in the powertools package <span class="citation" data-cites="powertools">(<a href="references.html#ref-powertools" role="doc-biblioref">Crespi and Liu 2025</a>)</span> implements this formula.</p>
 <p>Note the <code>multisite.cont()</code> function requires the total standard deviation of the outcome variable and two intraclass correlation coefficients (ICC):</p>
 <ul>
 <li>icc0: proportion of variance due to random groups</li>
 <li>icc1: proportion of variance due to random slope</li>
 </ul>
-<p>The total standard deviation of the outcome is calculate as follows (Crespi, page 221):</p>
+<p>The total standard deviation of the outcome is calculated as follows (Crespi, page 221):</p>
 <p><span class="math display">\[\sqrt{Var(Y_{ij})} = \sqrt{2^2 + \frac{1}{4}8 + 6^2}  = \sqrt{42}\]</span></p>
 <p>The ICC of the random intercept is the between group variance divided by total variance:</p>
 <p><span class="math display">\[\text{ICC}_0 = 4/42 \approx 0.095\]</span></p>
