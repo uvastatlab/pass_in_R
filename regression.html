@@ -228,9 +228,12 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#example-sample-size" id="toc-example-sample-size" class="nav-link" data-scroll-target="#example-sample-size"><span class="header-section-number">4.2.1</span> Example: sample size</a></li>
   <li><a href="#example-power" id="toc-example-power" class="nav-link" data-scroll-target="#example-power"><span class="header-section-number">4.2.2</span> Example: power</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">4.2.3</span> </a></li>
   </ul></li>
-  <li><a href="#partial-f-tests" id="toc-partial-f-tests" class="nav-link" data-scroll-target="#partial-f-tests"><span class="header-section-number">4.3</span> Partial F Tests</a></li>
+  <li><a href="#partial-f-tests" id="toc-partial-f-tests" class="nav-link" data-scroll-target="#partial-f-tests"><span class="header-section-number">4.3</span> Partial F Tests</a>
+  <ul class="collapse">
+  <li><a href="#example-sample-size-1" id="toc-example-sample-size-1" class="nav-link" data-scroll-target="#example-sample-size-1"><span class="header-section-number">4.3.1</span> Example: sample size</a></li>
+  <li><a href="#example-power-1" id="toc-example-power-1" class="nav-link" data-scroll-target="#example-power-1"><span class="header-section-number">4.3.2</span> Example: power</a></li>
+  </ul></li>
   <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="header-section-number">4.4</span> Logistic Regression</a></li>
   <li><a href="#poisson-regression" id="toc-poisson-regression" class="nav-link" data-scroll-target="#poisson-regression"><span class="header-section-number">4.5</span> Poisson Regression</a></li>
   </ul>
@@ -263,20 +266,24 @@ div.csl-indent {
 </section>
 <section id="overall-f-test" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="overall-f-test"><span class="header-section-number">4.2</span> Overall F test</h2>
-<p>For sample size estimation based on power, we need the following:</p>
+<section id="for-sample-size-estimation-based-on-power-we-need-the-following" class="level4" data-number="4.2.0.1">
+<h4 data-number="4.2.0.1" class="anchored" data-anchor-id="for-sample-size-estimation-based-on-power-we-need-the-following"><span class="header-section-number">4.2.0.1</span> For sample size estimation based on power, we need the following:</h4>
 <ul>
 <li>hypothesized effect size (f<sup>2</sup> = R<sup>2</sup> / (1 − R<sup>2</sup>))</li>
 <li>numerator degrees of freedom (u = number of predictors being tested, occasionally represented as ‘p’)</li>
 <li>significance level of test</li>
 <li>power of test</li>
 </ul>
-<p>For power estimation based on sample size, we need the following:</p>
+</section>
+<section id="for-power-estimation-based-on-sample-size-we-need-the-following" class="level4" data-number="4.2.0.2">
+<h4 data-number="4.2.0.2" class="anchored" data-anchor-id="for-power-estimation-based-on-sample-size-we-need-the-following"><span class="header-section-number">4.2.0.2</span> For power estimation based on sample size, we need the following:</h4>
 <ul>
 <li>hypothesized effect size (f<sup>2</sup> = R<sup>2</sup> / (1 − R<sup>2</sup>))</li>
 <li>numerator degrees of freedom (u = number of predictors being tested, occasionally represented as ‘p’)</li>
 <li>denominator degrees of freedom (v = n − u − 1, where n is sample size). Hence, n = v + u +1</li>
 <li>significance level of test</li>
 </ul>
+</section>
 <section id="example-sample-size" class="level3" data-number="4.2.1">
 <h3 data-number="4.2.1" class="anchored" data-anchor-id="example-sample-size"><span class="header-section-number">4.2.1</span> Example: sample size</h3>
 <p>Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual’s time to complete the race using two variables: total hours spent training the past three months and average pace per mile during training runs. We can perform a multiple regression to model race completion time as a function of training time and pace. We want to sample enough subjects to detect an effect when our two independent (explanatory) variables explains 45% of variation of the dependent (response) variable, race completion time. Assume the following:</p>
@@ -312,7 +319,7 @@ div.csl-indent {
 <li><p>denominator degrees of freedom v = n − u − 1 = 30 - 2 - 1 = 27</p></li>
 <li><p>significance level = 0.01</p></li>
 </ul>
-<p>Using the pwr package [@pwr]:</p>
+<p>Using the pwr package <span class="citation" data-cites="pwr">(<a href="references.html#ref-pwr" role="doc-biblioref">Champely 2020</a>)</span>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.f2.test</span>(<span class="at">f2 =</span> <span class="fl">0.82</span>, <span class="at">u =</span> <span class="dv">2</span>, <span class="at">v =</span> <span class="dv">27</span>, <span class="at">sig.level =</span> <span class="fl">0.01</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -327,7 +334,8 @@ div.csl-indent {
           power = 0.9491656</code></pre>
 </div>
 </div>
-<p>The power is about 0.94.</p>
+<p>The power is about 0.95.</p>
+<p>This can be done using the powertools package <span class="citation" data-cites="powertools">(<a href="references.html#ref-powertools" role="doc-biblioref">Crespi and Liu 2025</a>)</span>, we use the ‘random’ argument to specify that our variables are random (as opposed to fixed), and the ‘v’ argument for a verbose output:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(powertools) </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mlrF.overall</span>(<span class="at">N =</span> <span class="dv">30</span>, <span class="at">p =</span> <span class="dv">2</span>, <span class="at">Rsq =</span> <span class="fl">0.45</span>, <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">random =</span> <span class="cn">TRUE</span>, <span class="at">v =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -344,30 +352,74 @@ div.csl-indent {
           power = 0.983175</code></pre>
 </div>
 </div>
-<p>This can be done using the powertools package <span class="citation" data-cites="powertools">(<a href="references.html#ref-powertools" role="doc-biblioref">Crespi and Liu 2025</a>)</span>, we use the ‘random’ argument to specify that our variables are random (as opposed to fixed), and the ‘v’ argument for a verbose output:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(powertools) </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mlrF.overall</span>(<span class="at">N =</span> <span class="dv">30</span>, <span class="at">p =</span> <span class="dv">2</span>, <span class="at">Rsq =</span> <span class="fl">0.45</span>, <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">random =</span> <span class="cn">TRUE</span>, <span class="at">v =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-     Power calculation for a multiple linear regression
-     overall F test assuming random predictors 
-
-              N = 30
-              p = 2
-            Rsq = 0.45
-            fsq = 0.8181818
-          alpha = 0.05
-          power = 0.983175</code></pre>
-</div>
-</div>
-</section>
-<section id="section" class="level3" data-number="4.2.3">
-<h3 data-number="4.2.3" class="anchored" data-anchor-id="section"><span class="header-section-number">4.2.3</span> </h3>
+<p>The power is about 0.98</p>
 </section>
 </section>
 <section id="partial-f-tests" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="partial-f-tests"><span class="header-section-number">4.3</span> Partial F Tests</h2>
+<p>A partial F test evaluates whether adding one or more predictors to a regression model significantly improves its ability to explain variation in the response variable.<br>
+It compares a reduced model (fewer predictors) with a full model (more predictors) and tests whether the additional predictors contribute significantly to ( R<sup>2</sup> ).</p>
+<section id="for-sample-size-estimation-based-on-power-we-need-the-following-1" class="level4" data-number="4.3.0.1">
+<h4 data-number="4.3.0.1" class="anchored" data-anchor-id="for-sample-size-estimation-based-on-power-we-need-the-following-1"><span class="header-section-number">4.3.0.1</span> For sample size estimation based on power, we need the following:</h4>
+<ul>
+<li><p>incremental effect size (f<sup>2</sup> = R<sup>2</sup><sub>full</sub> - R<sup>2</sup><sub>reduced</sub>) / (1 - R<sup>2</sup><sub>full</sub>)</p></li>
+<li><p>number of predictors in full model (sometimes called p)</p></li>
+<li><p>number of predictors in reduced model (sometimes called q)</p></li>
+<li><p>significance level of test</p></li>
+<li><p>desired power</p></li>
+</ul>
+</section>
+<section id="for-power-estimation-based-on-sample-size-we-need-the-following-1" class="level4" data-number="4.3.0.2">
+<h4 data-number="4.3.0.2" class="anchored" data-anchor-id="for-power-estimation-based-on-sample-size-we-need-the-following-1"><span class="header-section-number">4.3.0.2</span> For power estimation based on sample size, we need the following:</h4>
+<ul>
+<li><p>incremental effect size (f<sup>2</sup> = R<sup>2</sup><sub>full</sub> - R<sup>2</sup><sub>reduced</sub>) / (1 - R<sup>2</sup><sub>full</sub>)</p></li>
+<li><p>number of predictors in full model (sometimes called p)</p></li>
+<li><p>number of predictors in reduced model (sometimes called q)</p></li>
+<li><p>significance level of test</p></li>
+</ul>
+</section>
+<section id="example-sample-size-1" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="example-sample-size-1"><span class="header-section-number">4.3.1</span> Example: sample size</h3>
+<p>Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual’s completion time using a statitical model. We already have a model fit with two variables (training hours and average pace) that explains 35% of variation in race completion time. We now want to know how many participants we need to detect whether adding a third variable, <strong>weekly distance</strong>, improves model performance by an additional 10% of explained variance (so that ( R<sup>2</sup><sub>full</sub> = 0.45 )).</p>
+<p>Assume the following:</p>
+<ul>
+<li>R<sup>2</sup><sub>full</sub> = 0.45</li>
+<li>R<sup>2</sup><sub>reduced</sub> = 0.35</li>
+<li>p = 3 (predictors in full model)</li>
+<li>q = 2 (predictors in reduced model)</li>
+<li>significance level ( = 0.05 )</li>
+<li>desired power ( = 0.80 )</li>
+</ul>
+<p>Using the <code>powertools</code> package <span class="citation" data-cites="powertools">(<a href="references.html#ref-powertools" role="doc-biblioref">Crespi and Liu 2025</a>)</span>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(powertools)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mlrF.partial</span>(<span class="at">N =</span> <span class="cn">NULL</span>, <span class="at">p =</span> <span class="dv">3</span>, <span class="at">q =</span> <span class="dv">2</span>, <span class="at">Rsq.red =</span> <span class="fl">0.35</span>, <span class="at">Rsq.full =</span> <span class="fl">0.45</span>, <span class="at">power =</span> <span class="fl">0.80</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 56.27915</code></pre>
+</div>
+</div>
+</section>
+<section id="example-power-1" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="example-power-1"><span class="header-section-number">4.3.2</span> Example: power</h3>
+<p>Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual’s completion time using a statitical model. We already have a model fit with two variables (training hours and average pace) that explains 35% of variation in race completion time. If we sample 30 participants, we now want to know how much power we have to detect whether adding a third variable , <strong>weekly distance</strong>, improves model performance by an additional 10% of explained variance (so that ( R<sup>2</sup><sub>full</sub> = 0.45 )).</p>
+<p>Assume the following:</p>
+<ul>
+<li>N = 30</li>
+<li>R<sup>2</sup><sub>full</sub> = 0.45</li>
+<li>R<sup>2</sup><sub>reduced</sub> = 0.35</li>
+<li>p = 3 (predictors in full model)</li>
+<li>q = 2 (predictors in reduced model)</li>
+<li>significance level ( = 0.05 )</li>
+</ul>
+<p>Using the <code>powertools</code> package <span class="citation" data-cites="powertools">(<a href="references.html#ref-powertools" role="doc-biblioref">Crespi and Liu 2025</a>)</span>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(powertools)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mlrF.partial</span>(<span class="at">N =</span> <span class="dv">30</span>, <span class="at">p =</span> <span class="dv">3</span>, <span class="at">q =</span> <span class="dv">2</span>, <span class="at">Rsq.red =</span> <span class="fl">0.35</span>, <span class="at">Rsq.full =</span> <span class="fl">0.45</span>, <span class="at">power =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4874955</code></pre>
+</div>
+</div>
+</section>
 </section>
 <section id="logistic-regression" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">4.4</span> Logistic Regression</h2>
