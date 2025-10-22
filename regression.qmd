@@ -117,7 +117,7 @@ Using the `powertools` package [@powertools]:
 
 ```{r}
 library(powertools)
-mlfF.partial(N = NULL, p = 3, q = 2, Rsq.red = 0.35, Rsq.full = 0.45, power = 0.80)
+mlrF.partial(N = NULL, p = 3, q = 2, Rsq.red = 0.35, Rsq.full = 0.45, power = 0.80)
 ```
 
 ### Example: power
@@ -137,7 +137,7 @@ Using the `powertools` package [@powertools]:
 
 ```{r}
 library(powertools)
-mlfF.partial(N = 30, p = 3, q = 2, Rsq.red = 0.35, Rsq.full = 0.45, power = NULL)
+mlrF.partial(N = 30, p = 3, q = 2, Rsq.red = 0.35, Rsq.full = 0.45, power = NULL)
 ```
 
 ## Logistic Regression
