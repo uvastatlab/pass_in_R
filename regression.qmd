@@ -6,14 +6,14 @@ title: "Regression"
 
 ## Overall F test
 
-For sample size estimation based on power, we need the following:
+#### For sample size estimation based on power, we need the following:
 
 -   hypothesized effect size (f^2^ = R^2^ / (1 − R^2^))
 -   numerator degrees of freedom (u = number of predictors being tested, occasionally represented as 'p')
 -   significance level of test
 -   power of test
 
-For power estimation based on sample size, we need the following:
+#### For power estimation based on sample size, we need the following:
 
 -   hypothesized effect size (f^2^ = R^2^ / (1 − R^2^))
 -   numerator degrees of freedom (u = number of predictors being tested, occasionally represented as 'p')
@@ -54,7 +54,7 @@ Suppose there is an annual 5k running race in a city. We are interested if we ca
 
 -   significance level = 0.01
 
-Using the pwr package \[\@pwr\]:
+Using the pwr package [@pwr]:
 
 ```{r}
 library(pwr)
@@ -62,12 +62,7 @@ pwr.f2.test(f2 = 0.82, u = 2, v = 27, sig.level = 0.01)
 
 ```
 
-The power is about 0.94.
-
-```{r}
-library(powertools) 
-mlrF.overall(N = 30, p = 2, Rsq = 0.45, power = NULL, random = TRUE, v = TRUE)
-```
+The power is about 0.95.
 
 This can be done using the powertools package [@powertools], we use the 'random' argument to specify that our variables are random (as opposed to fixed), and the 'v' argument for a verbose output:
 
@@ -76,9 +71,74 @@ library(powertools)
 mlrF.overall(N = 30, p = 2, Rsq = 0.45, power = NULL, random = TRUE, v = TRUE)
 ```
 
-### 
+The power is about 0.98
 
 ## Partial F Tests
+
+A partial F test evaluates whether adding one or more predictors to a regression model significantly improves its ability to explain variation in the response variable.\
+It compares a reduced model (fewer predictors) with a full model (more predictors) and tests whether the additional predictors contribute significantly to ( R^2^ ).
+
+#### For sample size estimation based on power, we need the following:
+
+-   incremental effect size (f^2^ = R^2^~full~ - R^2^~reduced~) / (1 - R^2^~full~)
+
+-   number of predictors in full model (sometimes called p)
+
+-   number of predictors in reduced model (sometimes called q)
+
+-   significance level of test
+
+-   desired power
+
+#### For power estimation based on sample size, we need the following:
+
+-   incremental effect size (f^2^ = R^2^~full~ - R^2^~reduced~) / (1 - R^2^~full~)
+
+-   number of predictors in full model (sometimes called p)
+
+-   number of predictors in reduced model (sometimes called q)
+
+-   significance level of test
+
+### Example: sample size
+
+Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual's completion time using a statitical model. We already have a model fit with two variables (training hours and average pace) that explains 35% of variation in race completion time. We now want to know how many participants we need to detect whether adding a third variable, **weekly distance**, improves model performance by an additional 10% of explained variance (so that ( R^2^~full~ = 0.45 )).
+
+Assume the following:
+
+-   R^2^~full~ = 0.45
+-   R^2^~reduced~ = 0.35
+-   p = 3 (predictors in full model)
+-   q = 2 (predictors in reduced model)
+-   significance level ( = 0.05 )
+-   desired power ( = 0.80 )
+
+Using the `powertools` package [@powertools]:
+
+```{r}
+library(powertools)
+mlrF.partial(N = NULL, p = 3, q = 2, Rsq.red = 0.35, Rsq.full = 0.45, power = 0.80)
+```
+
+### Example: power
+
+Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual's completion time using a statitical model. We already have a model fit with two variables (training hours and average pace) that explains 35% of variation in race completion time. If we sample 30 participants, we now want to know how much power we have to detect whether adding a third variable , **weekly distance**, improves model performance by an additional 10% of explained variance (so that ( R^2^~full~ = 0.45 )).
+
+Assume the following:
+
+-   N = 30
+-   R^2^~full~ = 0.45
+-   R^2^~reduced~ = 0.35
+-   p = 3 (predictors in full model)
+-   q = 2 (predictors in reduced model)
+-   significance level ( = 0.05 )
+
+Using the `powertools` package [@powertools]:
+
+```{r}
+library(powertools)
+mlrF.partial(N = 30, p = 3, q = 2, Rsq.red = 0.35, Rsq.full = 0.45, power = NULL)
+```
 
 ## Logistic Regression
 
