@@ -260,11 +260,12 @@ window.Quarto = {
 </header>
 
 
-<p>We will calculate power and sample size for a one-way ANOVA, a two-way ANOVA, and an ANCOVA. We will use base R, and the pwr and powertools packages.</p>
+<p>We will calculate power and sample size for a one-way ANOVA, a two-way ANOVA, and an ANCOVA. We will use base R, as well as the <code>pwr</code>, <code>pwr2</code>, <code>powertools</code> and <code>Superpower</code> packages.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr2)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(powertools)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(powertools)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Superpower)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="one-way-anova" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="one-way-anova"><span class="header-section-number">3.1</span> One-way ANOVA</h2>
@@ -298,7 +299,7 @@ window.Quarto = {
 NOTE: n is number in each group</code></pre>
 </div>
 </div>
-<p>Using powertools, we use <code>anova1way.F.bal()</code> to calculate the overall sample size for balanced groups (each group has 20 people)</p>
+<p>Using the package powertools, we call <code>anova1way.F.bal()</code> to calculate the overall sample size for balanced groups (each group has 20 people).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova1way.F.bal</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mvec =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">12</span>), <span class="at">sd =</span> <span class="dv">7</span>, <span class="at">power =</span> <span class="cn">NULL</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -306,7 +307,9 @@ NOTE: n is number in each group</code></pre>
 <pre><code>[1] 0.8</code></pre>
 </div>
 </div>
-<p>Using pwr, we need to provide the effect size. We will first calculate it by hand:</p>
+<p>We can also calculate sample size with the <code>pwr</code> package. Here, we need to provide the effect size which is specified by the argument <code>f</code>.</p>
+<p>Cohen’s f is an effect size measure used in tests that evaluate significant differences among group means, such as one or two way ANOVA’s. Cohen’s f effect size defines defines effect sizes as: f = 0.1 as small, f = 0.25 as medium, and f = 0.4 as large, effect sizes (Cohen, 1988).</p>
+<p>We will first calculate Cohen’s f by hand:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Cohen's f </span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>book.means <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">12</span>)</span>
@@ -326,7 +329,7 @@ NOTE: n is number in each group</code></pre>
 <pre><code>[1] 0.4096345</code></pre>
 </div>
 </div>
-<p>Now, we use the function <code>es.anova.f()</code> from powertools to calculate f.&nbsp;We get the same result as above</p>
+<p>Now, we use the function <code>es.anova.f()</code> from the package <code>powertools</code> to calculate f and provide the group means and standard deviation. We get the same result as above.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use powertools to get the effect size </span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>f.pt <span class="ot">&lt;-</span> <span class="fu">es.anova.f</span>(<span class="at">means =</span> book.means, <span class="at">sd =</span> sd, <span class="at">v =</span> F)</span>
@@ -336,6 +339,7 @@ NOTE: n is number in each group</code></pre>
 <pre><code>[1] 0.4096345</code></pre>
 </div>
 </div>
+<p>We now calculate power using the function <code>pwr.anova.test()</code> with our <code>f</code> and <code>f.pt</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Power analysis using f from manual calculation </span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.anova.test</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">f =</span> f, <span class="at">n =</span> <span class="dv">20</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -366,7 +370,7 @@ NOTE: n is number in each group</code></pre>
 NOTE: n is number in each group</code></pre>
 </div>
 </div>
-<p>For base R, powertools, and pwr, we see that our power estimate is 0.8.</p>
+<p>For base R, <code>powertools</code>, and <code>pwr</code>, we see that our power estimate is 0.8 telling us that for the given parameters we specified, we have an 80% chance of correctly rejecting the null hypothesis</p>
 <p>Now, we will calculate sample size for a one-way ANOVA when we know the power we want to achieve, but we need to determine the sample size.</p>
 <p>What you need:</p>
 <ul>
@@ -375,13 +379,13 @@ NOTE: n is number in each group</code></pre>
 <li>Significance level</li>
 <li>Power</li>
 </ul>
-<p>Using base R, we leave n (sample size) empty and input the power we would like to achieve. We will include a power of 0.8, indicating that if a difference actually exists between the mean and target, we have a 80% chance of detecting it.</p>
+<p>Using base R, we leave n (sample size) empty and input the power we would like to achieve. We will include a power of 0.8, again indicating that if a difference exists between the mean and target, we have an 80% chance of detecting it.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power.anova.test</span>(<span class="at">groups =</span> <span class="dv">3</span>, </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">between.var =</span> <span class="dv">13</span>,</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">within.var =</span> <span class="dv">49</span>,</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">power =</span> <span class="fl">0.8</span>) <span class="co"># We input the power as 0.8</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">power =</span> <span class="fl">0.8</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Balanced one-way analysis of variance power calculation 
@@ -396,17 +400,17 @@ NOTE: n is number in each group</code></pre>
 NOTE: n is number in each group</code></pre>
 </div>
 </div>
-<p>Using powertools:</p>
+<p>Using <code>powertools</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova1way.F.bal</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">mvec =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">12</span>), <span class="at">sd =</span> <span class="dv">7</span>, <span class="at">power =</span> <span class="fl">0.8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 20.17208</code></pre>
 </div>
 </div>
-<p>Our estimated sample size is 21 per group.</p>
-<p>Using pwr and inputting an effect size of 0.2 instead of estimated mean values.</p>
+<p>Our estimated sample size is 20 people per group.</p>
+<p>Using the <code>pwr</code> package and inputting an effect size of 0.2 instead of the estimated mean values:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get f using {powertools}</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get f using powertools</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>f<span class="fl">.2</span>way <span class="ot">&lt;-</span> <span class="fu">es.anova.f</span>(<span class="at">means =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">12</span>), <span class="at">sd =</span> <span class="dv">7</span>, <span class="at">v =</span> F)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.anova.test</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="co"># groups</span></span>
@@ -425,11 +429,11 @@ NOTE: n is number in each group</code></pre>
 NOTE: n is number in each group</code></pre>
 </div>
 </div>
-<p>Our estimated sample size is about 21.</p>
+<p>Again, we see that our estimated sample size is 20.</p>
 </section>
 <section id="two-way-anova" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="two-way-anova"><span class="header-section-number">3.2</span> Two-way ANOVA</h2>
-<p>Example of power and sample size for a two-way ANOVA, which is used when you want to compare the difference in means across two factors</p>
+<p>We will run examples of power and sample size for a two-way ANOVA, which is used when you want to compare the difference in means across two factors.</p>
 <p>What you need</p>
 <ul>
 <li>Number of factor levels</li>
@@ -437,13 +441,13 @@ NOTE: n is number in each group</code></pre>
 <li>Significance level</li>
 <li>Target power</li>
 </ul>
-<p>In our example, we want to evaluate how fertilizer and soil type influence plant growth. We have two types of fertilizer and 2 types of soil. Our dependent variable is plant growth.</p>
-<p>Before setting up the full study, we wanted to make sure it is sufficiently powered so we ran a pilot study and found the mean values. We want to calculate statistical power of 0.9 at a 95% confidence level.</p>
+<p>In our example, we want to evaluate how fertilizer and soil type influence plant growth. We have two types of fertilizer and two types of soil. Our dependent variable is plant growth.</p>
+<p>Before setting up the full study, we wanted to make sure it is sufficiently powered, so we ran a pilot study and found the mean values. We want to calculate statistical power of 0.9 at a 95% confidence level.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate matrix of mean values </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate matrix of mean plant values </span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>plant.mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">15.2</span>, <span class="fl">19.1</span>, <span class="fl">11.9</span>, <span class="fl">13.3</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print matrix to view </span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print  </span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>plant.mat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
@@ -451,7 +455,7 @@ NOTE: n is number in each group</code></pre>
 [2,] 11.9 13.3</code></pre>
 </div>
 </div>
-<p>Using powertools:</p>
+<p>Using the <code>powertools</code> package:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova2way.F.bal</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">mmatrix =</span> plant.mat, <span class="at">sd =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.05</span>,</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="at">power =</span> <span class="fl">0.9</span>, <span class="at">v =</span> F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -463,7 +467,8 @@ NOTE: n is number in each group</code></pre>
  5.1626 13.9835 61.0110 </code></pre>
 </div>
 </div>
-<p>Using pwr2 for a balanced two-way ANOVA</p>
+<p>We see the sample sizes required to detect the main effect of Factor A, B, and their interaction.</p>
+<p>Using the <code>pwr2</code> package, we can calculate the power estimate. First, need to calculate Cohen’s f effect sizes. We can get these values for a balanced two-way ANOVA using the <code>powertools</code> package and inputting the plant matrix and the estimated standard deviation:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get Cohen's f effect sizes using powertools</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>cd.anova2way <span class="ot">&lt;-</span> <span class="fu">es.anova.f</span>(<span class="at">means =</span> plant.mat, <span class="at">sd =</span> <span class="dv">3</span>, <span class="at">v =</span> <span class="cn">FALSE</span>)</span>
@@ -496,6 +501,28 @@ NOTE: n is number in each group</code></pre>
 NOTE: power is the minimum power among two factors</code></pre>
 </div>
 </div>
+<p>The output shows that there is a high chance of detecting an effect for Factor A (power.A ~ 0.99), and a relatively moderate chance of detecting an effect for Factor B (power.B ~ .78). Overall, the design is well powered for detecting effects of Factor A but less so for Factor B. The <code>power = 0.78</code> result is the lowest power returned among the factors tested.</p>
+<p>Using the <code>pwr</code> package, we can calculate the estimated sample size for a two-way ANOVA</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ss.2way</span>(<span class="at">a =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="co">#2 groups in factors A and B</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">alpha =</span> <span class="fl">0.05</span>, <span class="co">#significance level </span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">beta =</span> <span class="fl">0.1</span>, <span class="co">#Using 90% power</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">f.A =</span> <span class="fl">0.2</span>, <span class="at">f.B =</span> <span class="fl">0.3</span>, <span class="co">#Effect sizes for factors A and B</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">B =</span> <span class="dv">100</span>) <span class="co">#Number of iterations</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Balanced two-way analysis of variance sample size adjustment 
+
+              a = 2
+              b = 2
+      sig.level = 0.05
+          power = 0.9
+              n = 67
+
+NOTE: n is number in each group, total sample = 268</code></pre>
+</div>
+</div>
+<p>With the input parameters, our sample size per group is 67, or 268 total.</p>
 </section>
 <section id="ancova" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="ancova"><span class="header-section-number">3.3</span> ANCOVA</h2>
@@ -507,18 +534,74 @@ NOTE: power is the minimum power among two factors</code></pre>
 <li>Significance level</li>
 <li>Power</li>
 </ul>
-<p>When looking at story comprehension based on the medium (book, audiobook, movie), we want to account for age. We will use the function <code>anova1way.F.bal()</code> from powertools and input our mean values, standard deviation, <span class="math inline">\(R^2\)</span>, the number of covariates, and the power.</p>
+<p>When looking at story comprehension based on the medium (book, audiobook, or movie), we want to account for age. We will use the function <code>anova1way.F.bal()</code> from the <code>powertools</code> package and input our mean values, standard deviation, <span class="math inline">\(R^2\)</span>, the number of covariates, and the power.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova1way.F.bal</span>(<span class="at">n =</span> <span class="cn">NULL</span>, </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">mvec =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">12</span>),</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">sd =</span> <span class="dv">7</span>, </span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">Rsq =</span> <span class="fl">0.6</span><span class="sc">^</span><span class="dv">2</span>, <span class="co">#estimated r^2 </span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">ncov =</span> <span class="dv">1</span>, <span class="co">#n covariates </span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">power =</span> <span class="fl">0.8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova1way.F.bal</span>(<span class="at">n =</span> <span class="cn">NULL</span>, </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">mvec =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">12</span>),</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">sd =</span> <span class="dv">7</span>, </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">Rsq =</span> <span class="fl">0.6</span><span class="sc">^</span><span class="dv">2</span>, <span class="co">#estimated r^2 </span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">ncov =</span> <span class="dv">1</span>, <span class="co">#n covariates </span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">power =</span> <span class="fl">0.8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 13.32866</code></pre>
 </div>
 </div>
+<p>Using the <code>Superpower</code> package</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_oneway_ancova</span>(<span class="at">n =</span> <span class="cn">NULL</span>,</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">mu =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">12</span>),</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sd =</span> <span class="dv">7</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n_cov =</span> <span class="dv">1</span>, </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">r2 =</span> <span class="fl">0.6</span><span class="sc">^</span><span class="dv">2</span>, </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">beta_level =</span> <span class="fl">0.8</span>,</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">alpha_level =</span> <span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Power Calculation for 1-way ANCOVA 
+
+            dfs = 2, 8
+              N = 12
+              n = 4, 4, 4
+          n_cov = 1
+             mu = 8, 5, 12
+             sd = 7
+             r2 = 0.36
+    alpha_level = 0.05
+     beta_level = 0.7780806
+          power = 22.19194
+           type = exact</code></pre>
+</div>
+</div>
+<p>Similarly, we could compute the power by leaving the argument <code>beta_level = NULL</code> and inputting the estimated sample sizes per group:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_oneway_ancova</span>(<span class="at">n =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>),</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">mu =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">25</span>, <span class="dv">32</span>),</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sd =</span> <span class="dv">7</span>,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n_cov =</span> <span class="dv">1</span>, </span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">r2 =</span> <span class="fl">0.4</span><span class="sc">^</span><span class="dv">2</span>, </span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">beta_level =</span> <span class="cn">NULL</span>,</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">alpha_level =</span> <span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Power Calculation for 1-way ANCOVA 
+
+            dfs = 2, 41
+              N = 45
+              n = 15, 15, 15
+          n_cov = 1
+             mu = 25, 25, 32
+             sd = 7
+             r2 = 0.16
+    alpha_level = 0.05
+     beta_level = 0.1548218
+          power = 84.51782
+           type = exact</code></pre>
+</div>
+</div>
+<p>References</p>
+<ul>
+<li>Cohen J. Statistical Power Analysis for the Behavioral Sciences. Lawrence Erlbaum Associates, Hillsdale, New Jersey, 2nd edition, 1988.</li>
+</ul>
 
 
 </section>
