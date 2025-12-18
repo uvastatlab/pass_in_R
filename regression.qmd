@@ -6,14 +6,14 @@ title: "Regression"
 
 ## Overall F test
 
-#### For sample size estimation based on power, we need the following:
+For sample size estimation based on power, we need the following:
 
 -   hypothesized effect size (f^2^ = R^2^ / (1 − R^2^))
 -   numerator degrees of freedom (u = number of predictors being tested, occasionally represented as 'p')
 -   significance level of test
 -   power of test
 
-#### For power estimation based on sample size, we need the following:
+For power estimation based on sample size, we need the following:
 
 -   hypothesized effect size (f^2^ = R^2^ / (1 − R^2^))
 -   numerator degrees of freedom (u = number of predictors being tested, occasionally represented as 'p')
@@ -78,7 +78,7 @@ The power is about 0.98
 A partial F test evaluates whether adding one or more predictors to a regression model significantly improves its ability to explain variation in the response variable.\
 It compares a reduced model (fewer predictors) with a full model (more predictors) and tests whether the additional predictors contribute significantly to ( R^2^ ).
 
-#### For sample size estimation based on power, we need the following:
+For sample size estimation based on power, we need the following:
 
 -   incremental effect size (f^2^ = R^2^~full~ - R^2^~reduced~) / (1 - R^2^~full~)
 
@@ -90,7 +90,7 @@ It compares a reduced model (fewer predictors) with a full model (more predictor
 
 -   desired power
 
-#### For power estimation based on sample size, we need the following:
+For power estimation based on sample size, we need the following:
 
 -   incremental effect size (f^2^ = R^2^~full~ - R^2^~reduced~) / (1 - R^2^~full~)
 
