@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -94,7 +94,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -151,9 +151,7 @@ div.csl-indent {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Power and Sample Size in R</a> 
     </div>
@@ -266,24 +264,20 @@ div.csl-indent {
 </section>
 <section id="overall-f-test" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="overall-f-test"><span class="header-section-number">4.2</span> Overall F test</h2>
-<section id="for-sample-size-estimation-based-on-power-we-need-the-following" class="level4" data-number="4.2.0.1">
-<h4 data-number="4.2.0.1" class="anchored" data-anchor-id="for-sample-size-estimation-based-on-power-we-need-the-following"><span class="header-section-number">4.2.0.1</span> For sample size estimation based on power, we need the following:</h4>
+<p>For sample size estimation based on power, we need the following:</p>
 <ul>
 <li>hypothesized effect size (f<sup>2</sup> = R<sup>2</sup> / (1 − R<sup>2</sup>))</li>
 <li>numerator degrees of freedom (u = number of predictors being tested, occasionally represented as ‘p’)</li>
 <li>significance level of test</li>
 <li>power of test</li>
 </ul>
-</section>
-<section id="for-power-estimation-based-on-sample-size-we-need-the-following" class="level4" data-number="4.2.0.2">
-<h4 data-number="4.2.0.2" class="anchored" data-anchor-id="for-power-estimation-based-on-sample-size-we-need-the-following"><span class="header-section-number">4.2.0.2</span> For power estimation based on sample size, we need the following:</h4>
+<p>For power estimation based on sample size, we need the following:</p>
 <ul>
 <li>hypothesized effect size (f<sup>2</sup> = R<sup>2</sup> / (1 − R<sup>2</sup>))</li>
 <li>numerator degrees of freedom (u = number of predictors being tested, occasionally represented as ‘p’)</li>
 <li>denominator degrees of freedom (v = n − u − 1, where n is sample size). Hence, n = v + u +1</li>
 <li>significance level of test</li>
 </ul>
-</section>
 <section id="example-sample-size" class="level3" data-number="4.2.1">
 <h3 data-number="4.2.1" class="anchored" data-anchor-id="example-sample-size"><span class="header-section-number">4.2.1</span> Example: sample size</h3>
 <p>Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual’s time to complete the race using two variables: total hours spent training the past three months and average pace per mile during training runs. We can perform a multiple regression to model race completion time as a function of training time and pace. We want to sample enough subjects to detect an effect when our two independent (explanatory) variables explains 45% of variation of the dependent (response) variable, race completion time. Assume the following:</p>
@@ -359,8 +353,7 @@ div.csl-indent {
 <h2 data-number="4.3" class="anchored" data-anchor-id="partial-f-tests"><span class="header-section-number">4.3</span> Partial F Tests</h2>
 <p>A partial F test evaluates whether adding one or more predictors to a regression model significantly improves its ability to explain variation in the response variable.<br>
 It compares a reduced model (fewer predictors) with a full model (more predictors) and tests whether the additional predictors contribute significantly to ( R<sup>2</sup> ).</p>
-<section id="for-sample-size-estimation-based-on-power-we-need-the-following-1" class="level4" data-number="4.3.0.1">
-<h4 data-number="4.3.0.1" class="anchored" data-anchor-id="for-sample-size-estimation-based-on-power-we-need-the-following-1"><span class="header-section-number">4.3.0.1</span> For sample size estimation based on power, we need the following:</h4>
+<p>For sample size estimation based on power, we need the following:</p>
 <ul>
 <li><p>incremental effect size (f<sup>2</sup> = R<sup>2</sup><sub>full</sub> - R<sup>2</sup><sub>reduced</sub>) / (1 - R<sup>2</sup><sub>full</sub>)</p></li>
 <li><p>number of predictors in full model (sometimes called p)</p></li>
@@ -368,16 +361,13 @@ It compares a reduced model (fewer predictors) with a full model (more predictor
 <li><p>significance level of test</p></li>
 <li><p>desired power</p></li>
 </ul>
-</section>
-<section id="for-power-estimation-based-on-sample-size-we-need-the-following-1" class="level4" data-number="4.3.0.2">
-<h4 data-number="4.3.0.2" class="anchored" data-anchor-id="for-power-estimation-based-on-sample-size-we-need-the-following-1"><span class="header-section-number">4.3.0.2</span> For power estimation based on sample size, we need the following:</h4>
+<p>For power estimation based on sample size, we need the following:</p>
 <ul>
 <li><p>incremental effect size (f<sup>2</sup> = R<sup>2</sup><sub>full</sub> - R<sup>2</sup><sub>reduced</sub>) / (1 - R<sup>2</sup><sub>full</sub>)</p></li>
 <li><p>number of predictors in full model (sometimes called p)</p></li>
 <li><p>number of predictors in reduced model (sometimes called q)</p></li>
 <li><p>significance level of test</p></li>
 </ul>
-</section>
 <section id="example-sample-size-1" class="level3" data-number="4.3.1">
 <h3 data-number="4.3.1" class="anchored" data-anchor-id="example-sample-size-1"><span class="header-section-number">4.3.1</span> Example: sample size</h3>
 <p>Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual’s completion time using a statitical model. We already have a model fit with two variables (training hours and average pace) that explains 35% of variation in race completion time. We now want to know how many participants we need to detect whether adding a third variable, <strong>weekly distance</strong>, improves model performance by an additional 10% of explained variance (so that ( R<sup>2</sup><sub>full</sub> = 0.45 )).</p>
