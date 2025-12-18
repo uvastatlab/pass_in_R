@@ -2,9 +2,9 @@
 title: "Regression"
 ---
 
-## Multiple Regression
+## Multiple Regression: F test
 
-## Overall F test
+An F test assesses whether _any_ of the predictors in a multiple regression model are useful in predicting the response. The null hypothesis is that all of the coefficients (except the intercept) are 0. Rejecting the null implies the model has some explanatory value, though it doesn't tell you how much. 
 
 For sample size estimation based on power, we need the following:
 
@@ -30,7 +30,7 @@ Suppose there is an annual 5k running race in a city. We are interested if we ca
 
 -   significance level = 0.01
 
--   desired power = 0.75
+-   desired power = 0.90
 
 Using the pwr package [@pwr]:
 
@@ -66,17 +66,16 @@ The power is about 0.95.
 
 This can be done using the powertools package [@powertools], we use the 'random' argument to specify that our variables are random (as opposed to fixed), and the 'v' argument for a verbose output:
 
-```{r}
+```{r message=FALSE}
 library(powertools) 
 mlrF.overall(N = 30, p = 2, Rsq = 0.45, power = NULL, random = TRUE, v = TRUE)
 ```
 
 The power is about 0.98
 
-## Partial F Tests
+## Multiple Regression: Partial F Tests
 
-A partial F test evaluates whether adding one or more predictors to a regression model significantly improves its ability to explain variation in the response variable.\
-It compares a reduced model (fewer predictors) with a full model (more predictors) and tests whether the additional predictors contribute significantly to ( R^2^ ).
+A partial F test evaluates whether adding one or more predictors to a regression model significantly improves its ability to explain variation in the response variable. It compares a reduced model (fewer predictors) with a full model (more predictors) and tests whether the additional predictors contribute significantly to ( R^2^ ). The null hypothesis is no difference between the models. Note the reduced model should be _nested_ within the full model. In other words, the reduced model shouldn't have any predictors not present in the full model. 
 
 For sample size estimation based on power, we need the following:
 
@@ -102,7 +101,7 @@ For power estimation based on sample size, we need the following:
 
 ### Example: sample size
 
-Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual's completion time using a statitical model. We already have a model fit with two variables (training hours and average pace) that explains 35% of variation in race completion time. We now want to know how many participants we need to detect whether adding a third variable, **weekly distance**, improves model performance by an additional 10% of explained variance (so that ( R^2^~full~ = 0.45 )).
+Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual's completion time using a statistical model. We already have a model fit with two variables (training hours and average pace) that explains 35% of variation in race completion time. We now want to know how many participants we need to detect whether adding a third variable, **weekly distance**, improves model performance by an additional 10% of explained variance (so that ( R^2^~full~ = 0.45 )).
 
 Assume the following:
 
@@ -117,12 +116,19 @@ Using the `powertools` package [@powertools]:
 
 ```{r}
 library(powertools)
-mlrF.partial(N = NULL, p = 3, q = 2, Rsq.red = 0.35, Rsq.full = 0.45, power = 0.80)
+mlrF.partial(N = NULL, 
+             p = 3, 
+             q = 2, 
+             Rsq.red = 0.35, 
+             Rsq.full = 0.45, 
+             power = 0.80)
 ```
+
+Assuming our effect size is correct, we should plan on sampling at least 57 participants to have a probability of 0.80 of correctly rejecting the null of no difference between the models. 
 
 ### Example: power
 
-Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual's completion time using a statitical model. We already have a model fit with two variables (training hours and average pace) that explains 35% of variation in race completion time. If we sample 30 participants, we now want to know how much power we have to detect whether adding a third variable , **weekly distance**, improves model performance by an additional 10% of explained variance (so that ( R^2^~full~ = 0.45 )).
+Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual's completion time using a statistical model. We already have a model fit with two variables (training hours and average pace) that explains 35% of variation in race completion time. If we sample 30 participants, we now want to know how much power we have to detect whether adding a third variable , **weekly distance**, improves model performance by an additional 10% of explained variance (so that ( R^2^~full~ = 0.45 )).
 
 Assume the following:
 
@@ -137,8 +143,16 @@ Using the `powertools` package [@powertools]:
 
 ```{r}
 library(powertools)
-mlrF.partial(N = 30, p = 3, q = 2, Rsq.red = 0.35, Rsq.full = 0.45, power = NULL)
+mlrF.partial(N = 30, 
+             p = 3, 
+             q = 2, 
+             Rsq.red = 
+               0.35, 
+             Rsq.full = 0.45, 
+             power = NULL)
 ```
+
+Assuming our effect size is correct, sampling 30 participants only provides power of about 0.49 of correctly rejecting the null of no difference between the models.
 
 ## Logistic Regression
 
