@@ -1,5 +1,5 @@
 ---
-title: "Regression"
+title: "Multiple Regression"
 ---
 
 ## Multiple Regression: F test
@@ -154,6 +154,4 @@ mlrF.partial(N = 30,
 
 Assuming our effect size is correct, sampling 30 participants only provides power of about 0.49 of correctly rejecting the null of no difference between the models.
 
-## Logistic Regression
 
-## Poisson Regression

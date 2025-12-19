@@ -1,0 +1,5 @@
+---
+title: "Logistic Regression"
+---
+
+Logistic regression models the probability of a "success" in a binary outcome, where success is defined as the outcome of interest. We demonstrate methods presented in Crespi [-@crespi].
