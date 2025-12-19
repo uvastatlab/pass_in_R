@@ -2,4 +2,82 @@
 title: "Logistic Regression"
 ---
 
-Logistic regression models the probability of a "success" in a binary outcome, where success is defined as the outcome of interest. We demonstrate methods presented in Crespi [-@crespi].
+Logistic regression models the probability of a "success" in a binary outcome, where success is defined as the outcome of interest. We demonstrate methods presented in Crespi [-@crespi], which uses the WebPower package [@webpower].
+
+```{r message=FALSE, warning=FALSE}
+library(WebPower)
+```
+
+Because calculating power for logistic regression models depends on the _distribution of predictors_, there are limited cases where closed-form expressions can be derived. We present three examples: (1) a single binary predictor, (2) a single normally distributed predictor, and (3) multiple normally distributed predictors. For more complex models, simulation can be used. 
+
+## One Binary Predictor
+
+With one binary predictor $x$, we calculate power or sample size based on the null hypothesis test that the coefficient for the predictor ($\beta_x$) equals 0.
+
+For sample size estimation based on power, we need the following:
+
+- Desired power
+- Probability of success when x = 0 (p0)
+- Probability of success when x = 1 (p1)
+- Significance level
+- Distribution family of the predictor
+- The parameter value of the predictor's distribution
+- Direction of test: one or two sided
+
+
+For power estimation based on sample size, we need the following:
+
+- Sample size
+- Probability of success when x = 0 (p0)
+- Probability of success when x = 1 (p1)
+- Significance level
+- Distribution family of the predictor
+- The parameter value of the predictor's distribution
+- Direction of test: one or two sided
+
+
+### Example: sample size
+
+A hospital clinic wants to investigate if follow-up phone calls with patients (versus no follow-up) increases compliance with a treatment regimen. Patients will be randomly assigned to two conditions: one where patients are given written instructions and asked to report back in six months, and one where patients are given written instructions and contacted three times by phone before the six month follow up. The binary outcome is compliance with the treatment regimen over the previous six months (yes or no). They want to sample enough subjects to detect a difference of 0.15 in the rate of compliance. Assume the following:
+
+- Desired power is 0.9
+- Compliance rate without follow-up is about 0.15 (i.e., probability of success when x = 0, p0)
+- Compliance rate with follow-up is 0.30 (i.e., probability of success when x = 1, p1)
+- Significance level of 0.05 (alpha)
+- Bernoulli distribution for the predictor since it's binary
+- Bernoulli parameter of 0.5 (i.e., half of the subjects will be in one group, half in the other)
+- Two-sided test
+
+Using the `wp.logistic()` function in the WebPower package:
+
+```{r}
+wp.logistic(n = NULL, p0 = 0.15, p1 = 0.30, 
+            alpha = 0.05, power = 0.9,
+            family = "Bernoulli", parameter = 0.5,
+            alternative ="two.sided")
+```
+
+Based on these assumptions, the clinic should plan on sampling at least 337 subjects to have probability of 0.9 of correctly rejecting the null of no difference. 
+
+### Example: power
+
+A hospital clinic wants to investigate if follow-up phone calls with patients (versus no follow-up) increases compliance with a treatment regimen. Patients will be randomly assigned to two conditions: one where patients are given written instructions and asked to report back in six months, and one where patients are given written instructions and contacted three times by phone before the six month follow up. The binary outcome is compliance with the treatment regimen over the previous six months (yes or no). They will only have the budget to sample 200 subjects. How powerful is the experiment if they want to detect a difference of 0.15 in the rate of compliance. Assume the following:
+
+- Sample size is 200
+- Compliance rate without follow-up is about 0.15 (i.e., probability of success when x = 0, p0)
+- Compliance rate with follow-up is 0.30 (i.e., probability of success when x = 1, p1)
+- Significance level of 0.05 (alpha)
+- Bernoulli distribution for the predictor since it's binary
+- Bernoulli parameter of 0.5 (i.e., half of the subjects will be in one group, half in the other)
+- Two-sided test
+
+Using the `wp.logistic()` function in the WebPower package:
+
+```{r}
+wp.logistic(power = NULL, p0 = 0.15, p1 = 0.30, 
+            alpha = 0.05, n = 200,
+            family = "Bernoulli", parameter = 0.5,
+            alternative ="two.sided")
+```
+
+The experiment has a probability of about 0.7 of correctly rejecting the null hypothesis of no difference in treatments with a sample size of 200.
