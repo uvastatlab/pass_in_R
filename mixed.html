@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Mixed-effect models – Power and Sample Size in R</title>
+<title>6&nbsp; Mixed-effect models – Power and Sample Size in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -86,7 +86,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./tips.html" rel="next">
-<link href="./regression.html" rel="prev">
+<link href="./logistic.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -167,7 +167,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./mixed.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Mixed-effect models</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./mixed.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Mixed-effect models</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -219,19 +219,25 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./logistic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./mixed.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Mixed-effect models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Mixed-effect models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tips.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tips</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Tips</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -250,23 +256,23 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#random-intercept-model-continuous-slope" id="toc-random-intercept-model-continuous-slope" class="nav-link active" data-scroll-target="#random-intercept-model-continuous-slope"><span class="header-section-number">5.1</span> Random intercept model: continuous slope</a>
+  <li><a href="#random-intercept-model-continuous-slope" id="toc-random-intercept-model-continuous-slope" class="nav-link active" data-scroll-target="#random-intercept-model-continuous-slope"><span class="header-section-number">6.1</span> Random intercept model: continuous slope</a>
   <ul class="collapse">
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">5.1.1</span> Example</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">6.1.1</span> Example</a></li>
   </ul></li>
-  <li><a href="#random-intercept-and-random-slope-model-continuous-slope" id="toc-random-intercept-and-random-slope-model-continuous-slope" class="nav-link" data-scroll-target="#random-intercept-and-random-slope-model-continuous-slope"><span class="header-section-number">5.2</span> Random intercept and random slope model: continuous slope</a>
+  <li><a href="#random-intercept-and-random-slope-model-continuous-slope" id="toc-random-intercept-and-random-slope-model-continuous-slope" class="nav-link" data-scroll-target="#random-intercept-and-random-slope-model-continuous-slope"><span class="header-section-number">6.2</span> Random intercept and random slope model: continuous slope</a>
   <ul class="collapse">
-  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">5.2.1</span> Example</a></li>
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">6.2.1</span> Example</a></li>
   </ul></li>
-  <li><a href="#random-intercept-model-binary-slope" id="toc-random-intercept-model-binary-slope" class="nav-link" data-scroll-target="#random-intercept-model-binary-slope"><span class="header-section-number">5.3</span> Random intercept model: binary slope</a>
+  <li><a href="#random-intercept-model-binary-slope" id="toc-random-intercept-model-binary-slope" class="nav-link" data-scroll-target="#random-intercept-model-binary-slope"><span class="header-section-number">6.3</span> Random intercept model: binary slope</a>
   <ul class="collapse">
-  <li><a href="#example-closed-form-expression" id="toc-example-closed-form-expression" class="nav-link" data-scroll-target="#example-closed-form-expression"><span class="header-section-number">5.3.1</span> Example: closed-form expression</a></li>
-  <li><a href="#example-simulation" id="toc-example-simulation" class="nav-link" data-scroll-target="#example-simulation"><span class="header-section-number">5.3.2</span> Example: simulation</a></li>
+  <li><a href="#example-closed-form-expression" id="toc-example-closed-form-expression" class="nav-link" data-scroll-target="#example-closed-form-expression"><span class="header-section-number">6.3.1</span> Example: closed-form expression</a></li>
+  <li><a href="#example-simulation" id="toc-example-simulation" class="nav-link" data-scroll-target="#example-simulation"><span class="header-section-number">6.3.2</span> Example: simulation</a></li>
   </ul></li>
-  <li><a href="#random-intercept-and-random-slope-model-binary-slope" id="toc-random-intercept-and-random-slope-model-binary-slope" class="nav-link" data-scroll-target="#random-intercept-and-random-slope-model-binary-slope"><span class="header-section-number">5.4</span> Random intercept and random slope model: binary slope</a>
+  <li><a href="#random-intercept-and-random-slope-model-binary-slope" id="toc-random-intercept-and-random-slope-model-binary-slope" class="nav-link" data-scroll-target="#random-intercept-and-random-slope-model-binary-slope"><span class="header-section-number">6.4</span> Random intercept and random slope model: binary slope</a>
   <ul class="collapse">
-  <li><a href="#example-closed-form-expression-1" id="toc-example-closed-form-expression-1" class="nav-link" data-scroll-target="#example-closed-form-expression-1"><span class="header-section-number">5.4.1</span> Example: closed-form expression</a></li>
-  <li><a href="#example-simulation-1" id="toc-example-simulation-1" class="nav-link" data-scroll-target="#example-simulation-1"><span class="header-section-number">5.4.2</span> Example: simulation</a></li>
+  <li><a href="#example-closed-form-expression-1" id="toc-example-closed-form-expression-1" class="nav-link" data-scroll-target="#example-closed-form-expression-1"><span class="header-section-number">6.4.1</span> Example: closed-form expression</a></li>
+  <li><a href="#example-simulation-1" id="toc-example-simulation-1" class="nav-link" data-scroll-target="#example-simulation-1"><span class="header-section-number">6.4.2</span> Example: simulation</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -276,7 +282,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Mixed-effect models</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Mixed-effect models</span></h1>
 </div>
 
 
@@ -293,8 +299,8 @@ window.Quarto = {
 </header>
 
 
-<section id="random-intercept-model-continuous-slope" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="random-intercept-model-continuous-slope"><span class="header-section-number">5.1</span> Random intercept model: continuous slope</h2>
+<section id="random-intercept-model-continuous-slope" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="random-intercept-model-continuous-slope"><span class="header-section-number">6.1</span> Random intercept model: continuous slope</h2>
 <p>In this model the slope coefficient represents a trend.</p>
 <p>For power estimation based on sample size, we need the following:</p>
 <ul>
@@ -306,8 +312,8 @@ window.Quarto = {
 <li>Significance level of test</li>
 <li>Direction of test: one or two-sided</li>
 </ul>
-<section id="example" class="level3" data-number="5.1.1">
-<h3 data-number="5.1.1" class="anchored" data-anchor-id="example"><span class="header-section-number">5.1.1</span> Example</h3>
+<section id="example" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="example"><span class="header-section-number">6.1.1</span> Example</h3>
 <p>We are planning an experiment where we track the BMI of college students over their four years at school. We’ll measure their BMI at the beginning of each school year in August. We would like sufficient power to detect a year trend of at least 0.25 if we recruit 15 students to the study. The null hypothesis we’ll test is that the year (slope) coefficient is 0. Rejecting this hypothesis provides evidence of a change in BMI over time. Assume the following:</p>
 <ul>
 <li>Between group standard deviation of 3</li>
@@ -359,7 +365,7 @@ window.Quarto = {
 <pre><code>Linear mixed model fit by REML ['lmerMod']
 Formula: bmi ~ year + (1 | student)
    Data: d
-REML criterion at convergence: 228.8233
+REML criterion at convergence: 211.0769
 Random effects:
  Groups   Name        Std.Dev.
  student  (Intercept) 3       
@@ -424,7 +430,7 @@ Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
 Based on 100 simulations, (0 warnings, 0 errors)
 alpha = 0.01, nrow = 120
 
-Time elapsed: 0 h 0 m 5 s</code></pre>
+Time elapsed: 0 h 0 m 6 s</code></pre>
 </div>
 </div>
 <p>Power is higher but still too low at 0.64.</p>
@@ -451,8 +457,8 @@ Time elapsed: 0 h 0 m 5 s</code></pre>
 <p>It appears we need about 38 students to achieve power of at least 0.80.</p>
 </section>
 </section>
-<section id="random-intercept-and-random-slope-model-continuous-slope" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="random-intercept-and-random-slope-model-continuous-slope"><span class="header-section-number">5.2</span> Random intercept and random slope model: continuous slope</h2>
+<section id="random-intercept-and-random-slope-model-continuous-slope" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="random-intercept-and-random-slope-model-continuous-slope"><span class="header-section-number">6.2</span> Random intercept and random slope model: continuous slope</h2>
 <p>In this model the slope coefficient represents a trend.</p>
 <p>For power estimation based on sample size, we need the following:</p>
 <ul>
@@ -466,8 +472,8 @@ Time elapsed: 0 h 0 m 5 s</code></pre>
 <li>Significance level of test</li>
 <li>Direction of test: one or two-sided</li>
 </ul>
-<section id="example-1" class="level3" data-number="5.2.1">
-<h3 data-number="5.2.1" class="anchored" data-anchor-id="example-1"><span class="header-section-number">5.2.1</span> Example</h3>
+<section id="example-1" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="example-1"><span class="header-section-number">6.2.1</span> Example</h3>
 <p>We are planning an experiment where we track the BMI of college students over their four years at school. We’ll measure their BMI at the beginning of each school year in August. We would like sufficient power to detect a year trend of at least 0.25 if we recruit 15 students to the study. The null hypothesis we’ll test is that the year (slope) coefficient is 0. Rejecting this hypothesis provides evidence of a change in BMI over time. Assume the following:</p>
 <ul>
 <li>Intercept random effect of 3</li>
@@ -561,7 +567,7 @@ Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
 Based on 100 simulations, (1 warning, 0 errors)
 alpha = 0.01, nrow = 60
 
-Time elapsed: 0 h 0 m 6 s</code></pre>
+Time elapsed: 0 h 0 m 7 s</code></pre>
 </div>
 </div>
 <p>Our power is estimated to be about 0.19. The confidence interval is based on a simple binomial test.</p>
@@ -592,7 +598,7 @@ Test: t-test with Satterthwaite degrees of freedom (package lmerTest)
 Based on 100 simulations, (1 warning, 0 errors)
 alpha = 0.01, nrow = 120
 
-Time elapsed: 0 h 0 m 6 s</code></pre>
+Time elapsed: 0 h 0 m 7 s</code></pre>
 </div>
 </div>
 <p>Power is higher but still too low at 0.55.</p>
@@ -619,8 +625,8 @@ Time elapsed: 0 h 0 m 6 s</code></pre>
 <p>It appears we need about 44 students to achieve power of at least 0.80.</p>
 </section>
 </section>
-<section id="random-intercept-model-binary-slope" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="random-intercept-model-binary-slope"><span class="header-section-number">5.3</span> Random intercept model: binary slope</h2>
+<section id="random-intercept-model-binary-slope" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="random-intercept-model-binary-slope"><span class="header-section-number">6.3</span> Random intercept model: binary slope</h2>
 <p>In this model the slope coefficient represents a population treatment effect. In other words, we’re comparing means between two groups.</p>
 <p>For power estimation based on sample size, we need the following:</p>
 <ul>
@@ -632,8 +638,8 @@ Time elapsed: 0 h 0 m 6 s</code></pre>
 <li>Significance level of test</li>
 <li>Direction of test: one or two-sided</li>
 </ul>
-<section id="example-closed-form-expression" class="level3" data-number="5.3.1">
-<h3 data-number="5.3.1" class="anchored" data-anchor-id="example-closed-form-expression"><span class="header-section-number">5.3.1</span> Example: closed-form expression</h3>
+<section id="example-closed-form-expression" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="example-closed-form-expression"><span class="header-section-number">6.3.1</span> Example: closed-form expression</h3>
 <p>We are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is a between site standard deviation of 2 and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.</p>
 <p>Crespi <span class="citation" data-cites="crespi">(<a href="references.html#ref-crespi" role="doc-biblioref">2025</a>)</span> describes how to estimate power for a design such as this using a noncentral t distribution. The <code>multisite.cont()</code> function in the powertools package <span class="citation" data-cites="powertools">(<a href="references.html#ref-powertools" role="doc-biblioref">Crespi and Liu 2025</a>)</span> implements this formula.</p>
 <p>Note the <code>multisite.cont()</code> function requires the total standard deviation of the outcome variable and the intraclass correlation coefficient (ICC) of the random intercept. We can derive both of these from the information given above.</p>
@@ -699,8 +705,8 @@ NOTE: m1, m2 are the number of subjects within site in condition 1, condition 2
 </div>
 <p>A sample size of 15 gets us to power over 0.80, and sample size of about 19 gets us up to 0.90.</p>
 </section>
-<section id="example-simulation" class="level3" data-number="5.3.2">
-<h3 data-number="5.3.2" class="anchored" data-anchor-id="example-simulation"><span class="header-section-number">5.3.2</span> Example: simulation</h3>
+<section id="example-simulation" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="example-simulation"><span class="header-section-number">6.3.2</span> Example: simulation</h3>
 <p>We can also estimate power using simulation via the simr package <span class="citation" data-cites="simr">(<a href="references.html#ref-simr" role="doc-biblioref">Green and MacLeod 2016</a>)</span>.</p>
 <p>Let’s restate the setup: we are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is a between site standard deviation of 2 and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.</p>
 <p>First we create a data frame of 10 observations each at 10 sites. Then we add a sequence of five zeroes and five ones to indicate treatment. A zero means control and one means treated.</p>
@@ -805,8 +811,8 @@ Time elapsed: 0 h 0 m 5 s</code></pre>
 <p>According to simulation, we need to sample 16 sites to reliably achieve power of at least 0.80.</p>
 </section>
 </section>
-<section id="random-intercept-and-random-slope-model-binary-slope" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="random-intercept-and-random-slope-model-binary-slope"><span class="header-section-number">5.4</span> Random intercept and random slope model: binary slope</h2>
+<section id="random-intercept-and-random-slope-model-binary-slope" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="random-intercept-and-random-slope-model-binary-slope"><span class="header-section-number">6.4</span> Random intercept and random slope model: binary slope</h2>
 <p>In this model the slope coefficient represents a population treatment effect. In other words, we’re comparing means between two groups. The random slope allows the effect of the treatment to depend on the random group.</p>
 <p>For power estimation based on sample size, we need the following:</p>
 <ul>
@@ -820,8 +826,8 @@ Time elapsed: 0 h 0 m 5 s</code></pre>
 <li>Significance level of test</li>
 <li>Direction of test: one or two-sided</li>
 </ul>
-<section id="example-closed-form-expression-1" class="level3" data-number="5.4.1">
-<h3 data-number="5.4.1" class="anchored" data-anchor-id="example-closed-form-expression-1"><span class="header-section-number">5.4.1</span> Example: closed-form expression</h3>
+<section id="example-closed-form-expression-1" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="example-closed-form-expression-1"><span class="header-section-number">6.4.1</span> Example: closed-form expression</h3>
 <p>We are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is an Intercept random effect of 2 (between site standard deviation), a slope random effect of <span class="math inline">\(\sqrt{8}\)</span>, and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.</p>
 <p>Crespi <span class="citation" data-cites="crespi">(<a href="references.html#ref-crespi" role="doc-biblioref">2025</a>)</span> describes how to estimate power for a design such as this using a noncentral t distribution. The <code>multisite.cont()</code> function in the powertools package <span class="citation" data-cites="powertools">(<a href="references.html#ref-powertools" role="doc-biblioref">Crespi and Liu 2025</a>)</span> implements this formula.</p>
 <p>Note the <code>multisite.cont()</code> function requires the total standard deviation of the outcome variable and two intraclass correlation coefficients (ICC):</p>
@@ -883,8 +889,8 @@ NOTE: m1, m2 are the number of subjects within site in condition 1, condition 2
 </div>
 <p>A sample size of 24 gets us to power over 0.80, and sample size of 30 gets us up to 0.90.</p>
 </section>
-<section id="example-simulation-1" class="level3" data-number="5.4.2">
-<h3 data-number="5.4.2" class="anchored" data-anchor-id="example-simulation-1"><span class="header-section-number">5.4.2</span> Example: simulation</h3>
+<section id="example-simulation-1" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="example-simulation-1"><span class="header-section-number">6.4.2</span> Example: simulation</h3>
 <p>We can also estimate power using simulation via the simr package.</p>
 <p>Let’s restate the setup: We are planning a multisite experiment where we will compare two types of bug traps, an older model (control) and a newer model (treatment). At each site we will place 5 traps of each type (10 total) and return in 30 days to weigh the amount of invasive bugs captured. We think it would be meaningful if our new trap captured 3 grams of additional bugs on average. We assume there is an Intercept random effect of 2 (between site standard deviation), a slope random effect of <span class="math inline">\(\sqrt{8}\)</span>, and a within site standard deviation of 6. How powerful is our experiment if we select 10 sites to run this experiment? Assume a two-sided test and a significance level of 0.05.</p>
 <p>First we create a data frame of 10 observations each at 10 sites. Then we add a sequence of five zeroes and five ones to indicate treatment. A zero means control and one means treated.</p>
@@ -1399,13 +1405,13 @@ Green, Peter, and Catriona J. MacLeod. 2016. <span>“Simr: An r Package for Pow
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./regression.html" class="pagination-link" aria-label="Regression">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regression</span></span>
+      <a href="./logistic.html" class="pagination-link" aria-label="Logistic Regression">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./tips.html" class="pagination-link" aria-label="Tips">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tips</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Tips</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

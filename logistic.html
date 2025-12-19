@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; Multiple Regression – Power and Sample Size in R</title>
+<title>5&nbsp; Logistic Regression – Power and Sample Size in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -85,8 +85,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./logistic.html" rel="next">
-<link href="./anova.html" rel="prev">
+<link href="./mixed.html" rel="next">
+<link href="./regression.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -126,6 +126,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -138,7 +167,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./regression.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple Regression</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./logistic.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -189,13 +218,13 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./regression.html" class="sidebar-item-text sidebar-link active">
+  <a href="./regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple Regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./logistic.html" class="sidebar-item-text sidebar-link">
+  <a href="./logistic.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
   </div>
 </li>
@@ -227,16 +256,17 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#multiple-regression-f-test" id="toc-multiple-regression-f-test" class="nav-link active" data-scroll-target="#multiple-regression-f-test"><span class="header-section-number">4.1</span> Multiple Regression: F test</a>
+  <li><a href="#one-binary-predictor" id="toc-one-binary-predictor" class="nav-link active" data-scroll-target="#one-binary-predictor"><span class="header-section-number">5.1</span> One Binary Predictor</a>
   <ul class="collapse">
-  <li><a href="#example-sample-size" id="toc-example-sample-size" class="nav-link" data-scroll-target="#example-sample-size"><span class="header-section-number">4.1.1</span> Example: sample size</a></li>
-  <li><a href="#example-power" id="toc-example-power" class="nav-link" data-scroll-target="#example-power"><span class="header-section-number">4.1.2</span> Example: power</a></li>
+  <li><a href="#example-sample-size" id="toc-example-sample-size" class="nav-link" data-scroll-target="#example-sample-size"><span class="header-section-number">5.1.1</span> Example: sample size</a></li>
+  <li><a href="#example-power" id="toc-example-power" class="nav-link" data-scroll-target="#example-power"><span class="header-section-number">5.1.2</span> Example: power</a></li>
   </ul></li>
-  <li><a href="#multiple-regression-partial-f-tests" id="toc-multiple-regression-partial-f-tests" class="nav-link" data-scroll-target="#multiple-regression-partial-f-tests"><span class="header-section-number">4.2</span> Multiple Regression: Partial F Tests</a>
+  <li><a href="#one-continuous-predictor" id="toc-one-continuous-predictor" class="nav-link" data-scroll-target="#one-continuous-predictor"><span class="header-section-number">5.2</span> One Continuous Predictor</a>
   <ul class="collapse">
-  <li><a href="#example-sample-size-1" id="toc-example-sample-size-1" class="nav-link" data-scroll-target="#example-sample-size-1"><span class="header-section-number">4.2.1</span> Example: sample size</a></li>
-  <li><a href="#example-power-1" id="toc-example-power-1" class="nav-link" data-scroll-target="#example-power-1"><span class="header-section-number">4.2.2</span> Example: power</a></li>
+  <li><a href="#example-sample-size-1" id="toc-example-sample-size-1" class="nav-link" data-scroll-target="#example-sample-size-1"><span class="header-section-number">5.2.1</span> Example: sample size</a></li>
+  <li><a href="#example-power-1" id="toc-example-power-1" class="nav-link" data-scroll-target="#example-power-1"><span class="header-section-number">5.2.2</span> Example: power</a></li>
   </ul></li>
+  <li><a href="#multiple-predictors" id="toc-multiple-predictors" class="nav-link" data-scroll-target="#multiple-predictors"><span class="header-section-number">5.3</span> Multiple predictors</a></li>
   </ul>
 </nav>
     </div>
@@ -245,7 +275,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple Regression</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic Regression</span></h1>
 </div>
 
 
@@ -262,177 +292,207 @@ div.csl-indent {
 </header>
 
 
-<section id="multiple-regression-f-test" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="multiple-regression-f-test"><span class="header-section-number">4.1</span> Multiple Regression: F test</h2>
-<p>An F test assesses whether <em>any</em> of the predictors in a multiple regression model are useful in predicting the response. The null hypothesis is that all of the coefficients (except the intercept) are 0. Rejecting the null implies the model has some explanatory value, though it doesn’t tell you how much.</p>
+<p>Logistic regression models the probability of a “success” in a binary outcome, where success is defined as the outcome of interest. We demonstrate methods presented in Crespi <span class="citation" data-cites="crespi">(<a href="references.html#ref-crespi" role="doc-biblioref">2025</a>)</span>, which uses the WebPower package <span class="citation" data-cites="webpower">(<a href="references.html#ref-webpower" role="doc-biblioref">Zhang and Mai 2023</a>)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(WebPower)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Because calculating power for logistic regression models depends on the <em>distribution of predictors</em>, there are limited cases where closed-form expressions can be derived. We present three examples: (1) a single binary predictor, (2) a single normally distributed predictor, and (3) a single predictor adjusted for multiple predictors. For more complex models, simulation can be used.</p>
+<section id="one-binary-predictor" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="one-binary-predictor"><span class="header-section-number">5.1</span> One Binary Predictor</h2>
+<p>With one binary predictor <span class="math inline">\(x\)</span>, we calculate power or sample size based on the null hypothesis test that the coefficient for the predictor (<span class="math inline">\(\beta_x\)</span>) equals 0.</p>
 <p>For sample size estimation based on power, we need the following:</p>
 <ul>
-<li>hypothesized effect size (f<sup>2</sup> = R<sup>2</sup> / (1 − R<sup>2</sup>))</li>
-<li>numerator degrees of freedom (u = number of predictors being tested, occasionally represented as ‘p’)</li>
-<li>significance level of test</li>
-<li>power of test</li>
+<li>Desired power</li>
+<li>Probability of success when x = 0 (p0)</li>
+<li>Probability of success when x = 1 (p1)</li>
+<li>Significance level</li>
+<li>Distribution family of the predictor</li>
+<li>The parameter value of the predictor’s distribution</li>
+<li>Direction of test: one or two sided</li>
 </ul>
 <p>For power estimation based on sample size, we need the following:</p>
 <ul>
-<li>hypothesized effect size (f<sup>2</sup> = R<sup>2</sup> / (1 − R<sup>2</sup>))</li>
-<li>numerator degrees of freedom (u = number of predictors being tested, occasionally represented as ‘p’)</li>
-<li>denominator degrees of freedom (v = n − u − 1, where n is sample size). Hence, n = v + u +1</li>
-<li>significance level of test</li>
+<li>Sample size</li>
+<li>Probability of success when x = 0 (p0)</li>
+<li>Probability of success when x = 1 (p1)</li>
+<li>Significance level</li>
+<li>Distribution family of the predictor</li>
+<li>The parameter value of the predictor’s distribution</li>
+<li>Direction of test: one or two sided</li>
 </ul>
-<section id="example-sample-size" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="example-sample-size"><span class="header-section-number">4.1.1</span> Example: sample size</h3>
-<p>Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual’s time to complete the race using two variables: total hours spent training the past three months and average pace per mile during training runs. We can perform a multiple regression to model race completion time as a function of training time and pace. We want to sample enough subjects to detect an effect when our two independent (explanatory) variables explains 45% of variation of the dependent (response) variable, race completion time. Assume the following:</p>
+<section id="example-sample-size" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="example-sample-size"><span class="header-section-number">5.1.1</span> Example: sample size</h3>
+<p>A hospital clinic wants to investigate if follow-up phone calls with patients (versus no follow-up) increases compliance with a treatment regimen. Patients will be randomly assigned to two conditions: one where patients are given written instructions and asked to report back in six months, and one where patients are given written instructions and contacted three times by phone before the six month follow up. The binary outcome is compliance with the treatment regimen over the previous six months (yes or no). They want to sample enough subjects to detect a difference of 0.15 in the rate of compliance. Assume the following:</p>
 <ul>
-<li><p>hypothesized effect size of (f<sup>2</sup> = .45 / (1-.45)), f<sup>2</sup> = 0.82; R<sup>2</sup> = .45</p></li>
-<li><p>numerator degrees of freedom u = 2 (two predictors)</p></li>
-<li><p>significance level = 0.01</p></li>
-<li><p>desired power = 0.90</p></li>
+<li>Desired power is 0.9</li>
+<li>Compliance rate without follow-up is about 0.15 (i.e., probability of success when x = 0, p0)</li>
+<li>Compliance rate with follow-up is 0.30 (i.e., probability of success when x = 1, p1)</li>
+<li>Significance level of 0.05 (alpha)</li>
+<li>Bernoulli distribution for the predictor since it’s binary</li>
+<li>Bernoulli parameter of 0.5 (i.e., half of the subjects will be in one group, half in the other)</li>
+<li>Two-sided test</li>
 </ul>
-<p>Using the pwr package <span class="citation" data-cites="pwr">(<a href="references.html#ref-pwr" role="doc-biblioref">Champely 2020</a>)</span>:</p>
+<p>Using the <code>wp.logistic()</code> function in the WebPower package:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.f2.test</span>(<span class="at">f2 =</span> <span class="fl">0.82</span>, <span class="at">u =</span> <span class="dv">2</span>, <span class="at">sig.level =</span> <span class="fl">0.01</span>, <span class="at">power =</span> <span class="fl">0.9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wp.logistic</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">p0 =</span> <span class="fl">0.15</span>, <span class="at">p1 =</span> <span class="fl">0.30</span>, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">alpha =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="fl">0.9</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="st">"Bernoulli"</span>, <span class="at">parameter =</span> <span class="fl">0.5</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">alternative =</span><span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-     Multiple regression power calculation 
+<pre><code>Power for logistic regression
 
-              u = 2
-              v = 23.17
-             f2 = 0.82
-      sig.level = 0.01
-          power = 0.9</code></pre>
-</div>
-</div>
-<p>From above, we know that n = v + u +1, so we need 24 + 2 + 1 = <strong>27 subjects.</strong></p>
-</section>
-<section id="example-power" class="level3" data-number="4.1.2">
-<h3 data-number="4.1.2" class="anchored" data-anchor-id="example-power"><span class="header-section-number">4.1.2</span> Example: power</h3>
-<p>Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual’s time to complete the race using two variables: total hours spent training the past three months and average pace per mile during training runs. We can perform a multiple regression to model race completion time as a function of training time and pace. We want to sample enough subjects to detect an effect when our two independent (explanatory) variables explains 45% of variation of the dependent (response) variable, race completion time. We will have 30 participating subjects. Assume the following:</p>
-<ul>
-<li><p>hypothesized effect size of (f<sup>2</sup> = .45 / (1-.45)), f<sup>2</sup> = 0.82; R<sup>2</sup> = .45</p></li>
-<li><p>numerator degrees of freedom u = 2 (two predictors)</p></li>
-<li><p>denominator degrees of freedom v = n − u − 1 = 30 - 2 - 1 = 27</p></li>
-<li><p>significance level = 0.01</p></li>
-</ul>
-<p>Using the pwr package <span class="citation" data-cites="pwr">(<a href="references.html#ref-pwr" role="doc-biblioref">Champely 2020</a>)</span>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.f2.test</span>(<span class="at">f2 =</span> <span class="fl">0.82</span>, <span class="at">u =</span> <span class="dv">2</span>, <span class="at">v =</span> <span class="dv">27</span>, <span class="at">sig.level =</span> <span class="fl">0.01</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-     Multiple regression power calculation 
+      p0  p1     beta0     beta1        n alpha power
+    0.15 0.3 -1.734601 0.8873032 336.4544  0.05   0.9
 
-              u = 2
-              v = 27
-             f2 = 0.82
-      sig.level = 0.01
-          power = 0.9491656</code></pre>
+URL: http://psychstat.org/logistic</code></pre>
 </div>
 </div>
-<p>The power is about 0.95.</p>
-<p>This can be done using the powertools package <span class="citation" data-cites="powertools">(<a href="references.html#ref-powertools" role="doc-biblioref">Crespi and Liu 2025</a>)</span>, we use the ‘random’ argument to specify that our variables are random (as opposed to fixed), and the ‘v’ argument for a verbose output:</p>
+<p>Based on these assumptions, the clinic should plan on sampling at least 337 subjects to have probability of 0.9 of correctly rejecting the null of no difference.</p>
+</section>
+<section id="example-power" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="example-power"><span class="header-section-number">5.1.2</span> Example: power</h3>
+<p>A hospital clinic wants to investigate if follow-up phone calls with patients (versus no follow-up) increases compliance with a treatment regimen. Patients will be randomly assigned to two conditions: one where patients are given written instructions and asked to report back in six months, and one where patients are given written instructions and contacted three times by phone before the six month follow up. The binary outcome is compliance with the treatment regimen over the previous six months (yes or no). They will only have the budget to sample 200 subjects. How powerful is the experiment if they want to detect a difference of 0.15 in the rate of compliance? Assume the following:</p>
+<ul>
+<li>Sample size is 200</li>
+<li>Compliance rate without follow-up is about 0.15 (i.e., probability of success when x = 0, p0)</li>
+<li>Compliance rate with follow-up is 0.30 (i.e., probability of success when x = 1, p1)</li>
+<li>Significance level of 0.05 (alpha)</li>
+<li>Bernoulli distribution for the predictor since it’s binary</li>
+<li>Bernoulli parameter of 0.5 (i.e., half of the subjects will be in one group, half in the other)</li>
+<li>Two-sided test</li>
+</ul>
+<p>Using the <code>wp.logistic()</code> function in the WebPower package:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(powertools) </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mlrF.overall</span>(<span class="at">N =</span> <span class="dv">30</span>, <span class="at">p =</span> <span class="dv">2</span>, <span class="at">Rsq =</span> <span class="fl">0.45</span>, <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">random =</span> <span class="cn">TRUE</span>, <span class="at">v =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wp.logistic</span>(<span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">p0 =</span> <span class="fl">0.15</span>, <span class="at">p1 =</span> <span class="fl">0.30</span>, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">alpha =</span> <span class="fl">0.05</span>, <span class="at">n =</span> <span class="dv">200</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="st">"Bernoulli"</span>, <span class="at">parameter =</span> <span class="fl">0.5</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">alternative =</span><span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-     Power calculation for a multiple linear regression
-     overall F test assuming random predictors 
+<pre><code>Power for logistic regression
 
-              N = 30
-              p = 2
-            Rsq = 0.45
-            fsq = 0.8181818
-          alpha = 0.05
-          power = 0.983175</code></pre>
+      p0  p1     beta0     beta1   n alpha     power
+    0.15 0.3 -1.734601 0.8873032 200  0.05 0.7051399
+
+URL: http://psychstat.org/logistic</code></pre>
 </div>
 </div>
-<p>The power is about 0.98</p>
+<p>The experiment has a probability of about 0.7 of correctly rejecting the null hypothesis of no difference in treatments with a sample size of 200.</p>
 </section>
 </section>
-<section id="multiple-regression-partial-f-tests" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="multiple-regression-partial-f-tests"><span class="header-section-number">4.2</span> Multiple Regression: Partial F Tests</h2>
-<p>A partial F test evaluates whether adding one or more predictors to a regression model significantly improves its ability to explain variation in the response variable. It compares a reduced model (fewer predictors) with a full model (more predictors) and tests whether the additional predictors contribute significantly to ( R<sup>2</sup> ). The null hypothesis is no difference between the models. Note the reduced model should be <em>nested</em> within the full model. In other words, the reduced model shouldn’t have any predictors not present in the full model.</p>
-<p>For sample size estimation based on power, we need the following:</p>
+<section id="one-continuous-predictor" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="one-continuous-predictor"><span class="header-section-number">5.2</span> One Continuous Predictor</h2>
+<p>The process of calculating power and sample size for a model with one continuous predictor is the same as a model with one binary predictor. We simply need to update the family and parameter arguments in the <code>wp.logistic()</code> function. In this case the p0 and p1 arguments represent a meaningful change on the continuous scale such as a one standard deviation increase or decrease.</p>
+<section id="example-sample-size-1" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="example-sample-size-1"><span class="header-section-number">5.2.1</span> Example: sample size</h3>
+<p>A hospital clinic wants to investigate if the weight of male patients is associated with the probability of exercising regularly, a yes/no question they ask patients. They want to sample enough male subjects to detect an increase of 0.1 on the probability of exercising regularly. Assume the following:</p>
 <ul>
-<li><p>incremental effect size (f<sup>2</sup> = R<sup>2</sup><sub>full</sub> - R<sup>2</sup><sub>reduced</sub>) / (1 - R<sup>2</sup><sub>full</sub>)</p></li>
-<li><p>number of predictors in full model (sometimes called p)</p></li>
-<li><p>number of predictors in reduced model (sometimes called q)</p></li>
-<li><p>significance level of test</p></li>
-<li><p>desired power</p></li>
+<li>Desired power is 0.9</li>
+<li>Probability of exercising regularly at average weight is 0.4 (i.e., probability of success when x = 0, p0)</li>
+<li>Probability of exercising regularly at one standard deviation over the average weight is 0.3 (i.e., probability of success when x = 1, p1)</li>
+<li>Significance level of 0.05 (alpha)</li>
+<li>Normal distribution for the predictor</li>
+<li>Normal parameters of 0 and 1 (i.e., standardized mean and standard deviation of 0 and 1)</li>
+<li>Two-sided test</li>
 </ul>
-<p>For power estimation based on sample size, we need the following:</p>
-<ul>
-<li><p>incremental effect size (f<sup>2</sup> = R<sup>2</sup><sub>full</sub> - R<sup>2</sup><sub>reduced</sub>) / (1 - R<sup>2</sup><sub>full</sub>)</p></li>
-<li><p>number of predictors in full model (sometimes called p)</p></li>
-<li><p>number of predictors in reduced model (sometimes called q)</p></li>
-<li><p>significance level of test</p></li>
-</ul>
-<section id="example-sample-size-1" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="example-sample-size-1"><span class="header-section-number">4.2.1</span> Example: sample size</h3>
-<p>Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual’s completion time using a statistical model. We already have a model fit with two variables (training hours and average pace) that explains 35% of variation in race completion time. We now want to know how many participants we need to detect whether adding a third variable, <strong>weekly distance</strong>, improves model performance by an additional 10% of explained variance (so that ( R<sup>2</sup><sub>full</sub> = 0.45 )).</p>
-<p>Assume the following:</p>
-<ul>
-<li>R<sup>2</sup><sub>full</sub> = 0.45</li>
-<li>R<sup>2</sup><sub>reduced</sub> = 0.35</li>
-<li>p = 3 (predictors in full model)</li>
-<li>q = 2 (predictors in reduced model)</li>
-<li>significance level ( = 0.05 )</li>
-<li>desired power ( = 0.80 )</li>
-</ul>
-<p>Using the <code>powertools</code> package <span class="citation" data-cites="powertools">(<a href="references.html#ref-powertools" role="doc-biblioref">Crespi and Liu 2025</a>)</span>:</p>
+<p>Using the <code>wp.logistic()</code> function in the WebPower package:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(powertools)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mlrF.partial</span>(<span class="at">N =</span> <span class="cn">NULL</span>, </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">p =</span> <span class="dv">3</span>, </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">q =</span> <span class="dv">2</span>, </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">Rsq.red =</span> <span class="fl">0.35</span>, </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">Rsq.full =</span> <span class="fl">0.45</span>, </span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">power =</span> <span class="fl">0.80</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wp.logistic</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">p0 =</span> <span class="fl">0.4</span>, <span class="at">p1 =</span> <span class="fl">0.3</span>, </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">alpha =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="fl">0.9</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="st">"normal"</span>, <span class="at">parameter =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">alternative =</span><span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 56.27915</code></pre>
+<pre><code>Power for logistic regression
+
+     p0  p1      beta0      beta1        n alpha power
+    0.4 0.3 -0.4054651 -0.4418328 254.7801  0.05   0.9
+
+URL: http://psychstat.org/logistic</code></pre>
 </div>
 </div>
-<p>Assuming our effect size is correct, we should plan on sampling at least 57 participants to have a probability of 0.80 of correctly rejecting the null of no difference between the models.</p>
+<p>Based on these assumptions, the clinic should plan on sampling at least 255 males subjects to have probability of 0.9 of correctly rejecting the null hypothesis of no effect of weight.</p>
 </section>
-<section id="example-power-1" class="level3" data-number="4.2.2">
-<h3 data-number="4.2.2" class="anchored" data-anchor-id="example-power-1"><span class="header-section-number">4.2.2</span> Example: power</h3>
-<p>Suppose there is an annual 5k running race in a city. We are interested if we can predict an individual’s completion time using a statistical model. We already have a model fit with two variables (training hours and average pace) that explains 35% of variation in race completion time. If we sample 30 participants, we now want to know how much power we have to detect whether adding a third variable , <strong>weekly distance</strong>, improves model performance by an additional 10% of explained variance (so that ( R<sup>2</sup><sub>full</sub> = 0.45 )).</p>
-<p>Assume the following:</p>
+<section id="example-power-1" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="example-power-1"><span class="header-section-number">5.2.2</span> Example: power</h3>
+<p>A hospital clinic wants to investigate if the weight of male patients is associated with the probability of exercising regularly, a yes/no question they ask patients. They will only have the budget to sample 220 subjects. How powerful is the experiment if they want to detect a difference of 0.1 in the probability of exercising? Assume the following:</p>
 <ul>
-<li>N = 30</li>
-<li>R<sup>2</sup><sub>full</sub> = 0.45</li>
-<li>R<sup>2</sup><sub>reduced</sub> = 0.35</li>
-<li>p = 3 (predictors in full model)</li>
-<li>q = 2 (predictors in reduced model)</li>
-<li>significance level ( = 0.05 )</li>
+<li>Sample size of 220</li>
+<li>Probability of exercising regularly at average weight is 0.4 (i.e., probability of success when x = 0, p0)</li>
+<li>Probability of exercising regularly at one standard deviation over the average weight is 0.3 (i.e., probability of success when x = 1, p1)</li>
+<li>Significance level of 0.05 (alpha)</li>
+<li>Normal distribution for the predictor</li>
+<li>Normal parameters of 0 and 1 (i.e., standardized mean and standard deviation of 0 and 1)</li>
+<li>Two-sided test</li>
 </ul>
-<p>Using the <code>powertools</code> package <span class="citation" data-cites="powertools">(<a href="references.html#ref-powertools" role="doc-biblioref">Crespi and Liu 2025</a>)</span>:</p>
+<p>Using the <code>wp.logistic()</code> function in the WebPower package:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(powertools)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mlrF.partial</span>(<span class="at">N =</span> <span class="dv">30</span>, </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">p =</span> <span class="dv">3</span>, </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">q =</span> <span class="dv">2</span>, </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">Rsq.red =</span> </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>               <span class="fl">0.35</span>, </span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">Rsq.full =</span> <span class="fl">0.45</span>, </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">power =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wp.logistic</span>(<span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">p0 =</span> <span class="fl">0.4</span>, <span class="at">p1 =</span> <span class="fl">0.3</span>, </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">alpha =</span> <span class="fl">0.05</span>, <span class="at">n =</span> <span class="dv">220</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="st">"normal"</span>, <span class="at">parameter =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">alternative =</span><span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4874955</code></pre>
+<pre><code>Power for logistic regression
+
+     p0  p1      beta0      beta1   n alpha     power
+    0.4 0.3 -0.4054651 -0.4418328 220  0.05 0.8536433
+
+URL: http://psychstat.org/logistic</code></pre>
 </div>
 </div>
-<p>Assuming our effect size is correct, sampling 30 participants only provides power of about 0.49 of correctly rejecting the null of no difference between the models.</p>
+<p>The experiment has a probability of about 0.85 of correctly rejecting the null hypothesis of no effect of weight on regular exercise with a sample size of 220.</p>
+</section>
+</section>
+<section id="multiple-predictors" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="multiple-predictors"><span class="header-section-number">5.3</span> Multiple predictors</h2>
+<p>It is often of interest to assess the effect of one predictor after controlling or adjusting for other variables. Crespi <span class="citation" data-cites="crespi">(<a href="references.html#ref-crespi" role="doc-biblioref">2025</a>)</span> presents a method of estimating sample sizes for these logistic regression models using Variance Inflation Factors (VIF). The general idea is to assume the predictors we adjust for are multivariate normal and that the predictor of interest is correlated with the other predictors. The higher the assumed correlation, the more sample size needs to be increased.</p>
+<p>The correlation can be conceptualized by imagining that we regress the predictor of interest on the other predictors and take the R-squared. We then take the reciprocal of 1 - R<sup>2</sup> to derive a VIF. For example, if the imagined R<sup>2</sup> is 0.3, then the VIF would be</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.428571</code></pre>
+</div>
+</div>
+<p>This implies we increase the sample size by about 43%.</p>
+<p>Returning to our previous example, a hospital clinic wants to investigate if the weight of male patients is associated with the probability of exercising regularly, a yes/no question they ask patients. They want to sample enough male subjects to detect an increase of 0.1 on the probability of exercising regularly. In addition to weight, they will collect other numeric predictors to adjust for, including age, blood pressure, and years of education.</p>
+<p>The sample size for the individual predictor was previously calculated as follows:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wp.logistic</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">p0 =</span> <span class="fl">0.4</span>, <span class="at">p1 =</span> <span class="fl">0.3</span>, </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">alpha =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="fl">0.9</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="st">"normal"</span>, <span class="at">parameter =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">alternative =</span><span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Power for logistic regression
+
+     p0  p1      beta0      beta1        n alpha power
+    0.4 0.3 -0.4054651 -0.4418328 254.7801  0.05   0.9
+
+URL: http://psychstat.org/logistic</code></pre>
+</div>
+</div>
+<p>Assuming the predictor of interest has a correlation of 0.25 with the other predictors, the VIF is</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.25</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.333333</code></pre>
+</div>
+</div>
+<p>This means we should increase the sample size by 33%.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="dv">255</span> <span class="sc">*</span> <span class="fl">1.33</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 339.15</code></pre>
+</div>
+</div>
+<p>The updated sample is 340.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-pwr" class="csl-entry" role="listitem">
-Champely, Stephane. 2020. <em>Pwr: Basic Functions for Power Analysis</em>. <a href="https://doi.org/10.32614/CRAN.package.pwr">https://doi.org/10.32614/CRAN.package.pwr</a>.
+<div id="ref-crespi" class="csl-entry" role="listitem">
+Crespi, Catherine M. 2025. <em>Power and Sample Size in r</em>. 1st ed. Chapman; Hall/CRC. <a href="https://doi.org/10.1201/9780429488788">https://doi.org/10.1201/9780429488788</a>.
 </div>
-<div id="ref-powertools" class="csl-entry" role="listitem">
-Crespi, Catherine M., and Zichen Liu. 2025. <em>Powertools: Power and Sample Size Tools</em>. <a href="https://doi.org/10.32614/CRAN.package.powertools">https://doi.org/10.32614/CRAN.package.powertools</a>.
+<div id="ref-webpower" class="csl-entry" role="listitem">
+Zhang, Zhiyong, and Yujiao Mai. 2023. <em>WebPower: Basic and Advanced Statistical Power Analysis</em>. <a href="https://doi.org/10.32614/CRAN.package.WebPower">https://doi.org/10.32614/CRAN.package.WebPower</a>.
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -838,13 +898,13 @@ Crespi, Catherine M., and Zichen Liu. 2025. <em>Powertools: Power and Sample Siz
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./anova.html" class="pagination-link" aria-label="ANOVA">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">ANOVA</span></span>
+      <a href="./regression.html" class="pagination-link" aria-label="Multiple Regression">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple Regression</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./logistic.html" class="pagination-link" aria-label="Logistic Regression">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./mixed.html" class="pagination-link" aria-label="Mixed-effect models">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Mixed-effect models</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
