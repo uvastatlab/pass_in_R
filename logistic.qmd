@@ -61,7 +61,7 @@ Based on these assumptions, the clinic should plan on sampling at least 337 subj
 
 ### Example: power
 
-A hospital clinic wants to investigate if follow-up phone calls with patients (versus no follow-up) increases compliance with a treatment regimen. Patients will be randomly assigned to two conditions: one where patients are given written instructions and asked to report back in six months, and one where patients are given written instructions and contacted three times by phone before the six month follow up. The binary outcome is compliance with the treatment regimen over the previous six months (yes or no). They will only have the budget to sample 200 subjects. How powerful is the experiment if they want to detect a difference of 0.15 in the rate of compliance. Assume the following:
+A hospital clinic wants to investigate if follow-up phone calls with patients (versus no follow-up) increases compliance with a treatment regimen. Patients will be randomly assigned to two conditions: one where patients are given written instructions and asked to report back in six months, and one where patients are given written instructions and contacted three times by phone before the six month follow up. The binary outcome is compliance with the treatment regimen over the previous six months (yes or no). They will only have the budget to sample 200 subjects. How powerful is the experiment if they want to detect a difference of 0.15 in the rate of compliance? Assume the following:
 
 - Sample size is 200
 - Compliance rate without follow-up is about 0.15 (i.e., probability of success when x = 0, p0)
@@ -81,3 +81,54 @@ wp.logistic(power = NULL, p0 = 0.15, p1 = 0.30,
 ```
 
 The experiment has a probability of about 0.7 of correctly rejecting the null hypothesis of no difference in treatments with a sample size of 200.
+
+## One Continuous Predictor
+
+The process of calculating power and sample size for a model with one continuous predictor is the same as a model with one binary predictor. We simply need to update the family and parameter arguments in the `wp.logistic()` function. In this case the p0 and p1 arguments represent a meaningful increase on the continuous scale such as a one standard deviation increase.
+
+### Example: sample size
+
+A hospital clinic wants to investigate if the weight of male patients is associated with the probability of exercising regularly, a yes/no question they ask patients. They want to sample enough male subjects to detect an increase of 0.1 on the probability of exercising regularly. Assume the following:
+
+- Desired power is 0.9
+- Probability of exercising regularly at average weight is 0.4 (i.e., probability of success when x = 0, p0)
+- Probability of exercising regularly at one standard deviation over the average weight is 0.3 (i.e., probability of success when x = 1, p1)
+- Significance level of 0.05 (alpha)
+- Normal distribution for the predictor
+- Normal parameters of 0 and 1 (i.e., standardized mean and standard deviation of 0 and 1)
+- Two-sided test
+
+Using the `wp.logistic()` function in the WebPower package:
+
+```{r}
+wp.logistic(n = NULL, p0 = 0.4, p1 = 0.3, 
+            alpha = 0.05, power = 0.9,
+            family = "normal", parameter = c(0,1),
+            alternative ="two.sided")
+```
+
+Based on these assumptions, the clinic should plan on sampling at least 255 males subjects to have probability of 0.9 of correctly rejecting the null hypothesis of no effect of weight. 
+
+### Example: power
+
+A hospital clinic wants to investigate if the weight of male patients is associated with the probability of exercising regularly, a yes/no question they ask patients. They will only have the budget to sample 220 subjects. How powerful is the experiment if they want to detect a difference of 0.1 in the probability of exercising? Assume the following:
+
+- Sample size of 220
+- Probability of exercising regularly at average weight is 0.4 (i.e., probability of success when x = 0, p0)
+- Probability of exercising regularly at one standard deviation over the average weight is 0.3 (i.e., probability of success when x = 1, p1)
+- Significance level of 0.05 (alpha)
+- Normal distribution for the predictor
+- Normal parameters of 0 and 1 (i.e., standardized mean and standard deviation of 0 and 1)
+- Two-sided test
+
+Using the `wp.logistic()` function in the WebPower package:
+
+```{r}
+wp.logistic(power = NULL, p0 = 0.4, p1 = 0.3, 
+            alpha = 0.05, n = 220,
+            family = "normal", parameter = c(0,1),
+            alternative ="two.sided")
+```
+
+The experiment has a probability of about 0.85 of correctly rejecting the null hypothesis of no effect of weight on regular exercise with a sample size of 220.
+
