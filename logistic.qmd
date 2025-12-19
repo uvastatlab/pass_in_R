@@ -8,7 +8,7 @@ Logistic regression models the probability of a "success" in a binary outcome, w
 library(WebPower)
 ```
 
-Because calculating power for logistic regression models depends on the _distribution of predictors_, there are limited cases where closed-form expressions can be derived. We present three examples: (1) a single binary predictor, (2) a single normally distributed predictor, and (3) multiple normally distributed predictors. For more complex models, simulation can be used. 
+Because calculating power for logistic regression models depends on the _distribution of predictors_, there are limited cases where closed-form expressions can be derived. We present three examples: (1) a single binary predictor, (2) a single normally distributed predictor, and (3) a single predictor adjusted for multiple predictors. For more complex models, simulation can be used. 
 
 ## One Binary Predictor
 
@@ -84,7 +84,7 @@ The experiment has a probability of about 0.7 of correctly rejecting the null hy
 
 ## One Continuous Predictor
 
-The process of calculating power and sample size for a model with one continuous predictor is the same as a model with one binary predictor. We simply need to update the family and parameter arguments in the `wp.logistic()` function. In this case the p0 and p1 arguments represent a meaningful increase on the continuous scale such as a one standard deviation increase.
+The process of calculating power and sample size for a model with one continuous predictor is the same as a model with one binary predictor. We simply need to update the family and parameter arguments in the `wp.logistic()` function. In this case the p0 and p1 arguments represent a meaningful change on the continuous scale such as a one standard deviation increase or decrease.
 
 ### Example: sample size
 
@@ -132,3 +132,39 @@ wp.logistic(power = NULL, p0 = 0.4, p1 = 0.3,
 
 The experiment has a probability of about 0.85 of correctly rejecting the null hypothesis of no effect of weight on regular exercise with a sample size of 220.
 
+## Multiple predictors
+
+It is often of interest to assess the effect of one predictor after controlling or adjusting for other variables. Crespi [-@crespi] presents a method of estimating sample sizes for these logistic regression models using Variance Inflation Factors (VIF). The general idea is to assume the predictors we adjust for are multivariate normal and that the predictor of interest is correlated with the other predictors. The higher the assumed correlation, the more sample size needs to be increased.
+
+The correlation can be conceptualized by imagining that we regress the predictor of interest on the other predictors and take the R-squared. We then take the reciprocal of 1 - R^2^ to derive a VIF. For example, if the imagined R^2^ is 0.3, then the VIF would be 
+
+```{r}
+1/(1 - 0.3)
+```
+
+This implies we increase the sample size by about 43%.
+
+Returning to our previous example, a hospital clinic wants to investigate if the weight of male patients is associated with the probability of exercising regularly, a yes/no question they ask patients. They want to sample enough male subjects to detect an increase of 0.1 on the probability of exercising regularly. In addition to weight, they will collect other numeric predictors to adjust for, including age, blood pressure, and years of education. 
+
+The sample size for the individual predictor was previously calculated as follows:
+
+```{r}
+wp.logistic(n = NULL, p0 = 0.4, p1 = 0.3, 
+            alpha = 0.05, power = 0.9,
+            family = "normal", parameter = c(0,1),
+            alternative ="two.sided")
+```
+
+Assuming the predictor of interest has a correlation of 0.25 with the other predictors, the VIF is
+
+```{r}
+1/(1 - 0.25)
+```
+
+This means we should increase the sample size by 33%.
+
+```{r}
+255 * 1.33
+```
+
+The updated sample is 340.
